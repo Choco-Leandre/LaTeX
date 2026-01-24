@@ -1,0 +1,335 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{mathrsfs}
+\usepackage[a4paper,includehead,margin=0.7cm]{geometry}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usepackage{thmbox} 
+\usepackage{mdframed}
+%\usepackage{framed} %Si besoin de l'utiliser, mettre % sur thmbox?
+\usepackage{amsfonts}
+\usepackage{svg}
+\usepackage{babel}
+\usepackage{graphicx}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{tikz} 
+\usepackage{lastpage}
+\usepackage{lipsum}  
+\usepackage{fancyhdr}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{inconsolata}
+
+
+\tcbuselibrary{skins, listings, breakable}
+
+
+%Couleurs du doc
+\definecolor{mygreen}{RGB}{128,192,128}
+\definecolor{myhardred}{RGB}{148,49,49}
+\definecolor{mypurple}{RGB}{170,128,192}
+\definecolor{myred}{RGB}{192,128,128}
+\definecolor{myorange}{RGB}{230,173,85}
+\definecolor{mypink}{RGB}{192,128,168}
+\definecolor{mygray}{RGB}{76,76,76}
+\definecolor{verygray}{RGB}{26,26,26}
+\definecolor{violet}{RGB}{96,23,161}
+\definecolor{myBackground}{HTML}{1E1E1E}
+\definecolor{myText}{HTML}{D4D4D4}
+\definecolor{myKeyword}{HTML}{569CD6}
+\definecolor{myType}{HTML}{D19A66}
+\definecolor{myComment}{HTML}{6A9955}
+\definecolor{myString}{HTML}{CE9178}
+\definecolor{myNumber}{HTML}{B5CEA8}
+\definecolor{myFunction}{HTML}{DCDCAA}
+\definecolor{myLineNumbers}{HTML}{858585}
+
+\newcommand{\dashfill}{\leaders\hbox to 0.2em{\hss-\hss}\hfill}
+
+
+\newtcolorbox[auto counter]{definition}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mygreen!80}, 
+  colback=mygreen!0, 
+  coltitle=mygreen!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip}, 
+  top=2pt, bottom=2pt, 
+  title=\textsc{Définition \thetcbcounter~: #2 \textcolor{mygreen!30}{\dashfill}},
+  #1
+}
+
+% THEOREME
+\newtcolorbox[auto counter]{theoreme}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{myhardred!80}, 
+  colback=myhardred!0, 
+  coltitle=myhardred!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip}, 
+  top=2pt, bottom=2pt, 
+  title=\textsc{Théorème \thetcbcounter~: #2 \textcolor{myhardred!30}{\dashfill}},
+  #1 
+}
+
+% VOCABULAIRE
+\newtcolorbox[auto counter]{vocabulaire}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mypurple!80}, 
+  colback=mypurple!0,
+  coltitle=mypurple!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Vocabulaire \thetcbcounter~: #2 \textcolor{mypurple!30}{\dashfill}},
+  #1
+}
+
+% PROPRIÉTÉ
+\newtcolorbox[auto counter]{propriété}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{myred!80}, 
+  colback=myred!0, 
+  coltitle=myred!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Propriété \thetcbcounter~: #2 \textcolor{myred!30}{\dashfill}},
+  #1
+}
+
+
+\tcbset{
+  styleMethode/.style={
+    enhanced, breakable,
+    frame hidden,
+    borderline west={3pt}{0pt}{myorange!80}, 
+    colback=myorange!0, 
+    coltitle=myorange!30!black,
+    fonttitle=\bfseries\large\sffamily, 
+    sharp corners,
+    attach title to upper,
+    after title={\par\smallskip},
+    top=2pt, bottom=2pt, 
+  }
+}
+
+% MÉTHODE (Numérotée)
+\newtcolorbox[auto counter]{méthode}[2][]{
+  styleMethode,
+  title=\textsc{Méthode \thetcbcounter~: #2 \textcolor{myorange!30}{\dashfill}},
+  #1
+}
+
+% MÉTHODE* (Non numérotée)
+\newtcolorbox{méthode*}[2][]{
+  styleMethode,
+  title=\textsc{Méthode : #2 \textcolor{myorange!30}{\dashfill}},
+  #1
+}
+
+
+% DÉMONSTRATION
+\newtcolorbox[auto counter]{démonstration}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mypink!80}, 
+  colback=mypink!0, 
+  coltitle=mypink!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Démonstration \thetcbcounter~: #2 \textcolor{mypink!30}{\dashfill}},
+  #1
+}
+
+% EXEMPLE
+\newtcolorbox[auto counter]{exemple}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mygray!80}, 
+  colback=mygray!0, 
+  coltitle=mygray!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Exemple \thetcbcounter~: #2 \textcolor{mygray!30}{\dashfill}},
+  #1
+}
+
+% PROTOCOLE
+\definecolor{mybrown}{RGB}{133,105,83}
+\newtcolorbox[auto counter]{protocole}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mybrown!80}, 
+  colback=mybrown!0, 
+  coltitle=mybrown!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Protocole \thetcbcounter~: #2 \textcolor{mybrown!30}{\dashfill}},
+  #1
+}
+	
+
+\newcommand{\pg}[1]{
+    \tikz[baseline=(X.base)] 
+    \node[fill=verygray, rounded corners=3pt, text=myText, font=\ttfamily, inner xsep=2pt, inner ysep=2pt] (X) {#1};
+}
+
+% "formule rouge"
+\newcommand{\formuler}[1]{
+  \begin{center}
+    \tcbox[colframe=myred, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{
+      #1
+    }
+  \end{center}
+}
+
+% "formule verte"
+\newcommand{\formulev}[1]{
+  \begin{center}
+    \tcbox[colframe=mygreen, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{
+      #1
+    }
+  \end{center}
+}
+\newcommand{\R}[0]{
+\mathbb{R}
+}
+\newcommand{\C}[0]{
+\mathbb{C}
+}
+\newcommand{\N}[0]{
+\mathbb{N}
+}
+\newcommand{\E}[0]{
+\mathbb{E}
+}
+\newcommand{\im}[0]{
+\mathrm{Im}
+}
+\newcommand{\PP}[0]{
+\mathbb{P}
+}
+\newcommand{\Cov}[0]{
+\mathrm{Cov}
+}
+
+\usepackage{stmaryrd}
+\usepackage{keystroke} %Créer une lettre de clavier avec la commande \keystroke{•}
+
+\definecolor{couleurhexa}{RGB}{160,15,176}
+% Pour faire des programmes
+\newtcblisting{prog}[2][]{
+  colframe=violet, 
+  colback=verygray, 
+  coltitle=white, 
+  fonttitle=\bfseries, 
+  title=\color{white}\textsc{\vspace*{-12pt}\begin{center}
+  \phantom{}#2\end{center}},
+  rounded corners, 
+  boxrule=2pt, 
+  listing only,
+  listing options={%
+    language=python,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate=
+  {é}{{\'e}}1
+  {É}{{\'E}}1
+  {è}{{\`e}}1
+  {ê}{{\^e}}1
+  {à}{{\`a}}1
+  {â}{{\^a}}1
+  {ç}{{\c{c}}}1
+  {ù}{{\`u}}1
+  {î}{{\^i}}1
+  {ô}{{\^o}}1,
+    basicstyle=\color{myText}\fontsize{9.5pt}{9pt}\ttfamily, 
+    keywordstyle=\color{myKeyword}\bfseries,
+    commentstyle=\color{myComment}\hspace{-1pt}, 
+    stringstyle=\color{myString},
+    identifierstyle=\color{myText},
+    numberstyle=\tiny\color{myLineNumbers},
+    showstringspaces=false,
+    numbers=none,
+    stepnumber=1,
+    numbersep=25pt,
+    emph={print,append,len,range},
+    emphstyle=\color{myFunction},
+  },
+}
+\usetikzlibrary{patterns}
+\newcommand{\hatchedsquare}{
+  \tikz[baseline=-0.25ex] {
+    \draw[pattern=north east lines, pattern color=mygreen,thin] 
+          (0,0) rectangle (1.2ex, 1.2ex);
+  }
+}
+
+\definecolor{myBlue}{RGB}{50,148,255}
+\definecolor{mygrayblue}{RGB}{120,120,140}
+
+\newcommand{\xBox}[3]{
+    \begin{thmbox}[M]{\textbf{#1}}
+        #2
+    \end{thmbox}\vspace*{-8pt}
+    \hspace*{40pt} #3
+}
+\newcommand{\XBox}[3]{
+    \begin{thmbox}[S]{\textbf{#1}}
+        #2%
+    \end{thmbox}\vspace*{-15pt}
+    \hspace*{40pt} #3
+}
+
+\newcommand{\Mq}[1]{
+\textbf{\textcolor{myBlue}{#1}}
+}
+\newcommand{\But}[1]{
+\textbf{\textcolor{mypurple}{#1}}
+}
+
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont Mathématiques}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Colle n° - Léandre Courtoy $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Colle n°}
+\end{center}
+\section*{Automatismes \textcolor{black!50}{\dashfill}}
+cf: fichier \pg{truc.pdf} prévu à cet effet
+\section*{Récitations \textcolor{black!50}{\dashfill}}
+\textbf{- a. \hfill \emph{\textcolor{mygrayblue}{(Chap. )}}}\\
+
+\end{document}
