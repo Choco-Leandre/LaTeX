@@ -1,0 +1,619 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{mathrsfs}
+\usepackage[a4paper,includehead,margin=0.7cm]{geometry}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usepackage{thmbox} 
+\usepackage{mdframed}
+%\usepackage{framed} %Si besoin de l'utiliser, mettre % sur thmbox?
+\usepackage{amsfonts}
+\usepackage{svg}
+\usepackage{babel}
+\usepackage{graphicx}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{tikz} 
+\usepackage{lastpage}
+\usepackage{lipsum}  
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage{extarrows}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{inconsolata}
+
+
+\tcbuselibrary{skins, listings, breakable}
+
+
+%Couleurs du doc
+\definecolor{mygreen}{RGB}{128,192,128}
+\definecolor{myhardred}{RGB}{148,49,49}
+\definecolor{mypurple}{RGB}{170,128,192}
+\definecolor{myred}{RGB}{192,128,128}
+\definecolor{myorange}{RGB}{230,173,85}
+\definecolor{mypink}{RGB}{192,128,168}
+\definecolor{mygray}{RGB}{76,76,76}
+\definecolor{verygray}{RGB}{26,26,26}
+\definecolor{violet}{RGB}{96,23,161}
+\definecolor{myBackground}{HTML}{1E1E1E}
+\definecolor{myText}{HTML}{D4D4D4}
+\definecolor{myKeyword}{HTML}{569CD6}
+\definecolor{myType}{HTML}{D19A66}
+\definecolor{myComment}{HTML}{6A9955}
+\definecolor{myString}{HTML}{CE9178}
+\definecolor{myNumber}{HTML}{B5CEA8}
+\definecolor{myFunction}{HTML}{DCDCAA}
+\definecolor{myLineNumbers}{HTML}{858585}
+
+\newcommand{\dashfill}{\leaders\hbox to 0.2em{\hss-\hss}\hfill}
+
+
+\newtcolorbox[auto counter]{definition}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mygreen!80}, 
+  colback=mygreen!0, 
+  coltitle=mygreen!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip}, 
+  top=2pt, bottom=2pt, 
+  title=\textsc{Définition \thetcbcounter~: #2 \textcolor{mygreen!30}{\dashfill}},
+  #1
+}
+
+% THEOREME
+\newtcolorbox[auto counter]{theoreme}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{myhardred!80}, 
+  colback=myhardred!0, 
+  coltitle=myhardred!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip}, 
+  top=2pt, bottom=2pt, 
+  title=\textsc{Théorème \thetcbcounter~: #2 \textcolor{myhardred!30}{\dashfill}},
+  #1 
+}
+
+% VOCABULAIRE
+\newtcolorbox[auto counter]{vocabulaire}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mypurple!80}, 
+  colback=mypurple!0,
+  coltitle=mypurple!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Vocabulaire \thetcbcounter~: #2 \textcolor{mypurple!30}{\dashfill}},
+  #1
+}
+
+% PROPRIÉTÉ
+\newtcolorbox[auto counter]{propriété}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{myred!80}, 
+  colback=myred!0, 
+  coltitle=myred!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Propriété \thetcbcounter~: #2 \textcolor{myred!30}{\dashfill}},
+  #1
+}
+
+
+\tcbset{
+  styleMethode/.style={
+    enhanced, breakable,
+    frame hidden,
+    borderline west={3pt}{0pt}{myorange!80}, 
+    colback=myorange!0, 
+    coltitle=myorange!30!black,
+    fonttitle=\bfseries\large\sffamily, 
+    sharp corners,
+    attach title to upper,
+    after title={\par\smallskip},
+    top=2pt, bottom=2pt, 
+  }
+}
+
+% MÉTHODE (Numérotée)
+\newtcolorbox[auto counter]{méthode}[2][]{
+  styleMethode,
+  title=\textsc{Méthode \thetcbcounter~: #2 \textcolor{myorange!30}{\dashfill}},
+  #1
+}
+
+% MÉTHODE* (Non numérotée)
+\newtcolorbox{méthode*}[2][]{
+  styleMethode,
+  title=\textsc{Méthode : #2 \textcolor{myorange!30}{\dashfill}},
+  #1
+}
+
+
+% DÉMONSTRATION
+\newtcolorbox[auto counter]{démonstration}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mypink!80}, 
+  colback=mypink!0, 
+  coltitle=mypink!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Démonstration \thetcbcounter~: #2 \textcolor{mypink!30}{\dashfill}},
+  #1
+}
+
+% EXEMPLE
+\newtcolorbox[auto counter]{exemple}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mygray!80}, 
+  colback=mygray!0, 
+  coltitle=mygray!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Exemple \thetcbcounter~: #2 \textcolor{mygray!30}{\dashfill}},
+  #1
+}
+
+% PROTOCOLE
+\definecolor{mybrown}{RGB}{133,105,83}
+\newtcolorbox[auto counter]{protocole}[2][]{
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mybrown!80}, 
+  colback=mybrown!0, 
+  coltitle=mybrown!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Protocole \thetcbcounter~: #2 \textcolor{mybrown!30}{\dashfill}},
+  #1
+}
+	
+
+\newcommand{\pg}[1]{
+    \tikz[baseline=(X.base)] 
+    \node[fill=verygray, rounded corners=3pt, text=myText, font=\ttfamily, inner xsep=2pt, inner ysep=2pt] (X) {#1};
+}
+
+% "formule rouge"
+\newcommand{\formuler}[1]{
+  \begin{center}
+    \tcbox[colframe=myred, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{
+      #1
+    }
+  \end{center}
+}
+
+% "formule verte"
+\newcommand{\formulev}[1]{
+  \begin{center}
+    \tcbox[colframe=mygreen, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{
+      #1
+    }
+  \end{center}
+}
+
+% "formule orange"
+\newcommand{\formuleo}[1]{
+  \begin{center}
+    \tcbox[colframe=myorange, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{
+      #1
+    }
+  \end{center}
+}
+
+\newcommand{\R}[0]{
+\mathbb{R}
+}
+\newcommand{\C}[0]{
+\mathbb{C}
+}
+\newcommand{\N}[0]{
+\mathbb{N}
+}
+\newcommand{\E}[0]{
+\mathbb{E}
+}
+\newcommand{\im}[0]{
+\mathrm{Im}
+}
+\newcommand{\PP}[0]{
+\mathbb{P}
+}
+\newcommand{\Cov}[0]{
+\mathrm{Cov}
+}
+\newcommand{\Sol}[0]{
+\mathrm{Sol}
+}
+\newcommand{\GLn}[0]{
+\mathcal{G}\ell_n
+}
+\newcommand{\On}[0]{
+\mathcal{O}_n
+}
+\newcommand{\T}[0]{
+\texttt{T}
+}
+\newcommand{\donc}[0]{
+\hspace*{4pt}\underline{Donc:}\hspace{5pt}
+}
+
+\usepackage{stmaryrd}
+\usepackage{keystroke} %Créer une lettre de clavier avec la commande \keystroke{•}
+
+\definecolor{couleurhexa}{RGB}{160,15,176}
+% Pour faire des programmes
+\newtcblisting{prog}[2][]{
+  colframe=violet, 
+  colback=verygray, 
+  coltitle=white, 
+  fonttitle=\bfseries, 
+  title=\color{white}\textsc{\vspace*{-12pt}\begin{center}
+  \phantom{}#2\end{center}},
+  rounded corners, 
+  boxrule=2pt, 
+  listing only,
+  listing options={%
+    language=python,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate=
+  {é}{{\'e}}1
+  {É}{{\'E}}1
+  {è}{{\`e}}1
+  {ê}{{\^e}}1
+  {à}{{\`a}}1
+  {â}{{\^a}}1
+  {ç}{{\c{c}}}1
+  {ù}{{\`u}}1
+  {î}{{\^i}}1
+  {ô}{{\^o}}1,
+    basicstyle=\color{myText}\fontsize{9.5pt}{9pt}\ttfamily, 
+    keywordstyle=\color{myKeyword}\bfseries,
+    commentstyle=\color{myComment}\hspace{-1pt}, 
+    stringstyle=\color{myString},
+    identifierstyle=\color{myText},
+    numberstyle=\tiny\color{myLineNumbers},
+    showstringspaces=false,
+    numbers=none,
+    stepnumber=1,
+    numbersep=25pt,
+    emph={print,append,len,range},
+    emphstyle=\color{myFunction},
+  },
+}
+\usetikzlibrary{patterns}
+\newcommand{\hatchedsquare}{
+  \tikz[baseline=-0.25ex] {
+    \draw[pattern=north east lines, pattern color=mygreen,thin] 
+          (0,0) rectangle (1.2ex, 1.2ex);
+  }
+}
+
+\definecolor{myBlue}{RGB}{50,148,255}
+\definecolor{mygrayblue}{RGB}{120,120,140}
+
+\newcommand{\xBox}[3]{
+    \begin{thmbox}[M]{\textbf{#1}}
+        #2\vspace*{5pt}
+    \end{thmbox}\vspace*{-10pt}
+    \hspace*{40pt} #3
+}
+\newcommand{\XBox}[3]{
+    \begin{thmbox}[S]{\textbf{#1}}
+        #2%
+    \end{thmbox}\vspace*{-15pt}
+    \hspace*{40pt} #3
+}
+
+\newcommand{\Mq}[1]{
+\textbf{\textcolor{myBlue}{#1}}
+}
+\newcommand{\But}[1]{
+\textbf{\textcolor{mypurple}{#1}}
+}
+
+\newcommand{\Question}[2]{
+\noindent\textbf{- #1\hfill \emph{\textcolor{mygrayblue}{(#2)}}}
+}
+
+
+\newcommand{\xeq}[1]{\xlongequal{#1}}
+
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont Mathématiques}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Colle n°23 - ChocoLéandre $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Colle n°23}
+\end{center}
+\section*{Automatismes \textcolor{black!50}{\dashfill}}
+\noindent \textit{cf}: trucs du programme de colle
+\section*{Récitations \textcolor{black!50}{\dashfill}}
+\Question{Calcul des dérivées premières et secondes d'une fonction de deux variables donnée par l'interrogateur (produit, quotient, composée et/ou combinaison linéaire de fonctions usuelles.}{Chap. 12}\\\\
+Je vais donner ici quelques formules utiles pour calculer des dérivées de fonctions à deux variables:\\
+Dans le cas d'une dérivée seconde d'une fonction $f(x,y)$, il faut penser à faire toute les cas:
+\formuler{$\displaystyle\frac{\partial^2f(x,y)}{\partial x^2}\qquad \frac{\partial^2f(x,y)}{\partial y^2} \qquad \frac{\partial^2f}{\partial xy}\xeq{Schwartz}\frac{\partial^2f}{\partial yx}$}
+\noindent Ici je ne fait que le cas pour $x$ mais faire de même pour $y$ !
+\begin{multicols}{2}
+\noindent\textbf{Produit:}
+\formuler{$\dfrac{\partial fg}{\partial x}=\dfrac{\partial u}{\partial x}\cdot v + u\cdot\dfrac{\partial v}{\partial x}$}
+\textbf{Combinaison linéaire:}
+\formuler{$\dfrac{\partial (\lambda u + \mu v)}{\partial x}=\lambda \dfrac{\partial u}{\partial x}+\mu \dfrac{\partial v}{\partial x}$}
+\columnbreak
+\textbf{Quotient:}
+\formuler{$\dfrac{\partial}{\partial x}\left(\dfrac{u}{v}\right)=\dfrac{\frac{\partial u}{\partial x}\cdot v-u\cdot\frac{\partial v}{\partial x}}{v^2}$}
+\textbf{Composé:}
+\formuler{$\dfrac{\partial g(u)}{\partial x}=\dfrac{\partial g}{\partial u}\cdot \dfrac{\partial u}{\partial x}$}
+\end{multicols}
+\Question{Déterminer les extrema de $f:(x,y) \mapsto xy$ sur le disque unité.}{Chap 12. Ex B5 (Q4 non existante)}\\
+Dessinons l'allure du cercle unité.
+\begin{center}
+\includegraphics[scale=0.9]{Allure_du_cercle_unité.pdf} 
+\end{center}
+$D$ est fermé et borné, donc d'après le théorème des bornes atteintes, $f$ admet un maximum et un minimum sur $D$.\\
+Calculons le gradient de $f$:
+$$\frac{\partial f}{\partial x}(x,y)=2x\qquad \frac{\partial f}{\partial y}(x,y)=2y$$
+Ainsi $\nabla f(x,y)=(2x,2y)$\\
+\But{Trouvons les points critiques:}
+$$\nabla f(x,y)=(0,0)\iff \left\{\begin{matrix}2x=0 \\ 2y=0 \end{matrix}\right.\iff\left\{\begin{matrix}x=0 \\ y=0 \end{matrix}\right.$$
+Ainsi, $(0,0)$ est l'unique point critique de $f$ sur $D$.\\
+Etudions $f$ sur la frontière: $\partial D=\{(x,y)\in \mathbb{R}^2| x^2+y^2 = 1\} =\{(\cos(\theta),\sin(\theta))\in \mathbb{R}^2:t\in [0,2\pi]\}$\\
+On étudie $\varphi:t\mapsto f(\cos(t),\sin(t))$\\
+On souhaite déterminer les variations de $\varphi$\\
+$$\forall t \in [0,2\pi], \varphi(t)=\cos(t)\sin(t)=\dfrac{\sin(2t)}{2} \hspace{30pt}\text{\But{(Formule de duplication)}}$$
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.45]{sinus.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.4]{cercle_trigo.pdf} 
+\end{center}
+\end{multicols}
+On remarque alors qu'entre $0$ et $2\pi$:\\
+$\sin(2t)=1 \iff 2t=\dfrac{\pi}{4} \quad \text{ou} \quad \dfrac{5\pi}{4}$\\
+Or, $x=\cos(t)$ et $y=\sin(t)$ d'où les maximums globaux en: $\left(\frac{\sqrt 2}{2},\frac{\sqrt 2}{2}\right)$ et $\left(-\frac{\sqrt 2}{2},-\frac{\sqrt 2}{2}\right)$\\
+De même en $-1$ on obtient les minimums globaux en $\left(-\frac{\sqrt 2}{2}, \frac{\sqrt 2}{2} \right)$ et $\left(\frac{\sqrt 2}{2},-\frac{\sqrt 2}{2}\right)$
+\begin{center}
+\includegraphics[scale=0.8]{Extrema_de_f_sur_le_disque_unité.pdf} 
+\end{center}
+\begin{méthode}{}
+1- Dire ce qu'est $D=\{(x,y)\in\R^2|x^2+y^2\leq 1\}$ + schéma\\
+2- Calcul du gradient $\nabla f(x,y)$\\
+3- On se place sur $\partial D=$"$D$ avec le $\leq$ qui devient $=$"\\
+4- On change $(x,y)$ en $(\cos(t),\sin(t))$ puis on injecte dans $f$ ce qui forme $\varphi$\\
+5- Via formule de duplication on fait le graphe de $\sin(2t)$ pour en déterminer les $\max$ et $\min$\\
+6- On utilise le cercle trigo pour déterminer les valeurs de $(\cos(t),\sin(t))$ qui seront nos maximums et minimums globaux
+\end{méthode}
+\pagebreak
+\Question{Résoudre l'EDP suivante avec le changement de variable $u=x+y$ et $v=x-y$}{Chap 12. Ex B8}\\
+$$\dfrac{\partial f}{\partial x}+\dfrac{\partial f}{\partial y}=f \qquad (\star)$$
+On cherche les fonctions $f\in \mathcal{C}^1(\R^2,\R)$ telles que:
+$$\forall (x,y) \in \R^2,\dfrac{\partial f}{\partial x}(x,y)+\dfrac{\partial f}{\partial y}(x,y)=f(x,y) $$
+On pose le changement de variable $(u,v)=(x+y,x-y)$\\
+On pose $f(x,y)=g(u,v)=g(x+y,x-y)$\\
+\But{On va donc calculer nos dérivées partielles pour trouver les relier à $f$}\\
+Calculons les dérivées partielles:
+\begin{multicols}{2}
+\noindent Pour $x$:
+\begin{align*}
+\dfrac{\partial f}{\partial x}(x,y) &= \dfrac{\partial g}{\partial u}(u,v)\dfrac{\partial u}{\partial x}(x,y) + \dfrac{\partial g}{\partial v}(u,v)\dfrac{\partial v}{\partial x}(x,y)\\
+&=\dfrac{\partial g}{\partial u}(u,v) \times 1 + \dfrac{\partial g}{\partial v}(u,v)\times 1
+\columnbreak\end{align*}
+Pour $y$:
+\begin{align*}
+\dfrac{\partial f}{\partial y}(x,y) &= \dfrac{\partial g}{\partial u}(u,v)\dfrac{\partial u}{\partial y}(x,y) + \dfrac{\partial g}{\partial v}(u,v)\dfrac{\partial v}{\partial y}(x,y)\\
+&= \dfrac{\partial g}{\partial u}(u,v)\times 1 + \dfrac{\partial g}{\partial v}(u,v)\times(-1)
+\end{align*}
+\end{multicols}
+\noindent\But{On va donc appliquer notre changement de variable à $(\star)$}\\
+Alors,
+\begin{align*}
+f \in \Sol (\star) &\iff  \dfrac{\partial f}{\partial x}(x,y)+\dfrac{\partial f}{\partial y}(x,y)=f(x,y)\\
+&\iff \dfrac{\partial g}{\partial u}(u,v)+\dfrac{\partial g}{\partial v}(u,v)+\dfrac{\partial g}{\partial u}(u,v)-\dfrac{\partial g}{\partial v}(u,v)=g(u,v)\\
+&\iff 2\dfrac{\partial g}{\partial u}(u,v) = g(u,v)\\
+&\iff \dfrac{\partial g}{\partial u}(u,v)- \dfrac{1}{2} g(u,v)=0 \quad \text{\But{EDL d'ordre 1}}\\
+&\iff \exists h \in \mathcal{C}^1 (\R ), \forall (u,v) \in \R^2, g(u,v)=h(v)e^{u/2}\\
+&\iff \exists h \in \mathcal{C}^1 (\R ), \forall (x,y) \in \R^2, g(u,v)=h(x-y)e^{x+y/2} \quad \text{\But{chang. de var.}}
+\end{align*}
+\noindent Ainsi,\\
+$$\Sol(\star)=\{(x,y) \mapsto h(x-y)e^{x+y/2} : h\in \mathcal{C}^1(\R,\R)\}$$\vfill
+\begin{méthode}{}
+1- On cherche $f$ qui est $\mathcal{C}^1$ + redire $(\star)$\\
+2- On pose le changement de variable\\
+3- On dit que $f(x,y)=g(u,v)=g(x+y,x-y)$\\
+4- Calcul des dérivées partielles avec:
+\formuleo{$\dfrac{\partial f}{\partial x}=\dfrac{\partial g}{\partial u}\dfrac{\partial u}{\partial x}+\dfrac{\partial g}{\partial v}\dfrac{\partial v}{\partial u}$}
+5- $f \in \Sol (\star) \iff$ Remplacer $\iff$ Simplifier $\iff$ Déduire une EDL1 $\iff$ Solution\\
+6- Ensemble solution
+\end{méthode}\pagebreak
+\Question{Soit $\mathscr{C}$ la courbe paramétrée par $\left\{\begin{matrix}x(t)=\frac{t-1}{2}\\y(t)=t^2\end{matrix}\right. ,t\in\R$. Déterminer de deux manières différentes une équation cartésienne de la tangente à $\mathscr{C}$ en $M_0(1,9)$}{Chap 12. Ex C8}\\\\
+\But{Trouvons une équation du plan associé en un point quelconque \textit{(pas qlcq sinon BougBoug pas content)}}
+\xBox{Soit $M(x,y)$ un point du plan}{
+\begin{align*}
+M \in \mathscr{C}&\iff \exists t \in R, \left\{\begin{matrix}x=&\frac{t-1}{2}\\y=&t^2\end{matrix}\right.\\
+&\iff \exists t \in \R, \left\{\begin{matrix}t=&2x+1\\ y=&t\end{matrix}\right.\\
+&\iff \exists t \in \R, \left\{\begin{matrix}t=&2x+1\\ y=&(2x+1)^2\end{matrix}\right.\\
+&\iff \exists t \in \R, \left\{\begin{matrix}t=&2x+1\\ 0=&4x^2+4x+1-y\end{matrix}\right. \hspace{30pt} \text{\But{{\small La première ligne du système est tout le temps vrai d'après le $\exists$}}}\\
+&\iff 4x^2+4x+x-y=0
+\end{align*}
+}{et ce pour tout point du plan}
+Ainsi, $\mathscr{C}$ admet donc pour équation cartésienne $4x^2+4x-y+1=0$\\
+\But{Vérifions que $M_0 \in \mathscr{C}$}\\
+$M_0$ a pour coordonnée $(1,9)$\\
+$$4\cdot 1^2+4\cdot 1 + 1 - 9=0$$
+Donc, $M_0 \in \mathscr{C}$
+\begin{multicols}{2}
+\noindent\But{Première méthode on utilise le gradient}\\
+On pose $f:(x,y) \mapsto 4x^2+4x+1-y$\\
+$f \in \mathcal{C}^1(\R^2,\R)$
+$$\forall (x,y)\in \R^2, \nabla f(x,y)=(8x+4,-1)$$
+et donc: $\nabla f(1,9)=(12,-1)$\\
+La tangente à $\mathscr C$ en $M_0$ est la droite passant par $M_0$ et de vecteur normal $(12,-1)$\columnbreak\\
+\But{Seconde méthode en utilisant des DL}\\
+$M_0(1,9)$ est le point de paramètre $t_0=3$.\\
+On pose $t = 3+h$ avec $h \to 0$.
+\begin{align*}
+\left\{\begin{matrix}
+x(t)&\underset{t\to 3}{=}&\dfrac{3+h-1}{2} &\underset{h\to 0}{=}& 1 + \dfrac{1}{2}h + o(h)\\[10pt]
+y(t)&\underset{t\to 3}{=}&(3+h)^2 &\underset{h\to 0}{=}& 9 + 6h + o(h)
+\end{matrix}\right.
+\end{align*}
+$\left(x(3),y(3)\right)=(1,9)$\\
+$ \left(x'(3),y'(3)\right)=\left(\dfrac{1}{2},6\right)$\\
+Ainsi, la tangente en $M_0$ est la droite qui passe par $M_0$ et dirigée par $\left(\dfrac{1}{2},6\right)$
+\end{multicols}\vfill
+\begin{méthode}{}
+1- Pour un $M$ qlq, on pose le syst donné et on trouve une équation du plan\\
+2- On montre que $M_0 \in \mathscr C$\\
+3- Méthode gradient: \\
+\hspace*{7pt} a) Calcul du $\nabla f(x,y)$\\
+\hspace*{7pt} b) On remplace par les cos de $M_0$\\
+\hspace*{7pt} c) On a le vecteur normal d'où la tangente\\
+4- Méthode DL:\\
+\hspace*{7pt} a) On pose le paramètre $t=3$ ($t$ qui permet de retrouver le point via le système)\\
+\hspace*{7pt} b) On pose $t=3+h$ + changement dans le système\\
+\hspace*{7pt} c) DL associé à chaque équation\\
+\hspace*{15pt} $\circ$ Pour la première on simplifie et on rajoute un $o(h)$\\
+\hspace*{15pt} $\circ$ Pour la seconde, Id remarquable et on enlève le terme en $h^2$ et on rajoute un $o(h)$\\
+\hspace*{7pt} d) On obtient alors les coordonnées d'un vecteur directeur pour notre tangente !
+\end{méthode}
+\pagebreak
+\Question{Soit la surface $\mathscr S$ d'équation cartésienne $z=xy^2$. Déterminer une équation du plan tangent à $\mathscr S$ à l'origine, et étudier la position relative de celui-ci avec $\mathscr S$.}{Chap 12. Ex C17} \\
+Posons $f(x,y,z) = xy^2-z$.\\
+$f$ est une fonction polynomiale, elle est donc de classe $\mathcal{C}^1$ sur $\R^2$.\\
+Soit $O$ l'origine de coordonnée $(0,0)$.\\
+• $\dfrac{\partial f}{\partial x}(x,y,z) = y^2$\quad donc en $O$: $\dfrac{\partial f}{\partial x}(0,0,0) = 0^2 = 0$\\
+• $\dfrac{\partial f}{\partial y}(x,y,z) = x(2y) = 2xy$ \quad donc en $O$ : $\dfrac{\partial f}{\partial y}(0,0,0) = 0$\\
+• $\dfrac{\partial f}{\partial z}(x,y,z) =-1$ \quad donc en $O$ : $\dfrac{\partial f}{\partial z}(0,0,0) = -1$\\
+De plus, $f(0,0,0) = 0 \times 0^2 -0 = 0$\\
+donc: $O \in \mathscr{S}$
+
+\xBox{Soit $M(x,y,z) \in \R^3$}{
+\begin{align*}
+M \in \mathscr{P} &\iff \overrightarrow{OM} \cdot \nabla f(0,0,0) = 0\\
+&\iff \dfrac{\partial f}{\partial x}(0,0,0)(x-x_O) + \dfrac{\partial f}{\partial y}(0,0,0)(y-y_O) + \dfrac{\partial f}{\partial z}(O)(z-z_O) = 0\\
+&\iff 0(x-0) + 0(y-0) - 1(z-0) = 0\\
+&\iff -z = 0\\
+&\iff z = 0
+\end{align*}}{et ce pour tout point $M$}
+\begin{multicols}{2}
+\noindent\underline{\textbf{Position relative}}\\
+On pose $\varphi : (x,y) \mapsto xy^2$\\
+Soit $(x,y) \in \R^2$,
+$$\varphi(x,y) = f(x,y) - z_\mathscr{P} = xy^2$$
+
+\noindent • 1$^{\text{er}}$ cas : si $x>0$ et $y \neq 0$, alors $\varphi(x,y) = xy^2 > 0$\\
+• 2$^{\text{nd}}$ cas : si $x<0$ et $y \neq 0$, alors $\varphi(x,y) = xy^2 < 0$\\\\
+\noindent Conclusion : \fbox{$\mathscr{P}$ traverse $\mathscr{S}$}\vspace*{110pt}
+\columnbreak
+\begin{center}\vspace*{-60pt}
+\hspace*{-50pt}\includegraphics[scale=0.8]{xy^2.pdf} 
+\end{center}
+\end{multicols}\vfill
+\begin{méthode}{}
+1- Dire que $f$ est $\mathcal{C^1}$\\
+2- Calculer le gradient de $f$\\
+3- Vérifier que $O(0,0)\in\mathscr{S}$\\
+4- Poser un point M qlq\\
+5- $M\in \mathscr{P} \iff \overrightarrow{OM}\cdot\nabla f(x,y,z)=0$ (une distance $\implies$ pour $x$: $(x-x_O)$\\
+6- On pose $\varphi(x,y)=f(x,y)-z_\mathscr{P}=xy^2$\\
+7- On ne change pas $y$ car dans tout les cas il est positif, donc on regarde $x<0$ puis $x>0$ et on regarde ce que ça change sur $\varphi$.\\
+8- Comme les deux "ne sont pas d'accord", le plan traverse la surface.
+\end{méthode}\pagebreak
+\Question{Soit $A,B \in \mathcal{O}_n(\R)$, montrer les propriétés suivantes}{Chap 13. A3,A4,A5,A7,A8}
+\begin{multicols}{2}
+\begin{démonstration}{$A\in\GLn(\R)$}\
+\begin{align*}
+A \in \On(\R) &\iff A^\T A=I_n\\
+&\iff \left\{\begin{matrix}
+A \in \GLn(\R) \\
+A^{-1}=A^\T
+\end{matrix}\right.
+\end{align*}
+\end{démonstration}
+\noindent\textbf{Rappel}: 
+\begin{align*}
+A\text{ est inversible }&\iff \exists B \in \mathcal{M}_n(\R), AB=I_n\\
+&\iff \exists B \in \mathcal{M}_n(\R),BA=I_n
+\end{align*}
+\begin{démonstration}{$A^\T \in \On(\R)$}
+\begin{align*}
+A \in \On(\R)&\iff A^\T A=I_n\\
+&\iff A^\T \left(A^\T\right)^\T=I_n\\
+&\iff A^\T \in \On(\R)
+\end{align*}
+\end{démonstration}
+\begin{démonstration}{$AB\in \On(\R)$}
+\xBox{Soit $A,B \in \On(\R)$}{
+\begin{align*}
+(AB)^\T(AB)&=B^\T A^\T AB \qquad {\But{Car $A \in \On(\R)$}}\\
+&=I_n \qquad \qquad \quad {\But{Car $B \in \On(\R)$}}
+\end{align*}
+}{et ce pour tout $A,B \in \On(\R)$}
+\end{démonstration}
+\begin{démonstration}{$\det(A)=\pm 1$}
+\xBox{Soit $A \in \On(\R)$}{
+Alors, $A^\T A=I_n$\vspace*{5pt}\\
+\donc $\det(A ^\T A)=\det(I_n)$\vspace*{5pt}\\
+\donc $\det(A^\T)\det(A)=1$ \qquad \But{(déf. du produit)}\vspace*{5pt}\\
+\donc $\left(\det(A)\right)^2=1$ \qquad \But{($\det(A^\T)=\det(A)$)}\vspace*{5pt}\\
+\donc $\det(A)=\pm 1$
+}{et ce pour tout $A \in \On(\R)$}
+\end{démonstration}
+\begin{démonstration}{$\mathrm{Sp}_\R(A) \subseteq \{-1,1\}$}
+\xBox{Soit $\lambda$ une valeur propre réelle de $A$}{
+Ainsi, il existe $X \in \mathcal{M}_{n,1}(\R)\backslash\{0\}$ tel que $AX=\lambda X$\\
+Alors,
+\begin{align*}
+||AX||^2&=\langle AX,AX \rangle\\
+&= (AX)^\T AX\\
+&= X^\T A^\T AX\\
+&=X^\T X\\
+&= ||X||^2
+\end{align*}
+D'autre part, $||AX||^2=\lambda^2||X^2||$\\
+\donc $\lambda^2=1$ \qquad \But{car $||X^2|| \neq 0$ par hyp.}\\
+\donc $\lambda=\pm 1$
+}{et ce pour toute valeur propre réelle de $A$}\\
+Par conséquent, $\mathrm{Sp}_\R(A) \subseteq \{-1,1\}$
+\end{démonstration}
+\noindent\textbf{Rappel:}\\
+Soit $A \in \mathcal{M}_n(\R)$, Soit $\lambda \in \R$
+$$\lambda \in \mathrm{Sp}(A)\iff \exists X \in \mathcal{M}_{n,1}(\R)\backslash\{0\}, AX=\lambda X$$
+\end{multicols}
+\end{document}
