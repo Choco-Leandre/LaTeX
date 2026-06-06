@@ -1,0 +1,783 @@
+\documentclass{article}
+\usepackage{lcpackage}
+\definecolor{myblue}{RGB}{128,128,192}
+
+
+\begin{document}
+% Configuration des en-têtes
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont S.I.}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Asservissement - Léandre Courtoy $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Asservissement}
+\end{center}
+Dans ce document vous trouverez tout l'asservissement de TSI.
+\tableofcontents
+\begin{center}\vspace*{50pt}
+\includegraphics[scale=0.08]{Drone.jpg} 
+\end{center}
+\vfill
+\begin{center}
+{\footnotesize Ce document s'inspire des cours d'Amaury Dalla Monta et de Nicolas Milhaud, professeurs agrégés en sciences industrielles de l'ingénieur.}\\
+{\footnotesize Une IA a été utilisée pour la vérification de l'orthographe et la création de certains graphes $\log$.}\\
+{\footnotesize Latest version as of \today}
+\end{center}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+\noindent{\Large\textbf{Introduction}}
+\begin{definition}{Système asservi}
+C'est un \textbf{type de système automatique} \textit{(intervention humaine limitée)} dans lequel le signal de \textbf{sortie est mesuré en permanence} à l'aide d'un \textbf{capteur}, comparé à la \textbf{consigne}, puis \textbf{corrigé}.
+\end{definition}
+\begin{center}
+\begin{exemple}{Schéma bloc d'un système asservi}
+\begin{center}
+\includegraphics[width=0.86\textwidth]{schematics/Boucle1.pdf}
+\end{center}
+\end{exemple}
+\end{center}
+\begin{vocabulaire}{Types d'entrées}
+	\begin{center}
+	 \includegraphics[scale=0.5]{schematics/types_entree.pdf}
+	 \end{center} 
+\end{vocabulaire}
+\begin{definition}{Système linéaire}
+	Un système est dit \textbf{linéaire} si la sortie est proportionnelle à l'entrée à un instant donné.\\
+	\textbf{Remarque:}\textsl{ La courbe de sortie n'est pas forcément linéaire (en gros rampe), elle peut être non linéaire.}
+\end{definition}
+\begin{méthode}{Linéarisation d'une courbe}
+\begin{minipage}[t]{0.49\textwidth}
+\vspace*{-100pt}
+\textbf{Comment fonctionne le principe de linéarisation?}\\\\
+- Se munir d'un système non linéaire\\
+- Placer le point de fonctionnement souhaité. (prendre le plus intéressant)\\
+- En ce point, tracer la tangente\\
+$\Rightarrow$ Vous avez une approximation linéaire
+\end{minipage}
+\begin{minipage}[t]{0.50\textwidth}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{schematics/Linéarisation.pdf}
+\end{center}
+\end{minipage}
+\end{méthode}
+\begin{definition}{Transformée de Laplace}
+C'est un \textbf{outil} mathématique qui permet de simplifier les équations différentielles (des systèmes) en équations polynomiales. On notera alors $j\omega=p$, avec $\omega$ la pulsation et $j^2=-1$
+\end{definition}
+\begin{méthode}{Passer sous Laplace des fonctions usuelles}
+On remplace la fonction donnée après analyse du système.
+Voici un tableau des transformées usuelles à savoir:
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Fonctions_usu.pdf} 
+\end{center}
+Un autre tableau est décrit plus tard: cf: \hyperref[prop19]{\textcolor{myred}{\textbf{Propriété \ref*{prop19}}}}
+\end{méthode}\pagebreak
+\begin{propriété}{Dérivation}
+Lors d'une dérivation l'expression sous Laplace est:
+\begin{center}
+{\large \tcbox[colframe=myred, colback=white, boxrule=2pt]{$f'(t) \overset{\mathcal{L}}{\rightarrow} p \cdot F(p)-f(0)$}}
+\end{center}
+\underline{Avec}: $f(0)$, la condition initiale\\
+\textbf{Remarque}: Pour enlever les \underline{conditions initiales} on se place dans les conditions de Heaviside.
+\end{propriété}
+\begin{vocabulaire}{}
+• \underline{Retard}: \textsl{écart temporel entre notre réponse et l'axe des ordonnées \textit{(ou une autre courbe)}, noté $\tau$}\\
+• \underline{Valeur finale}: \textsl{état de notre courbe qui se stabilise, notée $s_{\infty}$}
+\end{vocabulaire}
+\begin{multicols}{2}
+\begin{propriété}{Théorème du retard}
+\begin{center}
+{\large \tcbox[colframe=myred, colback=white, boxrule=2pt]{$g(t)=f(t- \tau) \overset{\mathcal{L}}{\rightarrow} e^{-\tau \cdot p}$}}
+\end{center}
+\end{propriété}
+\columnbreak
+\begin{propriété}{Théorème de la valeur finale}
+\begin{center}
+{\large \tcbox[colframe=myred, colback=white, boxrule=2pt]{$f_{\infty}=\lim\limits_{t \to +\infty} f(t)=\lim\limits_{p \to 0} \left(p \cdot F(p)\right)$}}
+\end{center}
+\end{propriété}
+\end{multicols}
+\begin{multicols}{2}
+\begin{definition}{Fonction de Transfert}
+Chaque système admet \textbf{une entrée} et \textbf{une sortie}. Entre celles-ci une action est réalisée, elle est modélisée par une \textbf{fonction de transfert}. Sa formule est: \begin{center}
+\tcbox[colframe=mygreen, colback=white, boxrule=2pt]{$H(p)=\dfrac{S(p)}{E(p)}$}
+\end{center}
+\end{definition}
+\columnbreak
+\begin{exemple}{Bloc, Entrée + Sortie pour moteur}
+\begin{center}
+\includegraphics[width=0.67\textwidth]{schematics/Moteur.pdf}
+\end{center}\vspace*{-8pt}
+Ici, notre fonction de transfert est $H_m(p)=\dfrac{\Omega (p)}{U_m(p)}$
+\end{exemple}
+\end{multicols}
+\begin{méthode}{Mettre sous forme canonique une fonction de transfert}
+- Faire \textbf{disparaître} les fractions imbriquées\\
+- \textbf{Développer}, \textbf{réduire} et \textbf{ordonner} par \textbf{puissances} de $p$ croissantes, au NUMÉRATEUR et au DÉNOMINATEUR.\\
+- \textbf{Factoriser par le plus petit} $p$\\
+- \textbf{Factoriser} le numérateur et le dénominateur par le \textbf{terme constant}.
+\end{méthode}
+\begin{exemple}{Forme canonique d'une fonction de transfert}
+Soit: $X(p)(k+\lambda p + m\cdot p^2)=F(p)$. On prendra $X(p)$ l'entrée et $F(p)$ la sortie.\\
+Donc: $H(p)=\dfrac{X(p)}{F(p)}=\dfrac{1}{k+\lambda\cdot p+mp^2}$\\
+$\rightarrow$ Tout est ordonné, on n'a pas besoin de factoriser par $p$. Alors, on factorise par le terme constant.\vspace*{-2pt}
+\begin{center}
+\formulen{$H(p)=\dfrac{1}{k}\cdot\dfrac{1}{1+\dfrac{\lambda p}{k}+\dfrac{mp^2}{k}}$}
+\end{center}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{section}{Domaine temporel}
+\noindent{\Large\textbf{Domaine temporel}}
+\begin{definition}{Système d'ordre}
+Chaque système admet une \textbf{réponse temporelle}. Celle-ci peut être de \textbf{différents ordres} (généralement 1 ou 2).
+\end{definition}
+\begin{vocabulaire}{Ordre, gain, constante de temps}
+\underline{\textbf{Ordre}}: \textsl{L'ordre est déterminé par la plus grande présence de $p$ au dénominateur d'une forme canonique de $H(p)$}\vspace*{8pt}\\
+\underline{\textbf{Gain statique}}: \textsl{Noté généralement $K$, il se situe au numérateur de notre forme canonique}\vspace*{8pt}\\
+\underline{\textbf{"Constante de temps"}}: \textsl{Notée $\tau$, elle varie selon nos fonctions de transfert}
+\end{vocabulaire}
+\begin{definition}{Système d'ordre 1}
+Voici la forme d'une fonction de transfert d'ordre 1. \textit{(Pour l'allure voir la \hyperref[methode4]{\textcolor{myorange}{\textbf{Méthode \ref*{methode4}}}})}:
+\begin{center}
+\large \tcbox[colframe=mygreen, colback=white, boxrule=2pt]{$H(p)=\dfrac{K}{1+\tau p}$}
+\end{center}
+\end{definition}
+\begin{méthode}[label=methode4]{Trouver une fonction de transfert d'ordre 1 via graphe}
+Soit une allure de courbe d'ordre 1:
+\begin{center}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Courbe_ordre_1.pdf} 
+\end{center}
+\end{center}
+- On trace l'asymptote à notre valeur finale ; elle vaut $K\cdot E_0$\\
+- Le temps de réponse à 5$\%$ ($\pm 5\%$ de $s_\infty$)\\
+- Au croisement on peut lire sur l'axe des abscisses l'équivalent de $3\tau$\\
+- En 0, on trace une tangente et à l'intersection cela correspond sur l'axe des abscisses à $\tau$.\\
+- De même $\tau =63\% \cdot s_\infty \Leftrightarrow 63\% \cdot K\cdot E_0$\\
+- On a $K$, on a $\tau$, donc on remplace pour obtenir:    $H(p)=\dfrac{K}{1+\tau p}$
+\end{méthode}
+\begin{definition}[label=ordre_2_equa]{Système d'ordre 2}
+Voici la forme d'une fonction de transfert d'ordre 2. \textit{(Pour l'allure voir la \hyperref[methode5]{\textcolor{myorange}{\textbf{Méthode \ref*{methode5}}}} et pour la retrouver la \hyperref[methode6]{\textcolor{myorange}{\textbf{Méthode \ref*{methode6}}}})}:
+\begin{center}
+\tcbox[colframe=mygreen, colback=white, boxrule=2pt]{$H(p)=\dfrac{K}{1+\dfrac{2z}{\omega_0}p+\dfrac{1}{\omega_0^2}p^2}$}
+\end{center}
+\end{definition}
+\begin{méthode}[label=methode5]{Trouver graphiquement les valeurs remarquables d'un ordre 2}
+Soit une allure de courbe d'ordre 2:
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Courbe_ordre_2.pdf} 
+\end{center}
+- On lit $s_\infty$ (asymptote horizontale)\\
+- On trace nos 2 axes à $\pm 5\%$ de $s_\infty$\\
+- Au croisement on peut lire sur l'axe des abscisses $t_{5\%}$\\
+- Sur le premier pic de la sinusoïde, tracer le premier dépassement $D_1$.
+\end{méthode}
+\begin{definition}[label=abaque]{Abaque}
+Un \textbf{abaque} est un graphe fourni dans lequel des données sont mises en relation avec d'autres.
+\end{definition}
+\begin{multicols}{2}
+\begin{vocabulaire}[label=voc4]{Abaques des dépassements relatifs}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{schematics/Abaques des dépassements relatifs.pdf}
+\end{center}
+\end{vocabulaire}
+\columnbreak
+\begin{vocabulaire}[label=voc5]{Abaques du temps de réponse réduit}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{schematics/Abaques du temps de réponse réduit.pdf}
+\end{center}
+\end{vocabulaire}
+\end{multicols}
+\begin{méthode}[label=methode6]{Trouver une fonction de transfert d'ordre 2}
+\textit{Pour les valeurs que l'on va utiliser se référer à la \hyperref[methode5]{\textcolor{myorange}{\textbf{Méthode \ref*{methode5}}}}. Sauf si déjà su dans l'énoncé}\\
+Dans un sujet seront toujours donnés des abaques. \textit{(cf: \hyperref[ordre_2_equa]{\textcolor{mygreen}{\textbf{Def \ref*{ordre_2_equa}}}} et \hyperref[voc4]{\textcolor{mypurple}{\textbf{Voc \ref*{voc4}}}} \& \hyperref[voc5]{\textcolor{mypurple}{\textbf{Voc \ref*{voc5}}}})}\\
+- On cherche le \textbf{dépassement relatif} $D_{1\%}$
+\begin{center}
+\tcbox[colframe=myorange, colback=white, boxrule=2pt]{$D_{1\%}=\dfrac{D_1}{s_\infty}$}
+\end{center}
+- Selon ce nombre relatif on cherche notre \textbf{coefficient d'amortissement} $z$\\
+- Selon le temps de réponse à 5$\%$ on \textbf{cherche $\omega_0$}\\
+- On cherche $K$, le \textbf{gain statique}, tel que $K=s_{\infty}\cdot E_0$\\
+- Maintenant selon notre \hyperref[ordre_2_equa]{\textcolor{mygreen}{\textbf{Définition \ref*{ordre_2_equa}}}} on remplace nos valeurs obtenues ($K,\omega_0, z$) dans celle-ci\\
+- Rappel: 
+\begin{center}
+\tcbox[colframe=mygreen, colback=white, boxrule=2pt]{$H(p)=\dfrac{K}{1+\dfrac{2z}{\omega_0}p+\dfrac{1}{\omega_0^2}p^2}$}
+\end{center}
+\end{méthode}
+\begin{definition}{Adaptateur}
+On appelle \textbf{adaptateur} le composant permettant de transformer la consigne d'entrée en une grandeur exploitable par le comparateur.\\
+→ Se situe généralement en début du schéma bloc.
+\end{definition}
+\begin{vocabulaire}{Comparateur/Sommateur}
+\begin{multicols}{2}
+Le \textbf{comparateur} ou \textbf{sommateur} est un élément du schéma bloc permettant de faire une opération entre 2 grandeurs.\\\\
+\textbf{Remarque:} On note généralement la sortie de ce comparateur: $\epsilon(p)$. Celle-ci est souvent dirigée vers un correcteur.
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.75]{schematics/Comparateur.pdf}
+\end{center}
+\end{multicols}
+\end{vocabulaire}
+\begin{méthode}{Détermination du gain $K_{adapt}$}
+Sur un schéma bloc et des conditions initiales données, déterminons $K_{adapt}$:\\\\
+- On \textbf{énonce} la différence grâce au \textbf{comparateur} des informations envoyées\\
+- On \textbf{remplace} par l'expression, depuis le début de cette branche\\
+- \textbf{Simplifier} l'information de la \textbf{jonction} par ce qui suit à la \textbf{sortie}\\
+- Grâce aux \textbf{conditions initiales}, simplifier\\
+- Faites les derniers calculs nécessaires pour \textbf{exprimer} $K_{adapt}$\\\\
+\textbf{Remarque:} Si la chaîne de retour est prélevée sur la sortie, alors l'adaptateur est égal à l'ensemble de la chaîne de retour
+\end{méthode}
+\begin{exemple}{Détermination d'un gain $K_{adapt}$}
+Soit le schéma bloc suivant:
+\begin{center}
+\includegraphics[scale=0.6]{schematics/K_adapt.pdf}
+\end{center}
+$\hookrightarrow$ On note que $E(p)=S(p)$ quand $\varepsilon(p)=0$\\
+\textbf{- Cherchons $K_{adapt}$}
+\begin{align*}
+\varepsilon (p) &= U_E(p)-U_{capt}(p) \\
+&= E(p)\cdot K_{adapt}-\Omega (p)\cdot R \cdot K_{capt}\\
+&= E(p)\cdot K_{adapt}-S(p)\cdot \dfrac{1}{r}\cdot R \cdot K_{capt}.
+\end{align*}
+On pose $\varepsilon(p)=0$ \hspace{1cm} donc: \hspace{1cm} \fbox{$K_{adapt}=\dfrac{1}{r}R\cdot K_{capt}$}
+\end{exemple}
+\begin{méthode}{Modification de schéma bloc}
+Il est possible de modifier notre schéma bloc pour simplifier nos calculs.\vspace*{-10pt}
+\begin{flushleft}
+\includegraphics[scale=0.55]{schematics/methode8a.pdf} 
+\end{flushleft}
+\begin{flushleft}
+\includegraphics[scale=0.55]{schematics/methode8b.pdf}
+\end{flushleft}
+\end{méthode}
+\begin{vocabulaire}{Système bouclé et fonctions caractéristiques}
+Voici la forme générale d'un système bouclé
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Voc7.pdf} 
+\end{center}
+- \textbf{\textcolor{myblue}{{\fontfamily{lmr}\selectfont \textit{FTCD}}}} = Fonction de Transfert de la Chaîne Directe\\
+- \textbf{\textcolor{mypurple}{{\fontfamily{lmr}\selectfont \textit{FTCR}}}} = Fonction de Transfert de la Chaîne de Retour\\
+- \textbf{\textcolor{mygreen}{{\fontfamily{lmr}\selectfont \textit{FTBO}}}}= Fonction de Transfert en Boucle Ouverte\\
+\hspace*{15pt} {\small A savoir, une {\footnotesize \textbf{FTBO}} se résume à aucun retour. C'est-à-dire que la chaîne de retour ne retourne pas dans le circuit !}\\
+- \textbf{\textcolor{myred}{{\fontfamily{lmr}\selectfont \textit{FTBF}}}} = Fonction de Transfert en Boucle Fermée. C'est l'équivalent de ce circuit:
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Voc7b.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{propriété}{Formule de Black}
+Cette formule permet de connaître la fonction de transfert globale du système:
+\begin{center}
+\tcbox[colframe=myred, colback=white, boxrule=2pt]{$FTBF(p)=\dfrac{FTCD(p)}{1+FTBO(p)}$}
+\end{center}
+\end{propriété}\pagebreak
+\begin{démonstration}{Formule de Black}
+\vspace*{-15pt}
+\begin{align*}
+S(p) &= A(p)\cdot\epsilon (p) \\
+&= A(p)\cdot \left(E(p)- M(p)\right)\\
+&= A(p)\cdot \left(E(p)- B(p)\cdot S(p)\right)\\
+&= A(p)\cdot E(p)- A(p)\cdot B(p)\cdot S(p)\\
+S(p)+A(p)\cdot B(p) \cdot S(p) &= A(p)\cdot E(p)\\
+S(p)\left(1+A(p)\cdot B(p)\right) &= A(p)\cdot E(p)\\
+\dfrac{S(p)}{E(p)}&=\dfrac{A(p)}{1+A(p)\cdot B(p)}=\dfrac{FTCD(p)}{1+FTBO(p)}
+\end{align*}
+\end{démonstration}
+\begin{propriété}{Théorème de superposition}
+Lorsqu'on a 2 comparateurs (souvent en cas de perturbations), on \textbf{divise notre schéma bloc en deux parties}.\\
+Ainsi:
+\begin{center}
+\tcbox[colframe=myred, colback=white, boxrule=2pt]{$S(p)=S_E(p)+S_P(p)=H_E(p)\cdot E(p) +H_P(p)\cdot P(p)$}
+\end{center}
+\end{propriété}
+\begin{méthode}{Séparer notre schéma bloc afin d'obtenir 2 fonctions de transferts}
+- D'une part, on positionne une \textbf{entrée nulle}, d'autre part \textbf{l'autre entrée nulle}\\
+- On \textbf{redessine} notre nouvelle fonction de transfert\\
+\hspace*{10pt}$\cdot$ L'entrée doit être tout à gauche\\
+\hspace*{10pt}$\cdot$ La sortie tout à droite\\
+\hspace*{10pt}$\cdot$ Le comparateur doit soustraire la chaîne de retour à l'entrée\\
+- On utilise la \textbf{formule de Black}
+\end{méthode}
+\begin{exemple}{Décomposition d'un système à plusieurs entrées}
+Soit ce schéma bloc, décomposons-le en 2 schémas blocs distincts:
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Exemple5a.pdf}
+\end{center}
+\begin{multicols}{2}
+\begin{center}
+Avec: $E(p)\neq 0$ et $P(p)=0$\\
+\includegraphics[scale=0.5]{schematics/Exemple5b.pdf}\vspace*{-90pt}\\
+\begin{flushleft}
+Ici, la fonction de transfert d'entrée est égale à $H(p)$ quand $P(p)=0$.
+Ainsi, \fbox{$H_E(p)=\dfrac{A(p)\cdot B(p)}{1+A(p)\cdot B(p) \cdot C(p)}$}
+\end{flushleft}
+\end{center}
+\columnbreak
+\begin{center}
+Avec: $E(p)= 0$ et $P(p)\neq 0$\\
+\includegraphics[scale=0.5]{schematics/Exemple5c.pdf}\\
+Ce qui revient à:
+\includegraphics[scale=0.5]{schematics/Exemple5d.pdf}\vspace*{-5pt}\\
+\end{center}
+Ici, la fonction de transfert de perturbation est égale à $H(p)$ quand $E(p)=0$.
+Ainsi, \fbox{$H_P(p)=\dfrac{-B(p)}{1+A(p)\cdot B(p) \cdot C(p)}$}\\
+\end{multicols}
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Domaine fréquentiel}
+\noindent{\Large\textbf{Domaine fréquentiel}}\vspace*{4pt}\\
+Ceci marque le début du programme de TSI2. On rappellera que $p=j\omega$
+\begin{propriété}{Aide mathématique}
+Rappelons quelques propriétés mathématiques qui nous permettront de faire certains calculs:\\
+\textbf{• Logarithme décimal:}
+\begin{multicols}{2}
+\formuler{$\log(a\cdot b)=\log(a)+\log(b)$}
+\formuler{$\log\left(\dfrac{a}{b}\right)=\log(a)-\log(b)$}
+\formuler{$\log(a^n)=n\log(a)$}
+\formuler{$10^{n\log(a)}=a^n$}
+\end{multicols}
+\textbf{• Complexe:}
+\begin{multicols}{2}
+Soit un nombre complexe $z=a+jb$, alors $a=\mathrm{Re}(z)$ et $b=\mathrm{Im}(z)$.
+\formuler{$|z|=\sqrt{a^2+b^2}$}
+De plus, $z=|z|e^{j\varphi}=|z|\left(\cos(\varphi)+j\sin(\varphi)\right)$\columnbreak
+\formulev{$\arg(z)=\varphi=\left\{\begin{matrix}
+\arctan\left(\dfrac{b}{a}\right)&\text{si } a>0 \\
+\arctan\left(\dfrac{b}{a}\right)+\pi&\text{si } a<0\\
+\pi/2 & \text{si }a=0
+\end{matrix}\right.$}
+\end{multicols}
+\textbf{• Module:}
+\begin{multicols}{3}
+\formuler{$|z_1\cdot z_2|=|z_1|\cdot|z_2|$}
+\formuler{$\begin{vmatrix}
+\dfrac{z_1}{z_2}
+\end{vmatrix}=\dfrac{|z_1|}{|z_2|}$}
+\formuler{$\begin{vmatrix}
+\dfrac{1}{z}
+\end{vmatrix}=\dfrac{1}{|z|}$}
+\end{multicols}
+\textbf{• Argument:}
+\begin{multicols}{3}
+\formuler{$\arg(z_1 z_2)=\arg(z_1)+\arg(z_2)$}
+\formuler{$\arg\left(\dfrac{z_1}{z_2}\right)=\arg(z_1)-\arg(z_2)$}
+\formuler{$\arg\left(\dfrac{1}{z}\right)=-\arg(z)$}
+\end{multicols}
+\end{propriété}
+\begin{definition}{Diagramme de Bode}
+On appelle \textbf{diagramme de Bode} une représentation graphique d'une réponse \textbf{fréquentielle} d'un système. Il s'exprime avec \textbf{2 diagrammes}: celui de \textbf{gain} et celui de \textbf{phase}, tous deux en fonction de la pulsation en \textbf{échelle logarithmique}.
+\end{definition}
+\begin{definition}{Gain en décibel}
+Le \textbf{gain en décibel} se lit sur le diagramme de gain. Et on le définit comme
+\formulev{$G_{dB}=20\log(|H(j\omega)|)=-20\log(K)$}
+Ainsi, $K=10^{-G_{dB}/20}$
+\end{definition}
+\begin{definition}{Phase}
+La \textbf{phase}, s'exprimant en degré, se lit sur le diagramme de phase. On définit alors la phase comme:
+\formulev{$\varphi=\arg(H(j\omega))$}
+\end{definition}\pagebreak
+\begin{exemple}{Exemple d'un diagramme de Bode pour une fonction quelconque}\vspace*{-20pt}
+\begin{center}
+\includegraphics[scale=1]{schematics/Exemple_diag_de_bode.pdf}\vspace*{-15pt}
+\end{center}
+\end{exemple}
+\begin{definition}{Diagrammes de Bode usuels}
+Voici différents diagrammes à savoir identifier et tracer.\vspace*{-20pt}
+\begin{multicols}{3}
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Bode_Gain_pur.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Bode_Derivateur_pur.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Bode_Integrateur_pur.pdf} 
+\end{center}
+\end{multicols}\vspace*{-50pt}
+\begin{multicols}{2}
+\begin{center}
+\hspace*{-10pt}\includegraphics[scale=0.78]{schematics/Bode_1er_ordre.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.78]{schematics/Bode_2nd_ordre.pdf} 
+\end{center}
+\end{multicols}\vspace*{-30pt}
+\end{definition}
+\begin{propriété}{Résonance}
+Un système est dit en \textbf{résonance} lorsque son facteur d'amortissement remplit cette condition:
+\formuler{$z<0.707$}
+Cela a pour effet de créer des dépassements et joue sur la \underline{stabilité} du système.\\
+Sur un diagramme de Bode d'ordre 2, on remarque la résonance à sa pulsation de résonance $\omega_r$:
+\begin{center}
+\includegraphics[scale=0.65]{schematics/Résonance.pdf} 
+\end{center}
+\end{propriété}
+\begin{propriété}{Composition de fonctions de transferts}
+Soit une fonction $H(p)$, il est possible de la fractionner en plusieurs fonctions de transferts usuelles, afin d'en tracer plus facilement son diagramme de Bode, ou l'analyser:
+\formuler{$H(p)=H_1(p)\times ... \times H_n(p)$}
+\end{propriété}
+\begin{exemple}{Décomposition d'une fonction de transfert}
+Soit la fonction de transfert suivante
+$$H(p)=\dfrac{100+20p}{p+0.6p^2+\dfrac{p^3}{4}}$$
+\textbf{- Décomposer $H(p)$ en produit de plusieurs fonctions usuelles, et tracer son diagramme de Bode}\\
+On peut remarquer que
+$$H(p)=\dfrac{100\cdot(1+0.2p)}{p\cdot(1+0.6p+\dfrac{1}{4}p^2)}=100\cdot \dfrac{1}{p}\cdot (1+0.2p) \cdot \dfrac{1}{1+0.6p+\dfrac{1}{4}p^2}$$
+De plus on peut identifier cette forme et donc tracer:
+$$H(p)=\textrm{Gain pur}\times \textrm{Intégrateur} \times \textrm{Premier ordre inversé}\times \textrm{Second ordre}\vspace*{-6pt}$$
+\begin{center}
+\includegraphics[scale=1]{schematics/Composition.pdf} \vspace*{-20pt}
+\end{center}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{section}{Performances d'un système asservi}
+\noindent{\Large\textbf{Performances d'un système asservi}}
+\begin{definition}{Pôle}
+On appelle \textbf{pôle} d'un système, une valeur de la variable de Laplace $p$ pour laquelle la fonction de transfert $H(p)$ tend vers l'infini.
+\end{definition}
+\begin{méthode}{Chercher les pôles d'une fonction de transfert}
+Comme une fonction de transfert contient principalement un numérateur et un dénominateur tel que $H(p)=\frac{N(p)}{D(p)}$. Il convient alors de chercher les racines du dénominateur afin que $D(p)=0$.\\
+- On isole le \textbf{dénominateur}\\
+- On pose $D(p)=0$\\
+- On \textbf{factorise} au maximum\\
+- On \textbf{résout} l'équation\\
+\hspace*{10pt} $\hookrightarrow$ Degré 1: Isoler $p$\\
+\hspace*{10pt} $\hookrightarrow$ Degré 2: Discriminant $\to$ Solutions associées\\
+- On a les pôles.\\
+\textbf{Remarques:}\\
+Si \textbf{les} pôles sont négatifs, le système sera dit \textbf{stable}. Au contraire, si \textbf{un} pôle est positif, le système sera dit \textbf{instable}.
+\end{méthode}
+\begin{definition}{Classe $\alpha$}
+On appelle \textbf{classe} d'un système ce qui correspond au nombre de pôle de celui-ci.\\
+En pratique, on définit la classe comme \underline{le nombre d'intégrateur dans notre fonction de transfert}.
+\end{definition}
+\phantomsection
+\addcontentsline{toc}{subsection}{Stabilité}
+\begin{center}
+{\Large Stabilité}
+\end{center}
+\begin{definition}{Marge de gain $M_G$}
+On définit la \textbf{marge de gain}, la quantité d'amplification supplémentaire que le système peut supporter avant de devenir \textbf{instable}.
+\end{definition}
+\begin{definition}{Marge de phase $M_\varphi$}
+On définit la \textbf{marge de phase}, le retard supplémentaire que le système peut tolérer dans sa boucle avant de devenir \textbf{instable}.
+\end{definition}
+\begin{méthode}{Etudier des marges}\vspace*{-10pt}
+\begin{multicols}{2}
+Soit un diagramme de Bode.\\
+- Tracer une droite à $0dB$ et une seconde à $-180^\circ$\\\\
+\textbf{Pour le gain}:\\
+- Se placer à la pulsation $\omega_G$ de l'intersection entre la droite à $-180^\circ$ et la courbe de phase.\\
+- A cette pulsation $\omega_G$, tracer une flèche partant de la courbe de gain vers la droite à $0dB$.\\
+- Lire le décalage de gain.\\\\
+\textbf{Pour la phase}:\\
+- Se placer à la pulsation $\omega_\varphi$ de l'intersection entre la droite à $0dB$ et la courbe de gain.\\
+- A cette pulsation $\omega_\varphi$, tracer une flèche partant de la droite à $-180^\circ$ vers la courbe de phase.\\
+- Lire le décalage de phase.\\\\
+\textbf{Remarque:} S'il n'y a pas d'intersection, la marge sera infinie, ce qui est preuve de stabilité.\columnbreak
+\begin{center}\vspace*{-30pt}
+\includegraphics[scale=0.9]{schematics/Marges_de_Stabilité.pdf}\vspace*{-20pt} 
+\end{center}
+\end{multicols}
+\end{méthode}
+\begin{propriété}{Stabilité temporelle}
+Un système sera dit \textbf{instable} lorsque sa réponse temporelle comporte \underline{trop d'oscillations}. De même, il sera instable si les \underline{amplitudes de dépassement se ressemblent}.
+\end{propriété}
+\phantomsection
+\addcontentsline{toc}{subsection}{Précision}
+\begin{center}
+{\Large Précision}
+\end{center}
+\begin{definition}{Précision temporelle}
+On définit la \textbf{précision} sur une réponse temporelle comme l'écart entre la consigne et la sortie
+\formulev{$\varepsilon=e-s$}
+\end{definition}
+\begin{propriété}{Tableau d'écarts selon la consigne en boucle ouverte}
+Soit une fonction de transfert $H(t)$ en boucle ouverte,
+\begin{center}
+\includegraphics[scale=0.48]{schematics/Tableau_écart.pdf} 
+\end{center}
+\end{propriété}
+\begin{propriété}{Précision dans le domaine fréquentiel}
+Afin d'augmenter la précision, en pratique on \textbf{augmente le gain}. Cependant, cela a pour effet de réduire nos marges de phase et \textbf{crée de l'instabilité}.
+\end{propriété}
+\phantomsection
+\addcontentsline{toc}{subsection}{Rapidité}
+\begin{center}
+{\Large Rapidité}
+\end{center}
+\begin{propriété}{Rapidité temporelle}
+On rappellera que dans le domaine temporel, la rapidité se traduit par le temps de réponse à 5$\%$ : $t_{5\%}$
+\end{propriété}
+\begin{definition}{Bande passante à $-3dB$}
+On définit la \textbf{bande passante} comme l'intervalle de fréquence où $G(\omega)$ est supérieur à $G(\omega)-3dB$.\vspace*{-15pt}
+\begin{center}
+\includegraphics[scale=0.9]{schematics/Bande_Passante.pdf} \vspace*{-15pt}
+\end{center}
+\end{definition}
+\begin{propriété}{Rapidité dans le domaine fréquentiel}\vspace*{-10pt}
+\begin{multicols}{2}
+\textbf{Pour une boucle fermée}\\
+Si la \underline{bande passante augmente} alors le \underline{temps de montée} \underline{diminue} et donc le système devient plus rapide.\columnbreak\\
+\textbf{Pour une boucle ouverte}\\
+Si la pulsation de coupure \underline{$\omega_c$ à $0dB$ augmente}, alors on aura une \underline{meilleure rapidité}.
+\end{multicols}
+\end{propriété}
+\phantomsection
+\addcontentsline{toc}{section}{Correcteurs}
+\noindent{\Large\textbf{Correcteurs}}
+\begin{definition}{Correcteurs}
+Dans la réalité les systèmes ne sont jamais très stables, rapides et précis. De ce fait, on vient utiliser un \textbf{correcteur}. Un correcteur peut être sous la forme d'un filtre, de mathématiques, numérique... et permet d'améliorer certains critères de performance.
+\end{definition}
+\phantomsection
+\addcontentsline{toc}{subsection}{Correcteur proportionnel}
+\begin{definition}{Correcteur proportionnel (P)}
+On appelle \textbf{correcteur proportionnel}, des correcteurs de la forme:
+\formulev{$C(p)=K$}
+Un correcteur de ce type a pour effet d'amplifier ou réduire la courbe de gain. On peut aussi tracer son effet sur la fonction $H(p)=\dfrac{10}{p (1 + 0.1 \cdot p)}$\vspace*{-20pt}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.75]{schematics/Correcteur_prop.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.75]{schematics/Action_Correcteur_prop.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}{Effet sur les performances avec un correcteur proportionnel}
+Un correcteur proportionnel (pour $K>1$):\\
+\hspace*{6pt}\textbf{--} DESTABILISE le système car les marges de phase diminuent.\\
+\hspace*{5pt}\textbf{+} AMELIORE la rapidité du système.\\
+\hspace*{5pt}\textbf{+} AMELIORE la précision du système.
+\end{propriété}
+\begin{méthode}{Trouver la valeur de $K$ adaptée d'un P pour une marge de stabilité donnée}
+Soit un diagramme d'un système non corrigé.\\
+- Tracer une droite à $dB$ et une seconde à $-180^\circ$\\\textbf{Pour une marge de phase $M_\varphi$ souhaitée}:\\
+- Se placer à $-180^\circ+M_\varphi$, on notera cette pulsation $\omega_\varphi$\\
+- A cette pulsation $\omega_\varphi$, calculer le gain $G$ qu'il faut pour passer à $0dB$.\\
+- On obtient $K$ via:
+\formuleo{$K=10^{-G/20}$}
+\textbf{Pour une marge de phase $M_G$ souhaitée}:\\
+- Se placer à la pulsation $\omega_G$ à l'intersection entre la droite à $-180^\circ$ et la courbe de phase.\\
+- A la pulsation $\omega_G$, se décaler de $\Delta G$ afin d'aller à $-M_G$\\
+- On obtient
+\formuleo{$K=10^{\Delta G/20}$}
+\end{méthode}\pagebreak
+\begin{exemple}{Détermination de la valeur d'un correcteur proportionnel}
+Soit la fonction de transfert en boucle ouverte non corrigée d'un système asservi:
+$$H(p)=\dfrac{10}{p(1+0.1p)^2}$$
+\textbf{- Tracer le diagramme de Bode associé à $H(p)$:}\vspace*{-20pt}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.75]{schematics/Exemple_Corr_Prop_H(p)_NC.pdf} 
+\end{center}\columnbreak\vspace*{10pt}
+On peut décomposer $H(p)$ en:
+\begin{align*}
+& H(p)=10\times \dfrac{1}{p}\times\dfrac{1}{(1+0.1p)^2}\\
+\iff & H(p)=\textrm{Gain}\times \textrm{Intégrateur} \times 1^\textrm{er}\textrm{ ordre}\times 1^\textrm{er}\textrm{ ordre}
+\end{align*}
+De plus, les 1$^\textbf{er}$ ordre ont une pulsation de cassure
+$$\omega_0=\dfrac{1}{0.1}=10 rad/s$$
+\end{multicols}
+\textbf{- Le cahier des charges impose une marge de phase $M_\varphi=45^\circ$. Déterminer la valeur du correcteur proportionnel $C(p)$ afin de remplir les exigences.}\\\\
+Une augmentation de $45^\circ$ revient à se placer à $-135^\circ$. On lit alors $G=6.3dB$ d'où $K=10^{-6.9/20}\approx 0.48$\\
+Ainsi, pour corriger le système, on doit installer un correcteur proportionnel de valeur $C(p)=0.48$
+\begin{center}
+\includegraphics[scale=1]{schematics/Exemple_Corr_Prop_H(p)_C.pdf} 
+\end{center}
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{subsection}{Correcteur proportionnel intégral}
+\begin{definition}{Correcteur proportionnel intégral (PI)}
+On appelle \textbf{correcteur proportionnel intégral}, des correcteurs de la forme:
+\formulev{$C(p)=K_i\left(1+\dfrac{1}{T_i p}\right)=K_i\cdot\dfrac{1+T_ip}{T_ip}$}
+Un correcteur PI, permet de régler la phase et le gain du système.
+On peut alors tracer sa fonction et son effet sur la fonction $H(p)=\dfrac{10}{p (1 + 0.1 \cdot p)}$.\\\\
+On remarquera que jusqu'à $\omega=10^0$, le correcteur se comporte comme un \textbf{intégrateur pur} puis à partir de $\omega=1$, il est sous l'effet d'un \textbf{ordre 1 inversé}. 
+\begin{multicols}{2}\vspace*{-35pt}
+\begin{center}
+\includegraphics[scale=0.75]{schematics/Correcteur_prop_inte.pdf} 
+\end{center}\vspace*{-40pt}
+\begin{center}
+\includegraphics[scale=0.75]{schematics/Action_Correcteur_prop_inte.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}{Effet sur les performances avec un correcteur proportionnel intégral}
+Un correcteur proportionnel intégral:\\
+\hspace*{6pt}\textbf{-} DESTABILISE le système en diminuant notamment la marge de phase\\
+\hspace*{6pt}\textbf{-} DETERIORE la rapidité d'un système, mais elle peut être corrigée en agissant sur $K_i$\\
+\hspace*{5pt}\textbf{+} AMELIORE la précision, notamment en annulant l'erreur statique.
+\end{propriété}
+\begin{méthode}[label=methode_PI]{Trouver les valeurs de $K_p$ et $T_i$ d'un PI pour une marge de stabilité donnée}
+Avant tout, la démarche n'est pas réellement à savoir, elle sera redonnée.\\
+- Tracer une droite à $0dB$ et une seconde à $-180^\circ$\\
+\textbf{Pour une marge de phase $M_\varphi$ donnée:}\\
+Un correcteur PI a pour effet de retirer un peu de phase après son application.\\
+- On note\vspace*{-10pt}
+\formuleo{$M_{\varphi}'=M_\varphi+5^\circ$}
+- Se placer à $-180^\circ + M_{\varphi}'$ sur la courbe de phase du système non corrigé. On notera cette pulsation $\omega_{0dB}$.\\
+• \textbf{Obtenir $T_i$:}\\
+- Se placer une décade avant $\omega_{0dB}$ (Ex: $10^2 \to 10^1$)\\
+- On obtient alors \vspace*{-10pt}
+\formuleo{$T_i=\dfrac{1}{\omega_{0dB}\cdot 10^{-1}}= \dfrac{10}{\omega_{0dB}}$}
+• \textbf{Obtenir $K_p$:}\\
+- À cette même pulsation $\omega_{0dB}$, lire le gain $G$ sur la courbe de gain du système non corrigé.\\
+- Calculer le gain qu'il faut pour translater la courbe à $0dB$\\
+- On obtient alors \vspace*{-10pt}
+\formuleo{$K_p = 10^{-G/20}$}
+\end{méthode}\pagebreak
+\begin{exemple}{Utilisation d'un correcteur proportionnel intégral sur un système}\vspace*{-10pt}
+\begin{multicols}{2}
+On considère un système dont la fonction de transfert en boucle ouverte non corrigée modélise un processus industriel complexe (un système du 3ème ordre):
+$$H(p) = \frac{10}{(1 + p)(1 + 0.2p)(1 + 0.05p)}$$
+Le cahier des charges impose de corriger ce système avec un correcteur Proportionnel-Intégral afin d'obtenir le diagramme de Bode ci-contre.\\\\
+De plus, on impose:\\
+- Une erreur statique nulle\\
+- Une marge de phase $M_\varphi = 45^\circ$\\
+\columnbreak
+\begin{center}\vspace*{-30pt}
+\hspace*{-10pt}\includegraphics[scale=0.72]{schematics/Exemple_Bode_PI.pdf} \vspace*{-30pt}
+\end{center}
+\end{multicols}
+%IIIIIIICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCIIIIIIIIIIIIIIIIIIIIIII
+\textbf{- En appliquant la \hyperref[methode_PI]{\textcolor{myorange}{\textbf{Méthode \ref*{methode_PI}}}}, déterminer les valeurs de $K_p$ et de $T_i$ de la fonction $H(p)$ afin de paramétrer un correcteur PI}
+\begin{multicols}{2}\vspace*{-20pt}
+\begin{center}
+\hspace*{-12pt}\includegraphics[scale=0.7]{schematics/Exemple_Bode_PI_Operations.pdf}\vspace*{-20pt}
+\end{center}\columnbreak
+Notons $M_\varphi' = 45^\circ + 5^\circ = 50^\circ$. Ainsi notre phase cible est $\varphi_{cible} = -180^\circ + 50^\circ = -130^\circ$.\\\\
+On trouve alors  $\omega_{0\text{dB}} \approx 4.34 rad/s$\\\\
+D'où $$T_i= \frac{10}{\omega_{0\text{dB}}} = \frac{10}{4.34} \approx 2.3 s$$\\
+On trouve sur le diagramme de Bode, $\Delta G=4.42 dB$\\
+D'où
+$$K_p = 10^{\frac{-4.42}{20}} \approx 0.60$$
+Ainsi,
+$$\boxed{C(p) = 0.60 \frac{1 + 2.3 p}{2.3 p}}$$
+\end{multicols}
+On obtient alors:\vspace*{-20pt}
+\begin{center}
+\includegraphics[scale=0.9]{schematics/Exemple_Bode_PI_Corrigé.pdf}\vspace*{-20pt} 
+\end{center}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{subsection}{Correcteur à avance/retard de phase}
+\begin{definition}{Correcteur à avance de phase (AP) ou retard de phase (RP)}
+On appelle correcteur à \textbf{avance de phase} et à \textbf{retard de phase} des correcteurs de la forme: \hfill avec $a>1$
+\begin{multicols}{2}
+\formulev{$C_{AP}=K_p\dfrac{1+a\cdot T_p\cdot p}{1+T_p\cdot p}$}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Correcteur_AP.pdf} 
+\end{center}
+\formulev{$C_{RP}=K_p\dfrac{1+T_p\cdot p}{1+a\cdot T_p\cdot p}$}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Action_Correcteur_AP.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}{Effet sur les performances avec un correcteur à avance de phase}
+Un correcteur à avance de phase:\\
+\hspace*{5pt}\textbf{+} STABILISE le système en augmentant la marge de phase\\
+\hspace*{6pt}• modifie PEU la rapidité\\
+\hspace*{6pt}• modifie PEU la précision
+\end{propriété}
+\noindent Voici un tableau récapitulatif des correcteurs et de leurs effets:
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Tableau_recap_corr.pdf} 
+\end{center}
+Je ne mets pas d'exemple sur l'avance de phase, on le rencontre tellement peu souvent. \hfill cf: TD pour l'utiliser.
+\pagebreak\\
+\phantomsection
+\addcontentsline{toc}{section}{Correction numérique}
+\noindent{\Large\textbf{Correction numérique}}
+\begin{definition}{Correction numérique}
+On appelle \textbf{correction numérique} le processus permettant de corriger le comportement d'un système (par sa fonction de transfert) grâce à un programme informatique. Elle s'exécute sur des processeurs ou sur du matériel plus spécifique.
+\end{definition}
+\begin{definition}{Numérisation}\vspace*{-10pt}
+\begin{multicols}{2}\vspace*{1pt}
+La \textbf{numérisation} est un processus consistant à transformer un signal analogique en signal numérique par l'intermédiaire d'un CAN (Convertisseur Analogique Numérique).
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.65]{schematics/CAN_Symbole.pdf}\\
+\textbf{Symbole d'un CAN}
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}[label=échantillonnage]{Échantillonnage}\vspace*{-10pt}
+\begin{multicols}{2}
+\begin{center}\vspace*{-10pt}
+\hspace*{-5pt}\includegraphics[scale=0.9]{schematics/Echantillonage.pdf} 
+\end{center}
+On appelle \textbf{échantillonnage} la première étape de la numérisation. L'échantillonnage consiste à évaluer un signal à un intervalle donné appelé \textbf{période d'échantillonnage}:$$T_e=\dfrac{1}{f_e}$$
+\end{multicols}
+\end{definition}
+\begin{definition}{Blocage}\vspace*{-10pt}
+\begin{multicols}{2}\vspace*{30pt}
+On appelle \textbf{blocage} la deuxième étape de la numérisation. Le blocage consiste à maintenir le niveau de tension d'origine pendant la période d'échantillonnage.\columnbreak
+\begin{center}\vspace*{-10pt}
+\hspace*{-5pt}\includegraphics[scale=0.9]{schematics/Blocage.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}[label=quantification]{Quantification}
+On appelle \textbf{quantification} la troisième étape de la numérisation. La quantification consiste à donner à l'amplitude certaines valeurs précises.\\
+Pour ce faire on utilise le \textbf{pas de quantification} ou \textbf{quantum} ou \textbf{résolution} noté $\delta V$.
+\formulev{$\delta V= \dfrac{V_p}{2^n-1}\approx \dfrac{V_p}{2^n}$}
+\begin{small}
+avec: $V_p$ la différence d'amplitude maximale (diff entre min et max du signal) et $n$ le nombre de bits
+\end{small}
+\begin{center}
+\includegraphics[scale=1]{schematics/Quantification.pdf} 
+\end{center}
+\end{definition}
+\begin{definition}{Numérisation d'un signal quantifié}
+A chaque valeur, on vient lui associer un mot binaire.
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Numérisation.pdf} 
+\end{center}
+\end{definition}
+\begin{propriété}{Effet de la numérisation sur les performances}
+La numérisation crée:\\
+- Des \textbf{erreurs} dues à la \hyperref[quantification]{\textcolor{black}{quantification}}.\\
+- Du \textbf{retard} à cause de la \hyperref[échantillonnage]{\textcolor{black}{période d'échantillonnage}} $T_e$.
+\end{propriété}
+\begin{propriété}{Théorème de Shannon}
+La \hyperref[échantillonnage]{\textcolor{black}{fréquence d'échantillonnage}} doit être au minimum le double de la fréquence maximale du signal à échantillonner.
+\begin{multicols}{2}
+\formuler{$f_e\geq 2 \cdot f_{max}$}
+\formuler{$f_{max}\leq \dfrac{f_e}{2}$}
+\end{multicols}
+\end{propriété}
+\begin{vocabulaire}{}
+Lorsque $f_e<2f_{max}$, on parle de \textbf{repliement de spectre}.\\
+$\hookrightarrow$ Pour régler ce problème, on utilise un filtre passe-bas appelé \textbf{filtre anti-repliement}.
+\end{vocabulaire}
+\begin{definition}{Equation de récurrence}
+On appelle \textbf{équation de récurrence} une équation mathématique permettant de décrire informatiquement le comportement d'un correcteur (ou d'un système) initialement défini par sa fonction de transfert.
+\end{definition}
+\begin{propriété}[label=prop19]{Opérations entre Laplace $\to$ Temporelle $\to$ Numérique}
+Soit un signal $S(p)$. On note $T_e$ la période d'échantillonnage.
+\begin{center}
+\includegraphics[scale=0.54]{schematics/Tableau_operation_numérique.pdf} 
+\end{center}
+$\to$ Généralement on n'utilise pas l'intégration, mais il faut savoir la retrouver/utiliser.
+\end{propriété}
+\begin{méthode}{Trouver une équation de récurrence}
+Soit $H(p)=\dfrac{N(p)}{D(p)}=\dfrac{S(p)}{E(p)}$\\
+- On met notre égalité de la forme: \quad $S(p)\cdot D(p)=E(p)\cdot N(p)$\\
+- On fait Laplace inverse ($\mathcal{L}^{-1}$), cf: \hyperref[prop19]{\textcolor{myred}{\textbf{Propriété \ref*{prop19}}}}\\
+- On passe du domaine temporel en numérique\\
+- On isole $s_n$
+\end{méthode}
+\begin{exemple}{Détermination d'une équation de récurrence}
+Par définition,
+\begin{align*}
+\dfrac{S(p)}{E(p)}&=\dfrac{K}{1+\tau p}\\
+S(p)\cdot (1+\tau p)&=E(p)\cdot K\\
+\xrightarrow[]{\mathcal{L}^{-1}} s(t)+\tau \dfrac{ds(t)}{dt}&=K\cdot e(t)\\
+s_n+\tau \dfrac{s_n-s_{n-1}}{T_e}&=K\cdot e_n\\
+T_e\cdot s_n + \tau (s_n-s_{n-1})&=K\cdot T_e \cdot e_n\\
+s_n (T_e+\tau)&=\dfrac{K\cdot T_e \cdot e_n + \tau s_{n-1}}{Te+\tau}\\
+s_n&=\dfrac{K\cdot T_e}{T_e + \tau}e_n+\dfrac{\tau}{T_e+\tau}s_{n-1}
+\end{align*}
+\end{exemple}
+\end{document}
