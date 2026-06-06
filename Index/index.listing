@@ -1,0 +1,3 @@
+SELECT prop1
+FROM prop
+WHERE prop1 >=2;
