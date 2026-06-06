@@ -1,1 +1,3 @@
-Je vous présente mes templates LaTeX, principalement conçus pour des cours, des fiches et des preuves mathématiques pour des colles par exemple. Il est également possible d’y intégrer du code Python. ^^
+Je vous présente mes templates LaTeX, principalement conçus pour des cours, des fiches et des preuves mathématiques pour des colles par exemple. Il est également possible d’y intégrer du code Python et du SQL. ^^
+
+Pour compiler mes fichiers vous aurez besoin de mon fichier .sty
