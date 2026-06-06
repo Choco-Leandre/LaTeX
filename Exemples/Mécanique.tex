@@ -1,0 +1,1760 @@
+\documentclass{article} % Définit le type de document, ici un article
+\usepackage{lcpackage}
+
+\begin{document}
+\pagestyle{fancy} 
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont S.I.}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Mécanique - Léandre Courtoy $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Mécanique}
+\end{center}
+Dans ce document vous trouverez tout le programme de mécanique en SI de TSI.
+\tableofcontents
+\begin{center}\vspace*{50pt}
+\includegraphics[scale=0.55]{Bras_robotique.png}
+\end{center}
+\vfill
+\begin{center}
+{\footnotesize Ce document s'inspire des cours d'Amaury Dalla Monta et de Nicolas Milhaud, professeurs agrégés en sciences industrielles de l'ingénieur.}\\
+{\footnotesize Latest version as of \today}
+\end{center}\pagebreak
+\begin{méthode}{Résoudre des questions de concours}
+Afin d'obtenir un maximum de points sur chaque question, il en convient de bien \textbf{tout rédiger} et d'utiliser un maximum de \textbf{mots clés} (def/voc).\\
+Lorsqu'une question nous amène à un résultat numérique, ce n'est pas par hasard, il faut \textbf{comparer les résultats} avec le \textbf{cahier des charges} donnés au début du dossier. Ne pas oublier son \textbf{unité} !\\
+Sur chaque question il faut se définir un \textbf{but}: ne pas hésiter à \textbf{utiliser son brouillon} pour tester des pistes.\\
+Dans ce document j'ai mis des méthodes, à vous de les utiliser dans les questions correspondantes. Certaines questions sont plus \textbf{longues} que d'autres, veuillez à ne pas les négliger car elles rapportent des \textbf{points}.
+\end{méthode}
+\phantomsection
+\addcontentsline{toc}{section}{Cinématique}
+\noindent{\Large\textbf{Cinématique}}\vspace*{4pt}
+\begin{definition}{Cinématique}
+La \textbf{cinématique} est l'étude des mouvements des pièces, indépendamment des causes leur ayant donné naissance.\vspace{4pt}\\
+\underline{\textbf{Remarque}}: Des hypothèses seront prises en compte, telles qu'une \textbf{géométrie parfaite}, un \textbf{solide indéformable}, une \textbf{liaison sans jeu} et un \textbf{maintien du contact}.
+\end{definition}
+\begin{definition}{Classe d'équivalence}
+Une \textbf{classe d'équivalence} est un regroupement de pièces n'ayant pas de mouvement entre elles au cours du fonctionnement étudié.\vspace{4pt}\\
+\underline{\textbf{Remarque}}: Les \textbf{solides déformables} \textit{(ressort)} et les \textbf{éléments roulants} \textit{(roulement)} ne sont pas pris en compte dedans !
+\end{definition}
+\begin{propriété}{Repère associé}
+\begin{multicols}{2}
+Sur chaque classe, on associera un repère (\textbf{point fixe} + \textbf{base orthonormée directe}).
+On prendra :\\\\
+• $\overrightarrow{x}$ dans le sens du \textbf{pouce}\\\\
+• $\overrightarrow{y}$ dans le sens de l'\textbf{index}\\\\
+• $\overrightarrow{z}$ dans le sens du \textbf{majeur}
+\columnbreak
+\begin{center}
+\includegraphics[scale=1]{schematics/Repères_ortho_direct.pdf} 
+\end{center}
+\end{multicols}\vspace{-5pt}
+Pour rappel, le symbole $\odot$ désigne une flèche allant vers nous.
+Et $\otimes$ une flèche qui part derrière \textit{(derrière la feuille/l'écran)}
+\end{propriété}
+\begin{definition}{Liaison cinématique et degré de liberté}
+Une \textbf{liaison} est une relation de contact entre deux solides.
+Chacune peut être décomposée en \textbf{6 mouvements}.\\
+\textbf{3 translations} suivant les directions $\overrightarrow{x},\overrightarrow{y},\overrightarrow{z}$.\\
+\textbf{3 rotations} en un point $O$ et d'un axe parallèle au mouvement ($\overrightarrow{x}\overrightarrow{y}\overrightarrow{z}$).\\
+$\hookrightarrow$ Ces liaisons créent alors \underline{des contraintes}
+\end{definition}
+\begin{vocabulaire}{Différents contacts}
+En théorie chaque contact est \textbf{surfacique}, mais au vu de leurs tailles : s'ils peuvent être assimilés à un \underline{point}, on dira qu'il est \textbf{ponctuel}, de même, s'ils peuvent être assimilés à un \underline{segment}, on dira qu'il est \textbf{linéique}.
+\end{vocabulaire}
+\begin{vocabulaire}{Surfaces élémentaires}
+Voici différentes \textbf{surfaces fonctionnelles} à savoir :\vspace{-10pt}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Surface_élémentaire.pdf} 
+\end{center}
+Les autres surfaces seront dites non fonctionnelles
+\end{vocabulaire}\pagebreak
+\begin{definition}[label=def4]{Tableau des liaisons normalisées en cinématique}
+\includegraphics[scale=0.673]{schematics/Tableau_liaison_cinématique.pdf}\\
+De même, il est possible de \textbf{combiner différentes liaisons} afin d'en créer une nouvelle.\\
+Par exemple, $\textrm{linéaire annulaire + rotule = pivot}$ (cf. \hyperref[def45]{\textcolor{mygreen}{\textbf{Définition \ref*{def45}}}}).
+\end{definition}
+\begin{definition}{Graphe de liaison}
+\begin{multicols}{2}
+Un \textbf{graphe de liaisons}, est un \textbf{diagramme} constitué :\vspace{-5pt}\\\\\
+\hspace{20pt}- de cercles représentant les classes d'équivalence.\\
+\hspace{20pt}- de lignes représentant les liaisons entre classes d'équivalence.\\
+\hspace{20pt}- d'un symbole désignant le bâti (la pièce fixe).
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.5]{schematics/symbole_bâti.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Schéma cinématique}
+Un \textbf{schéma cinématique} est une représentation d'un système dans lequel on aperçoit les différentes liaisons cinématiques qui le composent.
+On utilisera donc :\\
+\hspace{20pt}- Les symboles des liaisons normalisées \textit{(on fera principalement un schéma en 2D)}\\
+\hspace{20pt}- Des lignes afin de relier nos différentes liaisons.\\\\
+Un schéma cinématique sera dit \textbf{minimal}, lorsque le contact entre 2 classes d'équivalence est inscrit par une seule liaison.
+\end{definition}
+\begin{exemple}{Graphe de liaisons et schéma cinématique associé d'une suspension BMW}
+\noindent\begin{center}
+\includegraphics[scale=0.55]{schematics/exemple1_schéma_cinématique.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.45]{schematics/exemple1_graphe_de_liaison.pdf} 
+\end{center}
+\end{exemple}
+\begin{méthode}{Faire un schéma cinématique}
+\noindent - On identifie les \textbf{classes d'équivalence}\\
+- On identifie les \textbf{liaisons} entre les classes d'équivalence\\
+\hspace*{20pt}• Soit par \underline{lecture du sujet}\\
+\hspace*{20pt}• Soit par \underline{analyse des éléments en contact}\\
+- On met en place les \textbf{repères associés} à chacune des liaisons.\\
+- On \textbf{trace les symboles} correctement orientés, en couleur.\\
+- Tracer des \textbf{liens} (lignes) entre les symboles
+\end{méthode}
+\begin{definition}{Paramétrage}
+L'étude du mouvement nous permet de paramétrer un système \textit{(rotation + translation)}.
+Ici, le \textbf{paramétrage} est le fait d'ajouter des \underline{paramètres géométriques} à notre schéma cinématique afin de mieux en décrire le mouvement.
+\end{definition}
+\begin{méthode}{Ajout de paramètres géométriques}
+- À chaque solide, on lui \underline{associe un repère}.
+\textit{(sûrement déjà fait avec le schéma cinématique)}\\
+- Si on a des constantes \textit{(longueurs)}, on \underline{relie 2 points} et on y inscrit la longueur avec une \underline{majuscule de l'alphabet latin}.\\
+- Si une rotation a lieu, on y \underline{inscrit un angle} dans la direction de celui-ci avec une lettre grecque ($\alpha , \beta ,\theta$).
+Si une translation a lieu, on y inscrit une \underline{double flèche} $\longleftrightarrow$, et on utilise une \underline{lettre grecque en fonction du temps} \textit{(longueur variable)} : $\eta(t)$
+\end{méthode}
+\begin{exemple}{Schéma cinématique paramétré d'une suspension BMW}
+\begin{center}
+\includegraphics[scale=0.45]{schematics/exemple2.pdf}
+\end{center}
+\end{exemple}
+\begin{multicols}{2}
+\noindent \begin{definition}{Figure de changement de base}
+Une \textbf{figure de changement de base} est un schéma permettant de passer d'une représentation des vecteurs dans une base à une autre, facilitant ainsi les calculs et la compréhension des propriétés géométriques et algébriques des espaces vectoriels.\vspace{-5pt}\\\\
+Si possible, essayer de les espacer et mettre des petits angles (moins de $\frac{\pi}{4}$)
+\end{definition}
+\columnbreak
+\begin{exemple}{Figure de changement de base suspension BMW}
+\begin{center}
+\includegraphics[scale=1.2]{schematics/Figure_changement_de_base.pdf} 
+\end{center}
+\end{exemple}
+\end{multicols}
+\begin{definition}{Loi d'entrée-sortie}
+On appelle \textbf{loi d'entrée-sortie} 
+une relation liant le/les paramètre(s) géométrique(s) d'entrée à celui/ceux de sortie.
+\end{definition}
+\begin{multicols}{2}
+\begin{definition}{Chaîne ouverte}
+Dans une \textbf{chaîne ouverte} (série), les paramètres géométriques sont tous indépendants \textit{(bras de manipulation)} :\vspace{-10pt}
+\begin{center}
+\hspace*{-7pt}\includegraphics[scale=0.47]{schematics/chaine_ouverte.pdf} 
+\end{center}
+\end{definition}
+\begin{propriété}{Loi d'entrée-sortie \textit{(modèle géométrique)} en chaîne ouverte}
+En chaîne ouverte, la loi d'entrée-sortie peut être représentée en entrée par des \textbf{coordonnées articulaires} \textit{(angles)} afin d'obtenir en sortie des \textbf{coordonnées opérationnelles} \textit{(position)} :
+\begin{center}
+\includegraphics[scale=0.8]{schematics/modèle_géo.pdf} 
+\end{center}
+\end{propriété}
+{\small \textcolor{gray!50}{\textit{Schéma cinématique trouvé sur Google et fait par un prof...} $\longrightarrow$}}\\
+\columnbreak
+\begin{definition}{Chaîne fermée}
+Dans une \textbf{chaîne fermée} (parallèle), les paramètres géométriques sont liés.
+L'entrée est pilotée par un \textit{moteur/vérin...}. La sortie sera donc un effecteur.
+\begin{center}
+\hspace*{-5pt}\includegraphics[scale=0.44]{schematics/chaine_fermée.pdf} 
+\end{center}
+Un système parallèle est plus rapide mais sa zone de travail est plus faible.
+\end{definition}
+\begin{vocabulaire}{Effecteur}
+Un \textbf{effecteur} est la sortie du système aussi bien dans une chaîne ouverte que dans une chaîne fermée.
+\begin{center}
+\includegraphics[scale=0.22]{Effecteur.png} 
+\end{center}
+\end{vocabulaire}
+\end{multicols}
+\begin{méthode}{Faire une loi d'entrée-sortie d'un système}
+- On fait notre \textbf{graphe de liaisons} du système.\\
+- On \textbf{identifie} les grandeurs d'\textbf{entrée} $e(t)$ et de \textbf{sortie} $s(t)$.\\
+- On part du point de l'entrée et on fait une \textbf{relation de Chasles} $=\overrightarrow{0}$.\\
+- On \textbf{remplace nos vecteurs par leur paramétrage}.\\
+- On fait une \textbf{figure de changement de base}.\\
+- On projette sur $\mathcal{B}_0$, \textit{(la base)}.\\
+\hspace*{20pt}• \textbf{Produit scalaire} sur $x_0$, on obtient une relation = 0\\
+\hspace*{20pt}• \textbf{Produit scalaire} sur $y_0$, on obtient une relation = 0\\
+- On obtient un système, si on a 2 inconnues, on les résout normalement.
+Si on a 3 inconnues (+ = compliqué) on enlève une des inconnues qui ne nous intéresse pas.
+Pour ce faire :\\
+\hspace*{20pt}• Si c'est un angle $\varphi$, il faut mettre les équations sous \textbf{cette forme} et \textbf{les élever au carré} et \textbf{les additionner} :
+$$\left\{\begin{matrix}
+\cos(\varphi)=... \\
+\sin(\varphi)=... 
+\end{matrix}\right.$$
+\hspace*{30pt}\underline{\textbf{Remarque}} : $\cos^2(t)+\sin^2(t)=1$ (identité du cercle)\vspace{4pt}\\
+\hspace*{20pt}• Si c'est une longueur $\lambda$, il faut mettre les équations sous \textbf{cette forme} et on \textbf{fait le rapport} des 2 :
+$$\left\{\begin{matrix}
+\lambda=... \\
+\lambda=... 
+\end{matrix}\right.$$
+- Et voilà, plus qu'à exprimer selon la consigne $s(t)=$ ou juste une relation avec $s(t)$ et $e(t)$
+\end{méthode}
+\begin{méthode}{Trouver rapidement un produit scalaire graphiquement}
+\underline{On rappellera} : Ce produit $\overrightarrow{x}\cdot\overrightarrow{y}$ où $\widehat{\overrightarrow{x}\overrightarrow{y}}=\frac{\pi}{2}$ vaut $0$ et $\overrightarrow{x}\cdot\overrightarrow{x}=1$
+\begin{center}
+\includegraphics[scale=0.44]{schematics/prod_scal_sin.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.44]{schematics/prod_scal_cos.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.44]{schematics/prod_scal_-sin.pdf} 
+\end{center}
+\end{méthode}
+\begin{exemple}{Loi d'entrée-sortie d'un micro-compresseur}
+\noindent On donne ce schéma cinématique d'un micro-compresseur, déterminons une 
+loi d'entrée-sortie de celui-ci :
+\begin{center}
+\includegraphics[scale=0.8]{schematics/exemple4a.pdf} 
+\end{center}
+On définit :\\
+- $\mathcal{B}_0(\overrightarrow{x_0},\overrightarrow{y_0},\overrightarrow{z})$ liée au solide $S_0$, telle que $\overrightarrow{z}$ est la direction des liaisons pivots, et $\overrightarrow{AD}=H\overrightarrow{x_0}$;\\
+- $\mathcal{B}_1(\overrightarrow{x_1},\overrightarrow{y_1},\overrightarrow{z})$ liée au solide $S_1$, orientée par l'angle $\alpha=(\overrightarrow{x_0},\overrightarrow{x_1})=(\overrightarrow{y_0},\overrightarrow{y_1})$, avec $\overrightarrow{AB}=R\overrightarrow{x_1}$;\\
+- $\mathcal{B}_2(\overrightarrow{x_2},\overrightarrow{y_2},\overrightarrow{z})$ liée au solide $S_2$, orientée par l'angle $\beta=(\overrightarrow{x_0},\overrightarrow{x_2})=(\overrightarrow{y_0},\overrightarrow{y_2})$, avec $\overrightarrow{BC}=L\overrightarrow{x_2}$;\\
+
+$S_3$ est paramétré par la distance $\lambda(t)$ telle que $\overrightarrow{CD}=\lambda(t)\overrightarrow{x_0}$.\\
+• \textsc{\textbf{Ajoutons les paramètres}} :
+\begin{center}
+\includegraphics[scale=0.8]{schematics/exemple4b.pdf} 
+\end{center}
+• \textsc{\textbf{Faisons son graphe de liaison associé et les figures de changements de base}} :\vspace*{-10pt}
+\begin{multicols}{2}
+\noindent \begin{center}
+\includegraphics[scale=0.5]{schematics/exemple4c.pdf}
+\end{center}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.48]{schematics/exemple4d.pdf} 
+\end{center}
+\end{multicols}\vspace*{-15pt}
+• \textsc{\textbf{Identifions les grandeurs d'entrée et de sortie}} :\\
+- \hspace*{20pt}Entrée : $\alpha(t)$ \\
+- \hspace*{20pt}Sortie : $\lambda(t)$\\
+• \textsc{\textbf{En partant de l'origine, on pose une relation de Chasles valant $\overrightarrow{0}$}} :\\
+$$\overrightarrow{0}=\overrightarrow{AA}=\overrightarrow{AB}+\overrightarrow{BC}+\overrightarrow{CD}+\overrightarrow{DA}$$
+• \textsc{\textbf{On remplace nos vecteurs 
+par leur paramétrage}} :\\
+$$\overrightarrow{0}=R\overrightarrow{x_1}+L\overrightarrow{x_2}-\lambda(t)\overrightarrow{x_0}-H\overrightarrow{x_0}$$\\\\
+\noindent • \textsc{\textbf{Projetons sur $\mathcal{B}_0$}} :\\
+$\blacktriangleright$ Produit scalaire avec $\overrightarrow{x_0}$
+\begin{align*}
+ \overrightarrow{0}\cdot\overrightarrow{x_0}&=R\overrightarrow{x_1}\cdot\overrightarrow{x_0}+L\overrightarrow{x_2}\cdot\overrightarrow{x_0}-\lambda(t)\overrightarrow{x_0}\cdot\overrightarrow{x_0}-H\overrightarrow{x_0}\overrightarrow{x_0}\\
+\Leftrightarrow\hspace{30pt} 0 &=R\cos(\alpha)+L\cos(\beta)-\lambda(t)-H
+\end{align*}
+$\blacktriangleright$ Produit scalaire avec $\overrightarrow{y_0}$
+\begin{align*}
+ \overrightarrow{0}\cdot\overrightarrow{y_0}&=R\overrightarrow{x_1}\cdot\overrightarrow{y_0}+L\overrightarrow{x_2}\cdot\overrightarrow{y_0}-\lambda(t)\overrightarrow{x_0}\cdot\overrightarrow{y_0}-H\overrightarrow{x_0}\overrightarrow{y_0}\\
+\Leftrightarrow\hspace{30pt}0 &=R\sin(\alpha)+L\sin(\beta)
+\end{align*}
+• \textsc{\textbf{On crée un système avec nos 2 résultats précédents}} :\\
+$$\left\{\begin{matrix}
+0=&R\cos(\alpha)&+L\cos(\beta)&-\lambda(t)&-H \\
+0 =& R\sin(\alpha)&+L\sin(\beta)&
+\end{matrix}\right.$$
+• \textsc{\textbf{On supprime une des inconnues}} :\\
+Dans un premier cas, on \underline{souhaite supprimer l'angle $\beta$}, donc on place le $\cos$ et le $\sin$ dans l'autre membre de l'égalité :
+\begin{align*}
+ &\left\{
+ \begin{array}{rcl}
+ -L\cos(\beta) &=& R\cos(\alpha) - \lambda(t) - H \\
+ -L\sin(\beta) &=& R\sin(\alpha)
+ \end{array}
+ \right.
+\\
+\Leftrightarrow\quad
+&\left\{
+ \begin{array}{rcl}
+ L\cos(\beta) &=& -R\cos(\alpha) + \lambda(t) + H \\
+ L\sin(\beta) &=& -R\sin(\alpha)
+ \end{array}
+ \right.
+\\
+\Leftrightarrow\quad
+&\left\{
+ \begin{array}{rcl}
+ \cos(\beta) &=& \frac{-R\cos(\alpha) + \lambda(t) + H}{L} \hspace{25pt}(1) \\
+ \sin(\beta) &=& \frac{-R\sin(\alpha)}{L} \hspace{59pt}(2)
+ \end{array}
+ \right.
+\end{align*}
+Ensuite, on fait $(1)^2+(2)^2$
+\begin{align*}
+ \cos(\beta)^2+\sin(\beta)^2 &= \left( \frac{-R\cos(\alpha) + \lambda(t) + H}{L}\right)^2+\left(\frac{-R\sin(\alpha)}{L} \right)^2\\
+\Leftrightarrow 1&= \frac{\left(-R\cos(\alpha) + \lambda(t) + H\right)^2}{L^2}+\frac{\left(-R\sin(\alpha)\right)^2}{L^2} \\
+\Leftrightarrow L^2&= \left(-R\cos(\alpha) + \lambda(t) + H\right)^2+\left(-R\sin(\alpha)\right)^2 \\
+\Leftrightarrow 0&= \left(-R\cos(\alpha) + \lambda(t) + H\right)^2+\left(-R\sin(\alpha)\right)^2-L^2
+\end{align*}
+Donc, $\boxed{0= \left(-R\cos(\alpha) + \lambda(t) + H\right)^2+\left(-R\sin(\alpha)\right)^2-L^2}$\\\\
+Dans un second cas, on \underline{souhaite supprimer la distance $\lambda$}, donc on les place dans l'autre membre de l'égalité :
+\begin{align*}
+ &\left\{
+ \begin{array}{rcl}
+ \lambda(t)&=& R\cos(\alpha)+ L\cos(\beta) - H  \hspace{25pt}(3) \\
+ \lambda(t)&=& R\sin(\alpha)+ L\sin(\beta)\hspace{78pt}(4)
+ \end{array}
+ \right.
+\end{align*}
+Ensuite, on fait $\frac{(3)}{(4)}$
+\begin{align*}
+1&=-\dfrac{L\cos(\alpha)}{\sin\beta}\cdot\dfrac{\cos(\beta)}{L\sin(\alpha)-H}\\
+1&=-\dfrac{L\cos(\alpha)}{\tan(\beta)\cdot(L\sin(\alpha)-H)}
+\end{align*}
+Donc on a : $\boxed{1=-\dfrac{L\cos(\alpha)}{\tan(\beta)\cdot(L\sin(\alpha)-H)}}$
+\end{exemple}
+\pagebreak
+\begin{definition}{Vecteur vitesse}
+On appelle \textbf{vecteur vitesse}, d'un point $M$ d'un solide $1$ par rapport à un référentiel $0$ le vecteur dérivé de sa position.
+\formulev{$\overrightarrow{v_{M\in 1/0}}=\left(\frac{d\overrightarrow{OM}}{dt}\right)_0$}
+\end{definition}
+\begin{definition}{Vecteur rotation}
+On appelle \textbf{vecteur rotation} du solide 1 par rapport à une base 0, le vecteur qui caractérise la rotation d'un solide 1 par rapport à une base de référence 0. On le note $\overrightarrow{\Omega_{1/0}}$.
+De plus, si le solide 1 tourne autour de $\overrightarrow{z_0}$ :
+\formulev{$\overrightarrow{\Omega_{1/0}}=\dfrac{d\theta}{dt}\cdot \overrightarrow{z_0}=\dot{\theta}\cdot\overrightarrow{z_0}$}
+\end{definition}
+\begin{multicols}{2}
+\noindent \begin{propriété}{Formule de Bour}
+Lorsqu'on cherche la \textbf{dérivée d'un vecteur} dans une base non fixe \textit{(mobile)}, on utilise cette loi :\vspace*{-5pt}
+\formuler{$\left(\frac{d\vec{u}}{dt}\right)_0=\left(\frac{d\vec{u}}{dt}\right)_1+\overrightarrow{\Omega_{1/0}}\wedge \overrightarrow{u}$}
+\end{propriété}\columnbreak
+\begin{méthode}{Application réelle de Bour}
+On se place dans une figure de changement de base.
+Pour \underline{la dérivée par rapport à la base de référence} :\vspace{9pt}\\
+- On \textbf{tourne le vecteur} de $\frac{\pi}{2}$.\\
+- On le \textbf{multiplie par la vitesse angulaire}.
+\end{méthode}
+\end{multicols}
+\begin{propriété}{Formule de Varignon}
+Pour changer un \textbf{vecteur vitesse} en un point $A$ en un point $B$.
+On utilise cette formule, elle sera très utile en mécanique.\vspace{-3pt}
+\formuler{$\overrightarrow{v_{B\in1/0}}=\overrightarrow{v_{A\in1/0}}+\overrightarrow{BA}\wedge \overrightarrow{\Omega_{1/0}}$}
+Un moyen mnémotechnique pour se souvenir des indices est de se dire $BABAR$.
+\end{propriété}
+\begin{definition}{Torseur cinématique}
+Pour résumer les informations de nos différents vecteurs, on écrit un torseur cinématique.
+On pourra traduire les torseurs de la \hyperref[def4]{\textcolor{mygreen}{\textbf{Définition \ref*{def4}}}} comme ceci :
+$$\{\mathcal{V}_{1/0}\}=\begin{Bmatrix}
+T_{\vec{x}} & R_{\vec{x}}  \\
+T_{\vec{y}} & R_{\vec{y}} \\
+T_{\vec{z}} & R_{\vec{z}} \\
+\end{Bmatrix}_{O,(\vec{x},\vec{y},\vec{z})}
+= \begin{Bmatrix}
+ R_{\vec{x}} \cdot \vec{x} &+& R_{\vec{y}} \cdot \vec{y} &+& R_{\vec{z}} \cdot \vec{z} \\
+ T_{\vec{x}} \cdot \vec{x} &+& T_{\vec{y}} \cdot \vec{y} &+& T_{\vec{z}} \cdot \vec{z}  \\
+\end{Bmatrix}_O = \begin{Bmatrix}
+\overrightarrow{\Omega_{1/0}}\\
+\overrightarrow{v_{I\in1/0}}\end{Bmatrix}_O \begin{matrix}
+\textbf{{\small Résultante cinématique}}\vspace*{4pt} \\
+\textbf{{\small Moment cinématique}}
+\end{matrix}$$
+\end{definition}
+\begin{méthode}{Problème plan}
+\begin{multicols}{2}
+Pour simplifier nos torseurs, on \textbf{se place dans le plan}.
+C'est-à-dire, toute translation ne peut pas sortir du plan.\\\\ Donc si $\overrightarrow{z}$ vient vers nous, on vient \underline{enlever les}\\
+\underline{composantes de translations sur $\overrightarrow{z}$}.\\
+Et pour la rotation si on ne tourne que sur un axe $\overrightarrow{z}$.
+On vient \underline{ne garder que les composantes sur cet axe}.\\\\
+Cette simplification nous permettra de simplifier tous nos calculs !\columnbreak
+\begin{center}
+\includegraphics[scale=1.2]{schematics/Problème_plan.pdf} 
+\end{center}
+\end{multicols}
+\end{méthode}
+\begin{definition}{Roulement sans glissement}
+Un \textbf{roulement sans glissement} est caractérisé lorsqu'il n'y a \underline{pas de vecteur vitesse relative }.
+\textbf{ie :} $\overrightarrow{v_{I\in1/0}}=\overrightarrow{0}$
+$$\{\mathcal{V}_{1/0}\}=\begin{Bmatrix}
+\overrightarrow{\Omega_{1/0}}\\
+\overrightarrow{0}
+\end{Bmatrix}$$
+\end{definition}\pagebreak
+\begin{méthode}{Trouver rapidement un produit vectoriel graphiquement}
+Un \textbf{vecteur multiplié par lui-même fera le vecteur nul} : $\overrightarrow{x}\wedge\overrightarrow{x}=\overrightarrow{0}$\\
+Et la formule initiale du produit vectoriel est : $\boxed{\overrightarrow{x}\wedge\overrightarrow{y}=||\overrightarrow{x}||\cdot||\overrightarrow{y}||\cdot\sin({\overrightarrow{x}\overrightarrow{y}})}$
+\begin{multicols}{2}
+Un autre moyen de faire des produits vectoriels est de poser par exemple pour $\overrightarrow{x} \wedge \overrightarrow{z}$ ou $\overrightarrow{x} \wedge \overrightarrow{y}$ :
+\columnbreak\\
+\includegraphics[scale=0.4]{schematics/methode7.pdf} 
+\end{multicols}\vspace*{-30pt}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.28]{schematics/prod_vec_sin.pdf}
+\end{center}
+\begin{center}
+\hspace*{4pt}\includegraphics[scale=0.28]{schematics/prod_vec_cos.pdf} 
+\end{center}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.28]{schematics/prod_vec_-sin.pdf} \\\vspace*{-10pt}
+\end{center}
+\begin{center}
+\hspace*{4pt}\includegraphics[scale=0.28]{schematics/prod_vec_-cos.pdf} 
+\end{center}
+\end{multicols}
+\end{méthode}
+\begin{definition}{Fermeture cinématique}
+Au sein d'une boucle de $n$ solides, en un même point $P$, on appelle \textbf{fermeture cinématique} la relation:
+\formulev{$\{\mathcal{V}_{1/0}\}_P + \{\mathcal{V}_{2/1}\}_P + \dots + \{\mathcal{V}_{0/n-1}\}_P = \{0\}$}
+On pourra donc écrire:\\
+\hspace*{10pt}• $\overrightarrow{\Omega_{1/0}} + \overrightarrow{\Omega_{2/1}} + \dots + \overrightarrow{\Omega_{0/n-1}} = \overrightarrow{0}$\\
+\hspace*{10pt}• $\overrightarrow{v_{P \in 1/0}} + \overrightarrow{v_{P \in 2/1}} + \dots + \overrightarrow{v_{P \in 0/n-1}} = \overrightarrow{0}$\\\\
+\underline{\textbf{Remarque}}: Attention à ne pas confondre avec les compositions de vitesse, il y a un signe qui change dans l'une des expressions.
+\end{definition}\pagebreak
+\begin{exemple}{Exemple d'une étude d'un roulement sans glissement}
+\noindent On s'intéresse à un système de distribution d'un moteur thermique automobile.
+Une came 1, mise en rotation continue par le vilebrequin via la courroie de distribution, entraîne l'ensemble du poussoir et de la soupape 2, qui va permettre d'ouvrir et de fermer le passage pour le carburant ou les gaz d'échappement du moteur.
+En voici le paramétrage :
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Exemple5a.pdf}
+\end{center}
+Déterminons :\\
+- La loi d'entrée-sortie géométrique \\
+- La loi d'entrée-sortie en vitesse\\
+- La vitesse de glissement entre la came 1 et la soupape 2\\
+\begin{multicols}{2}
+\underline{1- Loi d'entrée-sortie géométrique.}
+\begin{align*}
+\overrightarrow{0}=&\overrightarrow{OC}+\overrightarrow{CI}+\overrightarrow{IA}+\overrightarrow{AO}\\
+=&e\overrightarrow{x_1}-R\overrightarrow{y_0}+\mu\overrightarrow{x_0}+\lambda\overrightarrow{y_0}
+\end{align*}
+On projette sur $y_0$ : \textcolor{gray}{\textit{Pas besoin sur $x$, on ne veut pas $\mu$}}
+$$0=e\sin(\theta)(t)-R+\lambda(t)$$
+donc : \fbox{$\lambda(t)=R-e\cdot \sin(\theta)(t)$}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Exemple5b.pdf}\vspace*{-20pt}
+\end{center}
+\end{multicols}
+\underline{2- Loi d'entrée-sortie en vitesse :}\\
+$\rightarrow$ Ce qu'on peut faire :\\
+\hspace*{20pt} • Faire une fermeture cinématique \hspace*{6pt} \textit{ou} \hspace*{6pt} • Dériver notre fermeture géométrique \textit{ce qui est plus simple}\\
+Donc : $$\dot{\lambda}=-e\dot{\theta}\cos(\theta)(t)$$
+\underline{3- Vitesse de glissement entre came 1 et la soupape 2 :}\vspace{-10pt}
+\begin{multicols}{2}
+\begin{align*}
+\overrightarrow{v_{I\in1/2}} &= \overrightarrow{v_{I\in1/0}} + \overrightarrow{v_{I\in0/2}} \\
+&= \overrightarrow{v_{I\in1/0}} - \overrightarrow{v_{I\in2/0}}
+\end{align*}
+\begin{align*}
+\text{\underline{Or:}} \quad \overrightarrow{v_{I\in1/0}} &= \cancel{\overrightarrow{v_{O\in1/0}}} + \overrightarrow{IO} \wedge \overrightarrow{\Omega_{1/0}} \\
+&= (R\overrightarrow{y_0} - e\overrightarrow{x_1}) \wedge \dot{\theta}\overrightarrow{z_0} \\
+&= R\dot{\theta}\overrightarrow{x_0} + e\dot{\theta}\overrightarrow{y_1}
+\end{align*}
+\begin{align*}
+\overrightarrow{v_{I\in2/0}} &= \overrightarrow{v_{A\in2/0}} + \underbrace{\overrightarrow{IA} \wedge \overrightarrow{\Omega_{2/0}}}_{\substack{=0 \\ \textcolor{gray}{\text{\scriptsize Car glissi\`ere}}}}
+\end{align*}
+\columnbreak
+\begin{align*}
+\overrightarrow{v_{I\in2/0}}&= \left( \frac{d\overrightarrow{OA}}{dt} \right)_O \\
+&= \left( \frac{d-\lambda\overrightarrow{y_0}}{dt} \right)_O \\
+&= -\dot{\lambda}\overrightarrow{y_0} - \lambda\cancel{\left( \frac{d\overrightarrow{y_0}}{dt} \right)_O}
+\end{align*}
+\noindent \underline{Donc:}
+\begin{align*}
+\overrightarrow{v_{I\in1/2}} &= R\dot{\theta}\overrightarrow{x_0} + e\dot{\theta}\overrightarrow{y_1} + \dot{\lambda}\overrightarrow{y_0}
+\end{align*}
+\begin{align*}
+\text{\underline{Or:}} \quad \overrightarrow{v_{I\in1/2}} &= (\overrightarrow{v_{I\in1/2}} \cdot \overrightarrow{x_0})\overrightarrow{x_0} + \cancel{(\overrightarrow{v_{I\in1/2}} \cdot \overrightarrow{y_0})} \cdot \overrightarrow{y_0} + 0 \\
+&= \boxed{R\dot{\theta} - e\dot{\theta}\sin(\theta)}
+\end{align*}
+\end{multicols}
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Engrenages}
+\noindent{\Large\textbf{Engrenages}}\vspace*{4pt}
+\begin{multicols}{2}
+\begin{definition}{Rendement}
+Le \textbf{rendement} est le rapport de ce qui est produit sur ce qui est consommé.
+\formulev{$\eta=\dfrac{P_\text{utile}}{P_\text{absorbée}}=\dfrac{P_\text{sortie}}{P_\text{entrée}}=\dfrac{v_s}{v_e}$}
+\end{definition}
+\begin{definition}{Rapport de couple}
+Le \textbf{rapport de couple} est le rapport entre deux couples mécaniques généralement entre le couple de sortie et le couple d'entrée : \hfill (cf : \textbf{\pg{Électronique.pdf}})
+\begin{multicols}{2}
+\formulev{$k_c=\dfrac{C_s}{C_e}$}
+\columnbreak
+\formulev{$k=\dfrac{\omega_s}{\omega_e}$}
+\end{multicols}
+\end{definition}
+\begin{vocabulaire}{Réducteur}
+Un train (d'engrenages) est appelé \textbf{réducteur de vitesse} si :
+$$k<1$$
+\end{vocabulaire}
+\columnbreak
+\begin{exemple}{Mise en relation de $\eta$ et $k$ et $\frac{C_s}{C_e}$}
+\noindent On sait que : $\boxed{P=C\cdot \omega}$\\
+\underline{donc :} $\eta=\dfrac{P_s}{P_e}=\dfrac{\omega_s \times  C_s}{\omega_e\times C_e}$ \hspace*{8pt}or : $\dfrac{\omega_s}{\omega_e}=k$\\
+\underline{donc :} $\boxed{\eta=\frac{k\cdot C_s}{ C_e}}$
+\end{exemple}
+\begin{vocabulaire}{Train d'engrenages et vocabulaire associé}
+- \textbf{Train d'engrenages} : Ensemble de roues dentées en série.\vspace{5pt}\\
+- \textbf{Engrenage} : Ensemble de \underline{deux} roues dentées.\vspace{5pt}\\
+- \textbf{Pignon} : Roue dentée avec le \underline{plus petit diamètre}.\vspace{5pt}\\
+- \textbf{Roue} : Si le contact entre le pignon et cette roue 
+est \underline{extérieur}.\vspace{5pt}\\
+- \textbf{Couronne} : Pareil que la roue mais \underline{intérieur}.\vspace{5pt}\\
+- \textbf{Crémaillère} : Si la roue est plutôt une \underline{"ligne dentée"}.
+\end{vocabulaire}
+\end{multicols}\vspace{-15pt}
+\begin{exemple}{Détermination d'un rapport de réduction}
+\noindent Voici un schéma cinématique :
+\begin{center}
+\includegraphics[scale=0.6]{schematics/exemple7.pdf} 
+\end{center}\pagebreak
+\textbf{- Calculer le rapport de réduction entre l'entrée $e$ et la sortie $s$.}
+\begin{multicols}{2}
+On suppose le roulement sans glissement au point $I$\\
+entre $e$ et $s$ :\\
+\underline{donc} : $\overrightarrow{v_{I,s/e}}=\overrightarrow{0}$\\
+Par composition du mouvement :
+\begin{align*}
+\overrightarrow{v_{I,s/e}}=&\overrightarrow{v_{I,s/0}}+\overrightarrow{v_{I,0/e}}\\
+=&\overrightarrow{v_{I,s/0}}-\overrightarrow{v_{I,e/0}}
+\end{align*}
+Or d'après la formule de Varignon,
+\begin{align*}
+\overrightarrow{v_{I,e/0}} =& \cancel{\overrightarrow{v_{O_e,e/0}}} + \overrightarrow{IO_e} \wedge \omega_e \cdot \overrightarrow{z_0}\\
+=& -R_e \overrightarrow{y_0} \wedge \omega_e \overrightarrow{z_0} \\
+=& -R_e \cdot \omega_e \cdot \overrightarrow{x_0}\columnbreak
+\end{align*}
+Et de même,\vspace*{-10pt}
+\begin{align*}
+\overrightarrow{v_{I,s/0}} =& \cancel{\overrightarrow{v_{O_s,s/0}}} + \overrightarrow{IO_s} \wedge \omega_s \cdot \overrightarrow{z_0}\\
+=& R_s \overrightarrow{y_0} \wedge \omega_s \overrightarrow{z_0} \\
+=& R_s \cdot \omega_s \cdot \overrightarrow{x_0}
+\end{align*}
+\underline{On a donc}: \vspace*{-20pt}
+\begin{align*}
+-R_e\cdot\omega_e \cdot \overrightarrow{x_0}=& R_s \cdot \omega_s \cdot \overrightarrow{x_0}\\
+-R_e\cdot\omega_e =& R_s \cdot \omega_s
+\end{align*}
+Or, par définition du rapport de réduction, $k=\dfrac{\omega_s}{\omega_e}$\\
+\underline{donc} : $\boxed{k=-\frac{R_e}{R_s}}$
+\end{multicols}
+\end{exemple}
+\begin{definition}{Module}
+Dans un engrenage, les éléments doivent avoir le même module, on définit alors pour une roue dentée le module comme:
+\formulev{$D=m \cdot Z \Leftrightarrow m= \dfrac{D}{Z}$}
+\underline{avec} : $D$, le diamètre de la roue ;
+$m$, le module ; $Z$, le nombre de dents
+\end{definition}
+\begin{definition}{Rapport de réduction global}
+Dans un train d'engrenages, on a des \textbf{roues menantes} et d'autres \textbf{menées par celles-ci}.
+On peut alors définir le rapport de réduction $k$ comme : \hfill \textit{On note, $n$ le nombre de contacts extérieurs}\vspace{-8pt}
+\formulev{$k=(-1)^n\times\dfrac{\prod{Z_\text{menantes}}}{\prod{Z_\text{menées}}}$}
+\end{definition}
+\begin{vocabulaire}{Roue folle}
+On appelle \textbf{roue folle} une roue dentée qui est à la fois \textbf{menante} et \textbf{menée}.
+\end{vocabulaire}
+\begin{exemple}{Détermination d'un rapport de réduction via un train d'engrenages}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/exemple8.pdf}
+\end{center}
+\columnbreak
+Sur le schéma cinématique ci-contre, on note \textbf{1} l'entrée et \textbf{3} la sortie.
+\\
+\textbf{- Déterminons $k$ selon $Z_1, Z_2, Z_3$}\\\\
+Ici, $n=2$ et \textbf{2} est à la fois menante et menée, cest une \underline{roue folle}.\\
+On sait que :
+$$k=\dfrac{\omega_3}{\omega_1}=(-1)^2 \times \dfrac{Z_1 Z_2}{Z_2 Z_3}$$\\
+\underline{donc} : $\boxed{k=\dfrac{Z_1}{Z_3}}$\vspace{20pt}\\
+\textbf{- À quoi sert la roue 2 ?} \\
+Elle sert à changer le sens de rotation.\\\\
+\end{multicols}
+\end{exemple}\pagebreak
+\begin{multicols}{2}
+\begin{definition}{Train épicycloïdal}
+Un \textbf{train épicycloïdal} est un train dont au moins un élément tourne autour d'un axe qui n'est pas fixe par rapport au bâti.
+\end{definition}
+\begin{vocabulaire}[label=voc7]{}
+Dans un train épicycloïdal on a :\\
+- \textbf{Des planétaires} : \underline{Roues dentées} en rotation autour d'un axe \textbf{\underline{fixe}}.\\
+- \textbf{Des satellites} : \underline{Roues dentées} en rotation autour d'un axe \textbf{\underline{mobile}}.\\
+- \textbf{\underline{Un} porte-satellite} : Ce \textbf{n'}est \textbf{pas} une roue dentée, mais porte les axes de rotations des satellites.
+\end{vocabulaire}
+\columnbreak 
+\begin{center}
+\includegraphics[scale=0.43]{schematics/Voc_train_epi.pdf} 
+\end{center}
+\end{multicols}
+\begin{definition}{Raison basique et Relation de Willis}
+On appelle \textbf{raison basique} $\lambda$ d'un \underline{train épicycloïdal} le rapport de réduction entre deux planétaires, dans le référentiel d'un porte-satellite.
+On utilise la relation de Willis :
+\formulev{$\lambda=\dfrac{\omega_{pl2/ps}}{\omega_{pl1/ps}}=\boxed{\dfrac{\omega_{pl2}-\omega_{ps}}{\omega_{pl1}-\omega_{ps}}}=(-1)^n\times\dfrac{\prod{Z_\text{menantes}}}{\prod{Z_\text{menées}}}$}
+\end{definition}
+\begin{méthode}{Étudier cinématiquement un train épicycloïdal}
+\begin{multicols}{2}
+- Vérifier qu'il s'agit bien d'un train épicycloïdal.\\
+\hspace*{7pt}ie : Certains axes de rotations ne sont pas fixes.\\
+- Identifier les \textbf{différents éléments} (cf \hyperref[voc7]{\textcolor{mypurple}{\textbf{Voc \ref*{voc7}}}})\\
+- Définir comme on veut \textbf{qui sont les planétaires 1 et 2}.\\
+- Calculer $\lambda$ avec la \textbf{formule des trains simples} du planétaire \textbf{1 au 2}.
+(On gardera la valeur de $\lambda$ comme acquise).
+\columnbreak\\
+- \textbf{Simplifier la formule de Willis} avec les \underline{données de l'énoncé} (vitesse nulle).\\
+- Simplifier la formule de Willis, pour \textbf{obtenir le rapport de réduction}.
+$$k=\dfrac{\omega_\text{sortie}}{\omega_\text{entrée}}$$\\
+\end{multicols}
+\end{méthode}
+\begin{exemple}{Étude d'un train épicycloïdal simple}
+Sur le train d'engrenages ci-contre on donne le nombre de dents de chacune des pièces :\\
+$Z_1=30$, $Z_{2a}=10$, $Z_{2b}=30$, $Z_{3}=70$.
+\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/exemple9.pdf} 
+\end{center}
+\textbf{• Identifions le rôle de chacune des pièces dans ce train} :\\
+Premièrement, \textbf{2} est un satellite, car il est mobile.\\
+Ensuite, \textbf{1} et \textbf{3} possèdent des roues dentées, mais celles-ci sont sur un axe fixe (\textbf{0}).
+Donc ce sont des planétaires.\\
+Puis, \textbf{4} est le porte-satellite n'ayant pas de roue dentée.\\\\\\
+\textbf{• Calculons la raison basique $\lambda$ de ce train} :\\
+Supposons que \textbf{1} est l'entrée et \textbf{3} la sortie.\\
+\underline{donc} : $$\lambda=\dfrac{\omega_{3/0}-\omega_{4/0}}{\omega_{1/0}-\omega_{4/0}}=(-1)^n\times\dfrac{Z_1 \cdot Z_{2b}}{Z_{2a}\cdot Z_3}$$\\
+A.N. : $\lambda=(-1)^1\times\frac{30 \cdot 30}{10\cdot 70}=\boxed{\frac{-9}{7}}$.\\\\
+\textbf{• Calculons $\frac{\omega_{3/0}}{\omega_{4/0}}$ tout en supposant que la pièce \textbf{1} est fixe}.\\
+On a donc :
+\begin{align*}
+\dfrac{\omega_{3/0}-\omega_{4/0}}{0-\omega_{4/0}}=& \lambda\\
+\frac{\omega_{3/0}}{\omega_{4/0}}=&-\lambda +1\\
+=&-\dfrac{-9}{7}+\dfrac{7}{7}=\dfrac{16}{7}
+\end{align*}\vspace*{-30pt}\\
+Ainsi : $\boxed{\frac{\omega_{3/0}}{\omega_{4/0}}= \frac{16}{7}}$
+\end{exemple}\vspace*{15pt}
+\phantomsection
+\addcontentsline{toc}{section}{Loi de Mouvement}
+\noindent{\Large\textbf{Loi de mouvement}}\vspace*{4pt}
+\begin{definition}{Loi de mouvement}
+On appelle \textbf{loi de mouvement} une équation explicitant l'évolution d'un paramètre géométrique au cours du temps.
+\end{definition}
+\begin{exemple}{Exemple de graphes montrant les différentes phases d'un système}
+\begin{center}
+\includegraphics[scale=0.5305]{schematics/loi_de_mouvement.pdf}
+\end{center}
+\end{exemple}
+\begin{méthode}{Trouver une loi de mouvement sur plusieurs phases}
+- On crée nos graphes des différents mouvements les uns au-dessus des autres\\
+{\small \hspace*{20pt}\underline{Conseil} : Bien séparer au même moment les différents instants du mouvement de l'objet.}\\
+\textbf{• Pour notre première phase (celle avant $t_1$)}\vspace*{5pt}\\
+- On énumère nos différentes fonctions, c'est-à-dire celles de la position $x(t)$, de la vitesse $v(t)$ et de l'accélération $\gamma(t)$\\
+{\small \hspace*{20pt}\underline{Rappel} : $\gamma(t)=\dfrac{dv(t)}{dt}$ où $v(t)=\dfrac{dx(t)}{dt}$ avec $x(t)$ la position de l'objet à un instant $t$}\vspace*{5pt}\\
+- On dit ce que l'on sait via l'énoncé \textit{(ou via une ancienne phase)}\\
+{\small \hspace*{20pt}\underline{Conseil} : 
+Ne pas hésiter à utiliser le graphe de l'étape 0}\vspace*{5pt}\\
+- On remplace par ce que l'on sait \textit{(via les fonctions établies à l'étape 1)}\\
+{\small \hspace*{20pt}\underline{Conseil} : Prendre des fonctions des autres étapes }\vspace*{5pt}\\
+\textbf{• Recommencer pour les autres phases}
+\end{méthode}\pagebreak
+\begin{exemple}{Exemple pour trouver une loi de mouvement sur plusieurs phases \textit{(colle s18-19)}}
+\begin{multicols}{2}
+On souhaite déterminer la loi de commande de ce moteur.\\
+Le cahier des charges du système impose :\\
+\hspace*{10pt}- dure $1s$\\
+\hspace*{10pt}- permet une rotation de $\Delta\theta=90^\circ$\\
+\hspace*{10pt}- Minimiser l'accélération $\ddot{\theta}(t)$\\
+On propose cette loi (figure à droite) et on veut :\vspace{4pt}\\
+\textbf{- Préciser le nombre de phases distinctes\\
+- Tracer l'allure de $\theta(t)$ et $\dot{\theta}(t)$ en concordance de temps avec 
+$\ddot{\theta}(t)$\\
+- Exprimer les équations du mouvement dans chaque phase $(\theta(t),\dot{\theta}(t),\ddot{\theta}(t))$}\vspace{10pt}\\
+On a 2 phases distinctes.
+On pose $T=1s$.\\
+Faisons nos différents graphes \textit{(on "intègre" $\ddot{\theta}(t)$ puis $\dot{\theta}(t)$)}\\\\
+\textsc{Première phase} : de $0s$ à $\frac{T}{2}s$\\
+On obtient en intégrant :
+\begin{center}
+$\ddot{\theta}_1(t)=A_1$  \hspace{7pt} $\dot{\theta}_1(t)=A_1t+c_1$ \hspace{7pt} $\theta_1(t)=\frac{1}{2}A_1t^2+c_1t+c_2$
+\end{center}
+Or, en utilisant les conditions aux limites :
+\noindent\begin{align*}
+\dot{\theta}_1(t=0) =& A_1 \cdot 0 + c_1 \equiv 0 &\Rightarrow c_1=0\\
+\theta_1(t=0) =& \frac{1}{2}A_1 \cdot 0^2 + c_1 \cdot 0 + c_2 \equiv 0 &\Rightarrow c_2=0
+\end{align*}
+Donc :
+\begin{center}
+$\ddot{\theta}_1(t)=A_1$  \hspace{10pt} $\dot{\theta}_1(t)=A_1t$ \hspace{10pt} $\theta_1(t)=\frac{1}{2}A_1t^2$
+\end{center}
+\textsc{Seconde phase} : de $\frac{T}{2}s$ à $1s$\\
+$\ddot{\theta}_2(t)=-A_1$  \hspace{7pt} $\dot{\theta}_2(t)=-A_1t+c_3$ \hspace{7pt} $\theta_2(t)=-\frac{1}{2}A_1t^2+c_3t+c_4$\\
+Or, en utilisant les conditions aux limites (et on garde les valeurs en $\frac{T}{2}$ de la 1ère phase) :
+\begin{align*}
+\dot{\theta}_2\left(t=\frac{T}{2}\right) =& -A_1\frac{T}{2} + c_3 \equiv \dot{\theta}_1\left(t=\frac{T}{2}\right)=A_1\frac{T}{2} \Rightarrow c_3=A_1T\\
+\theta_2\left(t=\frac{T}{2}\right) =& -\frac{1}{2}A_1\frac{T^2}{4} + c_3\frac{T}{2}+ c_4 \\
+\equiv& 
+\theta_1\left(t=\frac{T}{2}\right)=\frac{1}{2}A_1\frac{T^2}{4} \Rightarrow c_4=A_1\frac{T^2}{4}-c_3\frac{T}{2}=-A_1\frac{T^2}{4}
+\end{align*}
+Donc :
+$\boxed{\ddot{\theta}_2(t)=-A_1 \hspace{10pt} \dot{\theta}_2(t)=A_1(T-t) \hspace{10pt} \theta_2(t)=\frac{A_1}{4}(-2t^2+4Tt-T^2)}$
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.65]{schematics/loi_de_mouvement_exemple1.pdf} 
+\end{center}
+\begin{center}\hspace*{50pt}
+\includegraphics[scale=0.6]{schematics/loi_de_mouvement_exemple.pdf} 
+\end{center}
+\end{multicols}\vspace{-10pt}
+Et donc : $\theta_2(t=T)=\frac{A_1}{4}(-2T^2+4T^2-T^2)=\boxed{A_1\frac{T^2}{4}}\equiv \Delta\theta$\\
+D'où $A_1=\Delta\theta\frac{4}{T^2}=\boxed{360^\circ.s^{-2}}$
+\end{exemple}
+
+\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Statique}
+\noindent{\Large\textbf{Statique}}\vspace*{4pt}
+\phantomsection
+\addcontentsline{toc}{subsection}{Généralités}
+\begin{definition}{Statique}
+La \textbf{statique} est l'étude des relations entre \textbf{l'équilibre d'un système} matériel et les \textbf{actions mécaniques} auxquelles ce système est soumis.
+\end{definition}
+\begin{definition}{Action mécanique}\vspace*{-10pt}
+\begin{multicols}{2}
+Une \textbf{action mécanique} ou \textit{effort} est ce qui tend à :\\
+\hspace*{10pt}- Modifier le mouvement d'un corps\\
+\hspace*{10pt}- Maintenir au repos un corps\\
+\hspace*{10pt}- Déformer un corps\columnbreak\\
+Une action mécanique est modélisée par une \textbf{force}.
+Elle peut être de \textbf{contact} (physique : Liaison mécanique) ou de \textbf{distance} (s'appliquant sur tout le système/sous-système).
+Ex : $\vec{P}$ (poids), $\vec{T}, \vec{R}$(Force tangentielle et résistante))
+\end{multicols}
+\end{definition}
+
+\begin{definition}{Torseur des actions mécaniques}
+De la même manière que le torseur cinématique, on vient écrire un torseur statique :
+$$\{\mathcal{F}_{1\to 2}\}=\{\mathcal{T}_{1\to 2}\}=\begin{Bmatrix}
+X_{12} & L_{12}  \\
+Y_{12} & M_{12} \\
+Z_{12} & N_{12} \\
+\end{Bmatrix}_{O,(\vec{x},\vec{y},\vec{z})} = \begin{Bmatrix}
+X_{12} \cdot \vec{x} &+& Y_{12} \cdot \vec{y} &+& Z_{12} \cdot \vec{z} \\
+ L_{12} \cdot \vec{x} &+& M_{12} \cdot \vec{y} &+& N_{12} \cdot \vec{z}  \\
+\end{Bmatrix}_O = \begin{Bmatrix}
+\overrightarrow{F_{1\to 2}}\\
+\overrightarrow{m_{O \in 1\to 2}}\end{Bmatrix}_O \begin{matrix}
+\textbf{{\small Résultante statique}}\vspace*{4pt} \\
+\textbf{{\small Moment statique}}
+\end{matrix}$$
+\end{definition}
+\begin{multicols}{2}
+\begin{propriété}{Formule de Varignon}
+En statique, on peut tout aussi bien utiliser la relation de Varignon.
+\formuler{$\overrightarrow{m_{B\in 1\to 2}}=\overrightarrow{m_{A\in 1\to 2}}+\overrightarrow{BA}\wedge \overrightarrow{F_{1\to 2}}$}
+On remarquera que la formule de Varignon est de la forme :
+$$\mathrm{Moment\text{ }en\text{ }B}=\mathrm{Moment\text{ }en\text{ }A}+\overrightarrow{BA}\wedge\textrm{Résultante}$$
+\end{propriété}
+\begin{propriété}{Bras de levier}
+On peut donner une définition intuitive du bras de levier:
+\begin{center}
+\textit{"Plus on est loin du point central du pivot, moins on a besoin de force pour appliquer le même effort de rotation."}
+\end{center}
+$$\overrightarrow{m_{A \in 1 \to 2}} = \pm \|
+\overrightarrow{F_{1 \to 2}} \| \cdot d \cdot \vec{z}$$
+\end{propriété}
+\end{multicols}
+\begin{multicols}{2}
+\begin{exemple}{Quelques exemples de torseurs \textit{(de distance)}}
+\textbf{Action de la pesanteur en $G$ :}\\
+$$\{\mathcal{T}_{\text{Pes} \to S_1}\} =
+\begin{Bmatrix}
+-mg\cdot\vec{z}\\
+0
+\end{Bmatrix}_G$$
+\textbf{Ressort linéaire en un point $A$ :}\\
+$$\{\mathcal{T}_{\text{Ressort} \to S_1}\}_A =
+\begin{Bmatrix}
+\pm k \cdot |L-L_0|\cdot\vec{z} \\
+\vec{0}
+\end{Bmatrix}_A$$
+\textbf{Pour un moteur tournant autour de $\vec{z}$ :}\\
+$$\{\mathcal{T}_{\text{Moteur} \to S_1}\}_O =
+\begin{Bmatrix}
+\vec{0} \\
+C_m\cdot\vec{z}
+\end{Bmatrix}_O$$
+\end{exemple}\columnbreak\vspace*{-60pt}
+\begin{méthode}{Trouver le signe de la résultante pour un ressort linéaire}
+- On prend notre ressort.\\
+- \textbf{On l'étire} au maximum.\\
+- S'imaginer le \textbf{sens de la flèche} pour que le ressort revienne à sa position à vide\\
+\hspace*{10pt} Si force dans le sens de $\vec{z}$ : $+k \cdot |L-L_0|\cdot\vec{z}$\\
+\hspace*{10pt} Sinon : $-k \cdot |L-L_0|\cdot\vec{z}$\vspace*{-15pt}
+\begin{center}
+\hspace*{-15pt}\includegraphics[scale=0.41]{schematics/Signe_ressort.pdf} 
+\end{center}
+\end{méthode}
+\end{multicols}
+\pagebreak
+\begin{definition}{Tableau des liaisons normalisées en statique}
+\includegraphics[scale=0.673]{schematics/Tableau_efforts_statique.pdf} 
+\end{definition}\pagebreak
+\begin{definition}{Schéma d'architecture}
+Un \textbf{schéma d'architecture} est un schéma cinématique dans lequel on vient \textbf{décrire plus réellement le système} réel.
+Ainsi les liaisons pivots n'ayant pas de sens réellement, on vient les créer par l'association de deux autres liaisons élémentaires. \quad (cf \hyperref[def45]{\textcolor{mygreen}{\textbf{Def \ref*{def45}}}})
+\end{definition}
+\begin{exemple}[label=exemple13]{Comparaison d'un schéma cinématique et d'un schéma d'architecture}
+\begin{center}
+\includegraphics[scale=0.4]{schematics/Graphe_d'architecture_comparaison.pdf} 
+\end{center}
+\end{exemple}
+\begin{definition}{Graphe d'analyse}
+Un \textbf{graphe d'analyse} ou \textbf{graphe de structure} est un \textbf{graphe de liaison auquel on vient ajouter les actions mécaniques} agissant sur le système.
+\end{definition}
+\begin{exemple}[label=exemple14]{Graphe d'analyse d'un pilote automatique de bateau}
+Reprenons le schéma d'architecture ci-dessus.
+On suppose que l'eau exerce une action mécanique sur le \textbf{safran 1} modélisée par une force $\overrightarrow{F_{\text{eau}\to 1}}=-F\cdot \vec{x}$.
+On la modélisera sur le point $G$. Seul le \textbf{gouvernail 1} est soumis à l'action de la pesanteur en $G$.
+On souhaitera déterminer l'action mécanique du vérin sur le gouvernail.\\
+On donne le paramétrage suivant :\\
+$\overrightarrow{A_1P}=y_P\overrightarrow{y}-z_P\overrightarrow{z}$\qquad$\overrightarrow{A_1G}=y_G\overrightarrow{y}-z_G\overrightarrow{z}$\qquad$\overrightarrow{A_1B}=\ell\cdot \overrightarrow{y}$
+\begin{center}
+\includegraphics[scale=0.5]{schematics/exemple16.pdf} 
+\end{center}
+\end{exemple}
+\begin{definition}{Isolement}
+On appelle \textbf{isolement} le fait de faire apparaître une \textbf{frontière} d'étude à un ou plusieurs solides pour en \underline{simplifier l'étude}.\vspace*{2pt}\\ De ce fait, on vient \underline{entourer les solides} qui nous intéressent sur le graphe d'analyse et on notera les \underline{intersections}.\\\\
+En pratique, on commencera par entourer 1 ou plusieurs solides pour lesquels on a \textbf{2 efforts extérieurs}.
+\end{definition}
+\begin{definition}{Référentiel galiléen}
+C'est un référentiel \textit{(repère géométrique et temporel)} dans lequel le Principe Fondamental de la Statique \textbf{(PFS) est vérifié}.
+On considère \textbf{galiléen} tout \underline{repère fixe} ou en \underline{translation rectiligne uniforme} \underline{par rapport à la Terre}.
+Par conséquent, le bâti sera considéré comme galiléen.
+\end{definition}
+\begin{definition}{Principe Fondamental de la Statique (PFS)}
+Un système est à l'équilibre ssi la somme des actions mécaniques extérieures appliquées au système est nulle :
+\formulev{$\displaystyle\sum_{\text{A.M.
+ext}}\begin{Bmatrix}\mathcal{T}_{\diamond\to S_i}\end{Bmatrix}=\{0\}$}\vspace*{-20pt}
+{\small "A.M. ext" pour Action Mécanique extérieure. }
+\end{definition}
+\begin{multicols}{2}
+\begin{propriété}{Théorème de la résultante statique (TRS)}
+Quand on cherche des inconnues venant de \textbf{l'extérieur} dans la résultante statique, on peut venir les exprimer via le TRS :
+\formuler{$\displaystyle\sum_{\text{A.M.
+ext}}\overrightarrow{F_{\diamond \to S_i}}=\overrightarrow{0}$}
+\end{propriété}
+\begin{propriété}{Théorème des moments statiques (TMS)}
+Quand on cherche des inconnues venant de \textbf{l'extérieur} dans le moment statique, on peut venir les exprimer via le TMS au \textbf{même point} $P$ :
+\formuler{$\displaystyle\sum_{\text{A.M.
+ext}}\overrightarrow{m_{P \in \diamond \to S_i}}=\overrightarrow{0}$}
+\end{propriété}
+\end{multicols}
+\begin{méthode}[label=méthodoPFS]{Résolution d'un problème de statique}
+Ceci peut être très long, donc attention à bien tout résoudre et simplifier un maximum !!\\\\
+- Création du \textbf{graphe d'analyse} via les données de l'énoncé.\\
+- On fait la \textbf{figure de changement de base} associée.\\
+- Pour aider à la compréhension, on \textbf{représente les forces sur le schéma cinématique}.\\
+- Vérifier si le problème est en 2D ou en 3D.
+Si 2D, appliquer la simplification du problème plan.\\
+- Commencer par isoler un système soumis à \textbf{2 forces} (Quand on peut) \textit{(qui permettra de chercher ce qu'on veut)}.\\
+\hspace*{30pt}{\footnotesize \textbf{ATTENTION} à ne pas faire apparaître d'inconnues de liaisons \textit{(du style un $X_{12}$ et un $Y_{12}$ qu'on ne peut pas exprimer avec l'énoncé)}.}\\
+\hspace*{15pt} $\hookrightarrow$ En isolant un solide $S_1$, les 2 forces venant de 2 solides différents se compenseront : $F_{2\to 1}=-F_{3 \to 1}$\\
+\hspace*{15pt} $\hookrightarrow$ Conséquence : on n'a plus 2 inconnues $X,Y$ mais qu'une seule !\\
+- Ensuite, on isole un système à \textbf{3 forces} (Quand on peut) :\\
+\hspace*{15pt} $\hookrightarrow$ On fait le \textbf{bilan des actions 
+mécaniques extérieures} (BAME) :\\
+\hspace*{30pt} $\circ$ On note le nombre de contacts entre notre isolement et l'extérieur de celui-ci.\\
+\hspace*{30pt} $\circ$ De ces \textbf{contacts}, on écrit \textbf{leurs torseurs des actions mécaniques associés}.\\
+\hspace*{15pt} $\hookrightarrow$ On écrit le \textbf{TRS} et/ou le \textbf{TMS}.\\
+\hspace*{30pt} {\footnotesize \textbf{ATTENTION} à ne pas faire apparaître d'inconnues de liaisons.}\\
+\hspace*{15pt} $\hookrightarrow$ On calcule :\\
+\hspace*{30pt} $\circ$ Dans le cas d'un \textbf{TRS} :\\
+\hspace*{45pt} $\bullet$ On \textbf{pose} notre égalité = $\overrightarrow{0}$.\\
+\hspace*{45pt} $\bullet$ On \textbf{projette} selon $\mathcal{B}_0$.\\
+\hspace*{45pt} $\bullet$ On \textbf{exprime} ce qu'on cherche.\\
+\hspace*{30pt} $\circ$ Dans le cas d'un \textbf{TMS} :\\
+\hspace*{45pt} $\bullet$ On exprime nos torseurs au \textbf{même point}.
+(Varignon)\\
+\hspace*{60pt} {\footnotesize \textbf{ATTENTION} à bien choisir le point pour ne pas faire apparaître d'inconnues de liaisons.}\\
+\hspace*{45pt} $\bullet$ On \textbf{pose} notre égalité = $\overrightarrow{0}$.\\
+\hspace*{45pt} $\bullet$ On \textbf{projette} selon $\mathcal{B}_0$.
+\\
+\hspace*{45pt} $\bullet$ On \textbf{exprime} ce qu'on cherche.\\
+- Vérification de l'\textbf{homogénéité} + \textbf{application numérique}.\\
+- On peut continuer pour un système à 4,5,... forces.
+\end{méthode}\pagebreak
+\begin{exemple}{Exemples de relations obtenues selon l'isolement}
+Étudions un système quelconque avec ce graphe d'analyse suivant sur lequel on a déjà inscrit des isolements :
+\begin{center}
+\includegraphics[scale=0.55]{schematics/exemple17.pdf} 
+\end{center}
+\textbf{Si on isole \underline{3} en appliquant le TRS projeté sur $\overrightarrow{x_1}$}:\\
+\phantom{bla}{\footnotesize \underline{\textbf{Remarque}}: Si on faisait le TMS ailleurs qu'en A, les forces de la pivot sur \textbf{0} seraient apparues dans nos équations à cause de Varignon!}\\
+Ici, on obtiendra une relation entre $\overrightarrow{C^{\textrm{moteur}}_{2\to 3}}$ et $\overrightarrow{F^{\textrm{air}}_{\textrm{ext}\to 3}}$\vspace{7pt}\\
+\textbf{Si on isole \underline{$\{$2+3$\}$} en appliquant le TMS en A projeté sur $\overrightarrow{z_2}$} :\\
+Ici, on obtiendra une relation entre $\overrightarrow{F^{\textrm{air}}_{\textrm{ext}\to 3}}$, $\overrightarrow{F^{\textrm{Terre}}_{\textrm{ext}\to 2}}$ et $\overrightarrow{F^{\textrm{vérin}}_{1\to 2}}$
+\end{exemple}
+\begin{exemple}{Résolution d'un problème de 
+statique pour le pilote automatique de bateau}
+Intéressons-nous de nouveau au pilote automatique de bateau (cf : \hyperref[exemple13]{\textcolor{mygray}{\textbf{Exemple \ref*{exemple13}}}} et \hyperref[exemple14]{\textcolor{mygray}{\textbf{Exemple \ref*{exemple14}}}}) :
+\begin{center}
+\includegraphics[scale=0.53]{schematics/exemple18.pdf} 
+\end{center}
+{\large \textbf{\textsc{Déterminons l'action mécanique du vérin sur le gouvernail :}}}(Sans les inconnues de liaisons)\vspace*{-10pt}
+\begin{multicols}{2}
+\noindent Commençons par isoler \textcolor{magenta}{\textbf{$\{$2$+$3$\}$}}\\
+\textbf{BAME} :
+    \[
+    \{\mathcal{T}_{1 \to 2}\} = \begin{Bmatrix} \overrightarrow{F_{1 \to 2}} \\ \overrightarrow{0} \end{Bmatrix}_B
+\hspace*{20pt}
+    \{\mathcal{T}_{0 \to 3}\} = \begin{Bmatrix} \overrightarrow{F_{0 \to 3}} \\ \overrightarrow{0} \end{Bmatrix}_C
+    \]
+\textbf{PFS} : Le système est soumis à deux glisseurs.
+Les résultantes sont donc opposées.
+$$\overrightarrow{F_{0\to 3}}=-\overrightarrow{F_{1\to 2}}=\overrightarrow{F_{2\to 1}}$$
+Or, on a toujours des inconnues de liaisons dans $\overrightarrow{F_{2\to 1}}$ qui sont $Y_{03}$ et $Z_{03}$.\\
+En appliquant le TMS en $C$ à \textcolor{magenta}{\textbf{$\{$2$+$3$\}$}} on obtient :
+$$\underset{\overrightarrow{0}}{\underbrace{\overrightarrow{m_{C,0\to 3}}}}+\overrightarrow{m_{C,1\to 2}}=\overrightarrow{0}$$\columnbreak\\
+D'après la relation de Varignon :
+$$\overrightarrow{m_{C,1\to 2}}=\underset{\overrightarrow{0}}{\underbrace{\overrightarrow{m_{B,1\to 2}}}}+\overrightarrow{CB}\wedge\overrightarrow{F_{1\to 2}}$$
+Donc : $\overrightarrow{0} = \overrightarrow{CB} \wedge \overrightarrow{F}_{1 \to 2}$\\
+En notant $||\overrightarrow{CB}||=L\neq 0$, on obtient :
+\begin{align*}
+\overrightarrow{0} &= (L \overrightarrow{x}) \wedge (X_{12} \overrightarrow{x} + Y_{12} \overrightarrow{y} + Z_{12} \overrightarrow{z})\\
+\iff \overrightarrow{0} &= L \cdot X_{12} (\underbrace{\overrightarrow{x} \wedge \overrightarrow{x}}_{\overrightarrow{0}}) + L \cdot Y_{12} (\underbrace{\overrightarrow{x} \wedge \overrightarrow{y}}_{\overrightarrow{z}}) + L \cdot Z_{12} (\underbrace{\overrightarrow{x} \wedge \overrightarrow{z}}_{-\overrightarrow{y}})
+\end{align*}\vspace*{-17pt}\\
+$L\neq 0$, donc : $Y_{12}=-Y_{21}=0$ et $Z_{12}=-Z_{21}=0$\\
+Donc : $\overrightarrow{F_{2\to 1}}=X_{21}\cdot\overrightarrow{x}$
+\end{multicols}
+Ensuite, on isole \textcolor{mybrown!90!red!60!black}{$\{$3$\}$} afin d'exprimer 
+$F_{\text{pression}}$.\\
+\textbf{BAME} :
+$$\{\mathcal{T}_{0 \to 3}\} = \begin{Bmatrix} X_{03} & 0 \\ Y_{03} & 0 \\ Z_{03} & 0 \end{Bmatrix}_{C, (\vec{x}, \vec{y}, \vec{z})} \hspace*{30pt} \{\mathcal{T}_{2 \to 3}\} = \begin{Bmatrix} 0 & 0 \\ Y_{23} & M_{23} \\ Z_{23} & N_{23} \end{Bmatrix}_{B, (\vec{x}, \vec{y}, \vec{z})} \hspace*{30pt} \left\{ \mathcal{T}_{2 \to 3} \right\} = \begin{Bmatrix} -\overrightarrow{F}_{\text{pression}}\cdot \overrightarrow{x} \\ \overrightarrow{0} \end{Bmatrix}_{B}$$
+\textbf{TRS} :
+$$X_{03}\cdot \overrightarrow{x}+Y_{03}\cdot \overrightarrow{y}+Z_{03}\cdot \overrightarrow{z}+X_{23}\cdot \overrightarrow{x}+Y_{23}\cdot \overrightarrow{y}+Z_{23}\cdot \overrightarrow{z}-F_\text{pression}\cdot \overrightarrow{x}=\overrightarrow{0}$$
+En projetant sur $\overrightarrow{x}$, on obtient :\\
+$X_{03}-F_\text{pression}=0$\\donc : $F_\text{pression}=X_{03}$\\
+Donc, d'après notre premier isolement, on peut écrire : $\left\{ \mathcal{T}_{2 \to 1} \right\} = \begin{Bmatrix} F_\text{pression}\overrightarrow{x} \\ \overrightarrow{0} \end{Bmatrix}_{B}$\\
+Maintenant on isole \textcolor{orange}{$\{$1$\}$} :\\
+\textbf{BAME} : \textcolor{orange}{$\{$1$\}$} est soumis à 5 forces extérieures :
+$$\left\{ \mathcal{T}_{\text{pes} \to 1} 
+\right\} = \begin{Bmatrix} -mg\overrightarrow{z} \\ \overrightarrow{0} \end{Bmatrix}_{G} \hspace*{20pt}\left\{ \mathcal{T}_{\text{eau} \to 1} \right\} = \begin{Bmatrix} \overrightarrow{F_{\text{eau}}}=-F\overrightarrow{x} \\ \overrightarrow{0} \end{Bmatrix}_{P} \hspace*{20pt} \left\{ \mathcal{T}_{2 \to 1} \right\} = \begin{Bmatrix} \overrightarrow{F_{2 \to 1}} \\ \overrightarrow{0} \end{Bmatrix}_{B} $$$$\left\{ \mathcal{T}_{0 \to 1}^{\text{lin ann}} \right\} = \begin{Bmatrix} X^{LA}\vec{x}+Y^{LA}\vec{y}+Z^{LA}\vec{z} \\ \overrightarrow{0} \end{Bmatrix}_{A_1\text{ ou }A_2} \hspace*{20pt} \left\{ \mathcal{T}_{0 \to 1}^{\text{lin ann}} \right\} = \begin{Bmatrix} X^{r}\vec{x}+Y^{r}\vec{y}+Z^{r}\vec{z} \\ \overrightarrow{0} \end{Bmatrix}_{A_1\text{ ou }A_2}$$
+On remarque qu'il y aura des inconnues de liaisons si on fait un TRS.\\
+Donc, appliquons un \textbf{TMS} \textbf{uniquement en $A_1$ (ou $A_2$)} sinon on aura nos inconnues de liaisons \textit{(à cause de Varignon)}.\\
+Mettons en $A_1$ nos torseurs :
+\begin{multicols}{3}
+\noindent \begin{align*}
+\overrightarrow{m_{{A_1},\text{ext}\to1}^\text{pes}}&=\underset{\overrightarrow{0}}{\underbrace{\overrightarrow{m_{G,\text{ext}\to 1}^\text{pes}}}}+\overrightarrow{A_1G}\wedge(-mg\overrightarrow{z})\\
+&=(y_G\overrightarrow{y}-z_G\overrightarrow{z})\wedge(-mg\overrightarrow{z})\\
+&=-y_Gmg\overrightarrow{x}
+\end{align*}
+\noindent \begin{align*}
+\hspace*{15pt}\overrightarrow{m_{{A_1},\text{ext}\to1}^\text{eau}}&=\underset{\overrightarrow{0}}{\underbrace{\overrightarrow{m_{P,\text{ext}\to 1}^\text{eau}}}}+\overrightarrow{A_1P}\wedge\overrightarrow{F^\text{eau}_{\text{ext}\to1}}\\
+&=(y_P\overrightarrow{y}-z_P\overrightarrow{z})\wedge(-F^\text{eau}\overrightarrow{x})\\
+&=+y_PF^\text{eau}\overrightarrow{z}-z_PF^\text{eau}\overrightarrow{y}
+\end{align*}
+\begin{align*}
+\hspace*{15pt}\overrightarrow{m_{{A_1},2\to1}}&=\underset{\overrightarrow{0}}{\underbrace{\overrightarrow{m_{B,2\to 
+1}}}}+\overrightarrow{A_1B}\wedge\overrightarrow{F_{2\to1}}\\
+&=\ell\overrightarrow{y}\wedge F_\text{pression}\overrightarrow{x}\\
+&=-\ell F_\text{pression}\overrightarrow{z}
+\end{align*}
+\end{multicols}
+Donc d'après le \textbf{TMS} :
+$$\overrightarrow{0}=-y_Gmg\overrightarrow{x}+y_PF^\text{eau}\overrightarrow{z}-z_PF^\text{eau}\overrightarrow{y}-\ell F_\text{pression}\overrightarrow{z}$$
+Donc on peut exprimer $F_{\text{pression}}$ uniquement en projetant sur $\overrightarrow{z}$ (sinon il disparaît, car angle de $\frac{\pi}{2}$)\\
+\begin{center}
+\boxed{$$F_{\text{pression}}=\dfrac{y_P\cdot F^{\text{eau}}}{\ell}$$}
+\end{center}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{subsection}{Frottements et adhérences}
+\begin{definition}{Contact réel entre deux objets}
+Contrairement au contact parfait, un contact réel génère une résistance au mouvement appelée le \textbf{frottement}.
+Cette action mécanique de contact est décomposée en deux composantes :\vspace*{-7pt}
+\begin{multicols}{2}
+\noindent
+- \textbf{Une composante normale} :\\
+Elle est perpendiculaire et empêche la pénétration, elle se note $\overrightarrow{N}$.\\
+- \textbf{Une composante tangentielle} :\\
+Elle longe le plan (ici \textbf{0}) et s'oppose au mouvement (frottement ou adhérence), elle se note $\overrightarrow{T}$.\\
+Le torseur s'écrit alors :\vspace*{-10pt}
+$$\{\mathcal{T}_{1\to 2}\} = \begin{Bmatrix} \overrightarrow{N_{1\to 2}} + \overrightarrow{T_{1\to 2}} \\ \overrightarrow{0} \end{Bmatrix}_O$$
+Si on suppose aucun frottement :
+$$\{\mathcal{T}_{1\to 2}\} = \begin{Bmatrix} \overrightarrow{N_{1\to 2}} \\ \overrightarrow{0} \end{Bmatrix}_O$$
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.65]{schematics/Frottement3D.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Coefficient de frottement et cône de frottement}
+\begin{multicols}{2}
+Le \textbf{coefficient de frottement}, noté $f$, est lié à l'angle $\varphi$ (l'angle entre la normale et la résultante des forces) par la relation :
+\formulev{$f=\tan(\varphi)$}
+On peut alors en définir le \textbf{cône de frottement} :\columnbreak\\\vspace*{-30pt}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Coefficient_de_frottement.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}[label=premièreloidecoulomb]{Première loi de Coulomb}
+Lorsqu'\textbf{il y a glissement}, $\overrightarrow{T_{0\to1}}$ entraîne un \textbf{frottement sec}.\\
+On définit cette composante par :
+\begin{multicols}{2}
+\hspace*{7pt}• Son \textbf{point d'application} : Point de contact $O$\\
+\hspace*{7pt}• Sa \textbf{direction} : Celle du mvt $\Leftrightarrow \overrightarrow{T_{0\to 1}}\wedge \overrightarrow{v_{O\in 1/0}}=\overrightarrow{0}$\columnbreak\\
+\hspace*{7pt}• Son \textbf{sens} : Opposé au mouvement $\Leftrightarrow \overrightarrow{T_{0\to 1}}\cdot \overrightarrow{v_{O\in 1/0}}<0$\\
+\hspace*{7pt}• Sa \underline{\textbf{norme}} : $\Vert \overrightarrow{T_{0\to 1}} \Vert = f\cdot \Vert \overrightarrow{N_{0\to 1}} \Vert$
+\end{multicols}
+\textbf{Remarque} : Il est normal d'avoir comme indice $0\to 1$ puis $1/0$
+\end{propriété}
+\begin{definition}{Coefficient d'adhérence et cône d'adhérence}
+\begin{multicols}{2}
+Le \textbf{coefficient d'adhérence}, noté $f_0$, est lié à l'angle $\varphi_0$ (l'angle entre la normale et la résultante des forces) par la relation :
+\formulev{$f_0=\tan(\varphi_0)$}
+On peut alors en définir le \textbf{cône d'adhérence} :\columnbreak\\\vspace*{-30pt}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Coefficient_d'adhérence.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}[label=secondeloidecoulomb]{Seconde loi de Coulomb}
+Lorsqu'\textbf{il n'y a pas de glissement}, $\overrightarrow{T_{0\to1}}$ entraîne de \textbf{l'adhérence}.\\
+On définit cette composante par :
+\begin{multicols}{2}
+\hspace*{7pt}• Son \textbf{point d'application} : Point de contact $O$\\
+\hspace*{7pt}• Sa \textbf{direction} : Dans le plan tangent, mais on ne sait pas vraiment\\
+\hspace*{7pt}• Son \textbf{sens} : Inconnu\\
+\hspace*{7pt}• Sa \underline{\textbf{norme}} : $\Vert \overrightarrow{T_{0\to 1}} \Vert \leq f_0\cdot \Vert \overrightarrow{N_{0\to 1}} \Vert$\columnbreak\\
+NB : Pour déterminer $\overrightarrow{T_{0\to 1}}$ on devra faire une étude statique.\\
+Or, $\overrightarrow{T_{0\to 1}}$ "tend" à s'opposer au mouvement s'il n'y a pas de frottements.
+\end{multicols}
+\textbf{Remarque} : Il est normal d'avoir comme indice $0\to 1$ puis $1/0$
+\end{propriété}\pagebreak
+\begin{vocabulaire}{Cône de frottement réel et principe}
+Dans la réalité, $f$ et $f_0$ sont souvent proches, d'où l'hypothèse : $f=f_0$
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Cône_de_frottement.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{exemple}{Cas d'un véhicule sur un plan incliné, avec des liaisons parfaites}
+\begin{multicols}{2}
+On étudie une voiture, à l'arrêt, sur une route inclinée ($\textrm{s}$). On considère la voiture ($\textrm{v}$) comme une seule classe d'équivalence.\vspace{7pt} \\
+\textbf{Tracer les forces qui agissent sur ce système, puis déterminer les inconnues de liaisons lorsque la voiture est immobile et le reste.\\
+À quelle condition cette situation est-elle possible ?}\\\\
+NB : Dans le cas de l'hypothèse de liaisons parfaites, la voiture glissera le long de la pente.\columnbreak\\
+\vspace*{-40pt}\begin{center}
+\includegraphics[scale=0.57]{schematics/Voiture_sur_plan_incliné.pdf} 
+\end{center}
+\end{multicols}
+\begin{multicols}{2}
+On admet $AH=HB=d$ et la masse $m$ est connue.\\
+Appliquons le TMS en $H$ projeté sur $\overrightarrow{z}$ :
+$$-N^Ad+N^Bd=0 \implies N^A=N^B$$
+Maintenant, appliquons le TRS projeté sur $\overrightarrow{y}$ :
+\begin{align*}
+N^A+N^B+\overrightarrow{P}\cdot\overrightarrow{y}=&0\\
+0=& N^A+N^B-mg\overrightarrow{y_0}\cdot\overrightarrow{y}\\
+=& N^A+N^B-mg\cos(\alpha)
+\end{align*}
+donc : $N^A=N^B=\frac{mg\cos(\alpha)}{2}$\\
+Maintenant, appliquons le TRS projeté sur $\overrightarrow{x}$ :
+\begin{align*}
+T^A+T^B+\overrightarrow{P}\cdot\overrightarrow{x}=&0\\
+0=&T^A+T^B-mg\overrightarrow{y_0}\cdot\overrightarrow{x}\\
+=&T^A+T^B-mg\sin(\alpha)
+\end{align*}
+Or, puisqu'il y a adhérence, on utilise la seconde loi de Coulomb :
+$$T^A\leq f_0 N^A$$
+$$T^B\leq f_0 N^B$$
+\columnbreak\\
+Si on est à la limite du glissement :
+$$T^A= f_0 N^A \hspace{25pt} T^B= f_0 N^B$$
+De par le TRS, on obtient alors :
+$$T^A=T^B=f_0\frac{mg\cos(\alpha)}{2}$$
+$\text{Donc : }2T^A=mg\sin(\alpha)=f_0mg \cos(\alpha)$\\
+Donc $$f_0=\frac{\sin(\alpha)}{\cos(\alpha)}=\tan(\alpha)$$
+Or, $f_0=\tan(\varphi_0)$\\
+Donc : $\varphi_0=\alpha$\\
+Par conséquent, le véhicule reste immobile jusqu'à un angle $\varphi_0=\arctan(f_0)$\\\\
+{\small \textcolor{black!30}{\textit{NB : On a noté nos efforts tangentiels et normaux avec leur point en exposant pour ne pas les confondre, notamment pour $N$ avec des moments en $A$.}}}
+\end{multicols}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{subsection}{Modélisation locale des actions mécaniques}
+\begin{definition}{Passage du mode global au modèle local}
+Afin de modéliser ce qui se passe sur l'infiniment petit, on ne se place plus dans le modèle global (actions mécaniques ponctuelles) mais dans le modèle local des actions mécaniques.\\
+Ce modèle nous permet alors d'\textbf{étudier les déformations ou les pressions dans le détail}.
+\end{definition}
+\begin{definition}{Force élémentaire}
+On appelle \textbf{force élémentaire} $d\overrightarrow{F_{ext\to\Sigma}}$ une action mécanique infinitésimale, exercée sur une portion infinitésimale d'un système $\Sigma$.\\
+C'est une force, donc il n'y a \textbf{pas de moments en \underline{son point d'application}}.
+\formulev{$d\overrightarrow{F_{ext\to\Sigma}}=\textrm{Densité d'effort}\times\textrm{Éléments géométriques élémentaires}$}
+\end{definition}
+\begin{exemple}{Différentes forces élémentaires}\vspace*{-10pt}
+\begin{multicols}{3}
+Pour une \textbf{force linéique} $\overrightarrow{\lambda}$ :\\
+($N\cdot m^{-1}$)
+$$d\overrightarrow{F_{ext\to\Sigma}}=\overrightarrow{\lambda}dl\columnbreak$$
+Pour une \textbf{force surfacique} $\overrightarrow{p}$ :\\
+($N\cdot m^{-2}$ ou $Pa$)
+$$d\overrightarrow{F_{ext\to\Sigma}}=\overrightarrow{p}dS\columnbreak$$
+Pour une \textbf{force volumique} $\overrightarrow{f}$ :\\
+($N\cdot m^{-3}$)
+$$d\overrightarrow{F_{ext\to\Sigma}}=\overrightarrow{f}dV$$
+\end{multicols}
+\end{exemple}
+\begin{propriété}{Lien entre modèle global et local}
+En intégrant toutes les forces infinitésimales, on obtient le modèle global :
+\formuler{$\displaystyle \{\mathcal{T}_{\text{ext}\to\Sigma}\} = \int_{d\Sigma} \{d\mathcal{T}_{\text{ext}\to\Sigma}\} = \begin{Bmatrix} \displaystyle \int_{\Sigma} d\overrightarrow{F_{\text{ext}\to\Sigma}} \\ \\ \displaystyle \int_{\Sigma} \overrightarrow{AM} \wedge d\overrightarrow{F_{\text{ext}\to\Sigma}} \end{Bmatrix}$}
+\end{propriété}
+\begin{exemple}{Cas d'une poutre en RDM}
+En préparation d’une étude de résistance des matériaux, on s’intéresse à une poutre de longueur $L$, de section rectangulaire $b\cdot h$, de masse volumique $\rho$, soumise à son propre poids. Puisque sa longueur est très supérieure à sa largeur et à sa hauteur, on assimile ce poids à une densité linéique de force $\overrightarrow{\lambda}$ uniforme.
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Exemple_RDM.pdf} 
+\end{center}
+- \textbf{Exprimons la norme de la densité linéique de force $\lambda$ et déduisons-en $\overrightarrow{\lambda}$}\\
+On cherche une force s'exprimant en $N\cdot m^{-1}$ soit des $kg\cdot s^{-2}$.\\
+Or, $$m = \rho \cdot V = \rho \cdot (L \cdot b \cdot h)$$.
+Donc : $$P = m \cdot g = \rho \cdot L \cdot b \cdot h \cdot g$$.
+Or, $$\lambda = \frac{P}{L} = \rho \cdot b \cdot h \cdot g$$
+D'où : $$\boxed{\overrightarrow{\lambda} = -\rho \cdot b \cdot h \cdot g \cdot \vec{y}}$$
+- \textbf{Exprimons la force élémentaire $d\overrightarrow{F_{ext\to P}}$ appliquée au point $M$ en $x$}
+$$d\overrightarrow{F_{ext\to P}} = \vec{\lambda} \cdot dx = -\rho \cdot b \cdot h \cdot g \cdot dx \cdot \vec{y} = -\lambda \cdot dx \cdot \vec{y}$$
+- \textbf{Déduisons-en la force globale due à la pesanteur}\\
+On vient donc intégrer de $0$ à $L$ :
+\begin{align*}
+\overrightarrow{F_{globale}} &= \int_{0}^{L} d\overrightarrow{F_{ext\to P}}\\
+&= \int_{0}^{L} -\rho \cdot b \cdot h \cdot g \cdot \vec{y} \cdot dx\\
+&= -\rho \cdot b \cdot h \cdot g \cdot \vec{y} \int_{0}^{L} dx\\
+&= -\rho \cdot b \cdot h \cdot g \cdot L \cdot \vec{y} = -\lambda L \vec{y}
+\end{align*}
+- \textbf{Déterminons le moment créé en un point $P$ d'abscisse $x_p$ via $d\overrightarrow{F_{ext\to P}}$}\\
+On sait que :
+$$d\overrightarrow{m_{P \in ext\to P}} = \overrightarrow{PM} \wedge d\overrightarrow{F_{ext\to P}}$$
+Or, $\overrightarrow{PM} = (x - x_P)\vec{x}$\\
+Donc :
+$$d\overrightarrow{m_{P\in ext\to P}} = (x - x_P)\vec{x} \wedge (-\lambda \cdot dx \cdot \vec{y})= -\lambda(x - x_P)dx (\underbrace{\vec{x} \wedge \vec{y}}_{\vec{z}}) = -\lambda(x - x_P)dx \cdot \vec{z}$$
+→ Pour information, le moment global sera nul pour $x_p=L/2$ (intégration - $=0$ - déduction de $x_p$)
+\end{exemple}
+\begin{definition}[label=def37]{Différents plans avec surfaces élémentaires}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/plans.pdf} 
+\end{center}
+\end{definition}
+\begin{méthode}{Obtenir un modèle global pour une action mécanique de contact}
+Notre but est de mener des intégrations sur 2 dimensions, donc deux intégrations successives.\\
+- On détermine la \textbf{surface totale} sur laquelle on fait l'intégration, on en fait un \textbf{schéma}.\\
+- On choisit les \textbf{2 paramètres} ($dx,dy$ pour le cas cartésien...) selon la surface.\\
+- On écrit donc la \textbf{surface élémentaire} $dS$ et on la \textbf{dessine} (cf : \hyperref[def37]{\textcolor{mygreen}{\textbf{Définition \ref*{def37}}}}).\\
+- Selon la surface totale, on a la surface d'intégration qui seront nos \textbf{bornes d'intégrations}.\\
+- On réalise le \textbf{calcul}. On essayera de décomposer le calcul comme tel :
+$$\iint f(x)\cdot g(y)\cdot dx\cdot dy= \int\left( \int f(x)\cdot g(y) \cdot dx \right) dy= \left(\int f(x)\cdot dx\right)\cdot\left(\int g(y)\cdot dy\right)$$
+Il est important de comprendre que :\\
+• Les surfaces étant petites, elles sont \textbf{assimilables à des rectangles} ($\mathcal{A}=\ell \cdot L$)\\
+• On essayera d'utiliser les \textbf{symétries} du problème pour simplifier nos intégrales/surfaces\\
+• Chaque \textbf{constante devra être sortie} de l'intégrale !
+\end{méthode}
+\begin{multicols}{2}
+\begin{definition}{Contrainte normale}
+On appelle \textbf{contrainte normale} la composante \textbf{normale} de la densité surfacique de force :
+\formulev{$\overrightarrow{\sigma_{ext\to S}}=(\overrightarrow{p_{ext\to S}}\cdot \vec{n})\cdot \vec{n}$}
+\end{definition}
+\begin{definition}{Contrainte tangentielle}
+On appelle \textbf{contrainte tangentielle} la composante \textbf{tangentielle} de la densité surfacique de force :
+\formulev{$\overrightarrow{\tau_{ext\to\Sigma}}=\overrightarrow{p_{ext\to S}}-\overrightarrow{\sigma_{ext\to S}}=\vec{n}\wedge (\overrightarrow{p_{ext\to S}}\cdot \vec{n})$}
+\end{definition}
+\end{multicols}
+\begin{definition}{Pression d'un fluide au repos}\vspace*{-10pt}
+\begin{multicols}{2}
+La pression d'un fluide au repos est simplement la force opposée à la normale au contact :
+\formulev{$\overrightarrow{p_{ext\to S}}=-p\cdot \vec{n}$}\columnbreak
+\begin{center}
+\includegraphics[scale=0.85]{schematics/Pression_d_un_fluide.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Centre de masse}
+Pour un ensemble de solides $S_i$ de masse $m_i$ et de centre de masse $G_i$, le centre de masse de l'ensemble est :
+\formulev{$m\cdot \overrightarrow{OG}=\sum_i m_i \cdot \overrightarrow{OG_i}$}
+Il se situe \textbf{toujours} soit sur un \textbf{plan}, un \textbf{axe} ou un \textbf{centre de symétrie}.
+\end{definition}
+\begin{propriété}{Théorèmes de Guldin}
+En pratique ils servent soit à trouver le centre de masse $G$ ou bien à calculer des surfaces ou volumes.\vspace*{-7pt}
+\begin{multicols}{4}
+\textbf{1$^\text{er}$ théorème :}\vspace*{7pt}\\
+Le fait de faire tourner un "fil" $(\mathcal{C})$ de $2\pi$ autour d'un axe de révolution passant par $G$ crée une surface $S$ telle que:
+\formuler{$S = L \times (2\pi \cdot r_G)$}
+avec $L$ la longueur de $(\mathcal{C})$\columnbreak
+\begin{center}
+\includegraphics[scale=0.8]{schematics/1er_théorème_Guldin.pdf} 
+\end{center}\columnbreak
+\textbf{2$^\text{nd}$ théorème :}\vspace*{7pt}\\
+Le fait de faire tourner une surface de $2\pi$ autour d'un axe de révolution par $G$ crée un volume $V$ tel que :
+\formuler{$V = \mathcal{A} \times (2\pi \cdot R_G)$}
+avec $\mathcal{A}$ l'aire de $(S)$\columnbreak
+\begin{center}
+\includegraphics[scale=0.8]{schematics/2nd_théorème_Guldin.pdf} 
+\end{center}
+\end{multicols}
+\end{propriété}
+\begin{exemple}{Cas d'un arbre rotatif}
+Un arbre de transmission \textbf{(1)} tourne à la vitesse $\omega$ par rapport à un socle fixe \textbf{(0)}. La surface de contact $\Sigma$ est une couronne plane de rayon intérieur $R_1$ et de rayon extérieur $R_2$.\\
+L'arbre exerce un effort normal global $F$ suivant l'axe $-\vec{z}$. Le paramétrage se fait en coordonnées cylindriques $(r, \theta, z)$ de centre $O$. On note $M$ le point courant de la surface de contact.\\\\
+Considérons la longueur du segment de la couronne $L=R_2-R_1$ tel que $r_G=\frac{R_1+R_2}{2}$\\
+- \textbf{Déterminons l'aire $S$ de la surface de contact $\Sigma$}.\\
+D'après le premier théorème de Guldin, la surface engendrée par une révolution d'angle $2\pi$ autour de l'axe $\vec{z}$ :
+\begin{align*}
+S &= L \times (2\pi \cdot r_G)\\
+&= (R_2 - R_1) \times 2\pi \left(\frac{R_1 + R_2}{2}\right)\\
+&= \pi(R_2^2 - R_1^2)
+\end{align*}
+- \textbf{Déterminons l'expression de la pression $p$ et exprimons la composante normale élémentaire  $d\overrightarrow{\sigma_{0\to 1}}$}\\
+Par analyse dimensionnelle, on peut dire que la pression (qu'on suppose uniforme) vaut $p = \frac{F}{\pi(R_2^2 - R_1^2)}$.\\
+Or, $\vec{n} = \vec{z}$. D'où :
+$$d\overrightarrow{\sigma_{0\to 1}} = p \cdot dS \cdot \vec{z} = p \cdot r \cdot dr \cdot d\theta \cdot \vec{z}$$\\
+L'arbre \textbf{(1)} est en mouvement de rotation par rapport au socle \textbf{(0)}. Le coefficient de frottement est $f$.\\
+- \textbf{Exprimons l'effort tangentiel élémentaire $d\overrightarrow{\tau_{0\to 1}}$, puis déduisons-en l'expression de l'action mécanique élémentaire globale $d\overrightarrow{F_{0\to 1}}$}\\
+D'après la 1ère loi de Coulomb, au glissement, l'effort tangentiel s'oppose à la vitesse. Il sera donc porté par $-\overrightarrow{u_\theta}$ tel que sa norme vaut $f$ fois la norme de l'effort normal élémentaire :
+$$d\overrightarrow{\tau_{0\to 1}} = - f \cdot ||d\overrightarrow{\sigma_{0\to 1}}|| \cdot \vec{u_\theta} = - f \cdot p \cdot dS \cdot \vec{u_\theta}$$
+Or, $d\overrightarrow{F_{0\to 1}} = d\overrightarrow{\sigma_{0\to 1}} + d\overrightarrow{\tau_{0\to 1}}$\\
+Donc : 
+$$d\overrightarrow{F_{0\to 1}} = p \cdot dS \cdot \vec{z} - f \cdot p \cdot dS \cdot \vec{u_\theta}$$
+D'où :
+$$d\overrightarrow{F_{0\to 1}} = \left( p \cdot \vec{z} - f \cdot p \cdot \vec{u_\theta} \right) r \cdot dr \cdot d\theta$$
+- \textbf{Déterminons le torseur des actions mécaniques transmissibles de \textbf{(0)} à \textbf{(1)} en $O$ :} \hfill (Question calculatoire)\\
+D'après la définition, on a : $\displaystyle \{\mathcal{T}_{0\to 1}\} = \int_{\Sigma} \{d\mathcal{T}_{0\to 1}\} = \begin{Bmatrix} \displaystyle \int_{\Sigma} \left( d\overrightarrow{\sigma_{0\to 1}} + d\overrightarrow{\tau_{0\to 1}} \right) \\ \\ \displaystyle \int_{\Sigma} \overrightarrow{OM} \wedge \left( d\overrightarrow{\sigma_{0\to 1}} + d\overrightarrow{\tau_{0\to 1}} \right) \end{Bmatrix}_{O}$\\
+• \underline{Pour la résultante} :\\
+$$\overrightarrow{R_{0\to 1}} = \int_{0}^{2\pi} \int_{R_1}^{R_2} \left( p \cdot \vec{z} - f \cdot p \cdot \vec{u_\theta} \right) r \cdot dr \cdot d\theta$$
+Donc :
+\begin{align*}
+\overrightarrow{F_{0\to 1}} &= p \left( \int_{0}^{2\pi} d\theta \right) \left( \int_{R_1}^{R_2} r \cdot dr \right) \vec{z} \\
+&= p \cdot 2\pi \cdot \left[ \frac{r^2}{2} \right]_{R_1}^{R_2} \vec{z}\\
+&= p \cdot \pi(R_2^2 - R_1^2) \vec{z} = F \cdot \vec{z}
+\end{align*}
+• \underline{Pour le moment} :\\
+Au point $O$ :\\
+\begin{align*}
+d\overrightarrow{m_{O\in 0\to 1}} &= \overrightarrow{OM} \wedge \left( d\overrightarrow{\sigma_{0\to 1}} + d\overrightarrow{\tau_{0\to 1}} \right)\\
+&= (r \cdot \vec{u_r}) \wedge \left( p \cdot dS \cdot \vec{z} - f \cdot p \cdot dS \cdot \vec{u_\theta} \right)\\
+&= \left( -p \cdot r \cdot \vec{u_\theta} - f \cdot p \cdot r \cdot \vec{z} \right) dS
+\end{align*}
+En intégrant :
+\begin{align*}
+\overrightarrow{m_{O\in 0\to 1}} &= \int_{0}^{2\pi} \int_{R_1}^{R_2} \left(- f \cdot p \cdot r \right) r \cdot dr \cdot d\theta \cdot \vec{z}\\
+&= - f \cdot p \left( \int_{0}^{2\pi} d\theta \right) \left( \int_{R_1}^{R_2} r^2 \cdot dr \right) \vec{z}\\
+&= - f \cdot p \cdot 2\pi \cdot \left[ \frac{r^3}{3} \right]_{R_1}^{R_2} \vec{z} = - f \cdot p \cdot \frac{2\pi}{3} (R_2^3 - R_1^3) \vec{z}
+\end{align*}
+D'où,
+$$ \{\mathcal{T}_{0\to 1}\} = \begin{Bmatrix} F \cdot \vec{z} \\ \\ - f \cdot p \cdot \frac{2\pi}{3} (R_2^3 - R_1^3) \cdot \vec{z} \end{Bmatrix}_{O}$$
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Guidage en rotation}
+\noindent{\Large\textbf{Guidage en rotation}}\vspace*{4pt}
+\begin{definition}{Guidage en rotation}
+Le fait de \textbf{guider en rotation} consiste à réaliser une liaison pivot entre 2 pièces. Généralement, on vient la faire soit par 2 liaisons (Rotule + Rotule, Linéaire annulaire + Rotule, ...). (cf \hyperref[def45]{\textcolor{mygreen}{\textbf{Def \ref*{def45}}}})
+\end{definition}
+\begin{definition}{Durée de vie (formule donnée I think)}
+En notant $L_{10}$ la\textbf{ durée de vie} en millions de tours, $L_h$ la durée de vie en heures, avec un axe de rotation selon $\vec{z}$\vspace*{-7pt}
+\begin{multicols}{2}
+\noindent$$L_{10}=\left(\dfrac{C}{P}\right)^n \columnbreak$$
+$$L_h=L_{10}\cdot \dfrac{10^6}{60\cdot N}$$
+\end{multicols}
+avec $n$, un coefficient donné par le constructeur, $C$ la capacité dynamique de charge (en $N$), toujours par le constructeur, et $P$ qui dépend du cas (donné dans l'énoncé).\\
+$P$ dépend d'une \hyperref[defaxialeetradiale]{force axiale et radiale}.
+\end{definition}
+\begin{definition}[label=defaxialeetradiale]{Forces axiale et radiale}
+Soit la résultante d'une liaison $\overrightarrow{R} = X \vec{x} + Y \vec{y} + Z \vec{z}$. On suppose qu'une rotation a lieu suivant l'axe $\vec{z}$.\vspace*{-8pt}
+\begin{multicols}{2}
+On appelle \textbf{force axiale}, la projection du vecteur $\overrightarrow{R}$ sur l'axe de rotation.Ainsi, on aurait dans ce cas,
+\formulev{$F_a=\overrightarrow{R} \cdot \vec{z}$}\columnbreak
+On appelle \textbf{force radiale}, la projection du vecteur $\overrightarrow{R}$ sur le plan normale à l'axe de rotation (ici $\vec{x},\vec{y}$). Ainsi on aurait dans ce cas,
+\formulev{$F_r = \sqrt{X^2 + Y^2}$}
+\end{multicols}\vspace*{-10pt}
+\underline{\textbf{Remarque}}: En dimensionnement de roulement on prendra la valeur absolue des forces.
+\end{definition}
+\begin{vocabulaire}{Bague montée serrée ou glissante dans un roulement}
+Afin de tourner et de permettre le montage du système, un roulement à \textbf{besoin de jeu}. Or cela créé du \textbf{laminage} (appui sur un élément qui vient détériorer la pièce). On vient donc \textbf{monter serrée} la bague qui tourne par rapport à la charge. L'autre bague sera donc \textbf{monter glissante}.\hfill{\small Conseil: Regarder cette \href{https://www.youtube.com/watch?v=H7_wUTYJsHc}{\underline{vidéo}}}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Montage_serrée_glissante.pdf} 
+\end{center}
+\end{vocabulaire}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Hyperstatisme}
+\noindent{\Large\textbf{Hyperstatisme}}\vspace*{4pt}
+\begin{definition}{Isostatisme et hyperstatisme}
+En notant $h$ le degré d'hyperstatisme.\\
+Si $h=0$, le système possède le bon nombre de contraintes géométriques pour être \textbf{correctement guidé} et donc appliquer le PFS. Le système sera dit ainsi \textbf{isostatique} et sera donc \textbf{possible}.\\
+Si $h>0$, le système possède des liaisons dites "surabondantes" donc le \textbf{montage sera fait par déformation}. Le système sera dit ainsi \textbf{hyperstatique}. (cf : \pg{\textbf{Résistance des matériaux.pdf}} pour déterminer les efforts).
+\end{definition}
+\begin{definition}[label=def45]{Liaison équivalente}
+On appelle \textbf{liaison équivalente} la liaison unique qui a exactement le même comportement cinématique et statique que l'association de plusieurs liaisons entre deux mêmes pièces.
+\end{definition}
+\begin{multicols}{2}
+\begin{propriété}{Degré d'hyperstatisme en cinématique}
+Afin de déterminer le degré d'hyperstatisme $h$ d'un mécanisme \textbf{en cinématique}, on vient utiliser cette formule $MICKEY$ :
+\formuler{$h=m-I_c+E_c$}
+avec : $m$, la mobilité du système (cf : \hyperref[methodo14]{\textcolor{myorange}{\textbf{Méthode \ref*{methodo14}}}})\\
+\hspace*{23pt} $I_c$, le nombre d'inconnues cinématiques\\
+\hspace*{22pt} $E_c$, le nombre d'équations cinématiques tel que :
+$$E_c=6\mu$$
+\hspace*{22pt} avec $\mu$, le \textbf{nombre cyclomatique} qui représente\\
+\hspace*{22pt} le nombre de boucles dans le graphe de\\
+\hspace*{22pt} liaisons du système.
+\end{propriété}
+\begin{propriété}{Degré d'hyperstatisme en statique}
+Afin de déterminer le degré d'hyperstatisme $h$ d'un mécanisme \textbf{en statique}, on vient utiliser cette formule $MESSI$ :
+\formuler{$h=m-E_s+I_s$}
+avec : $m$, la mobilité du système (cf : \hyperref[methodo14]{\textcolor{myorange}{\textbf{Méthode \ref*{methodo14}}}})\\
+\hspace*{23pt} $I_s$, le nombre d'inconnues statiques\\
+\hspace*{22pt} $E_s$, le nombre d'équations statiques tel que :
+$$E_s=6(p-1)$$
+\hspace*{22pt} avec $p$, le \textbf{nombre de pièces} du système. (le\\
+\hspace*{22pt} $-1$ est pour le bâti)
+\end{propriété}
+\end{multicols}
+\begin{vocabulaire}{Liaison parallèle et en série}\vspace*{-7pt}
+\begin{multicols}{2}
+- En \textbf{série} : Les liaisons s'enchaînent les unes à la suite des autres par des pièces intermédiaires.\\
+- En \textbf{parallèle} : Les liaisons sont placées géométriquement les unes à côté des autres.
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.35]{schematics/Série_Parallèle_Comparaison.pdf} 
+\end{center}
+\end{multicols}
+\end{vocabulaire}
+\begin{propriété}{Composition de torseurs}\vspace*{-10pt}
+\begin{multicols}{2}
+\textbf{En série} : Les efforts transmis sont identiques, mais les mouvements s'additionnent.\\
+• Cinématiques : $\left\{\mathcal{V}_{eq}\right\} = \left\{\mathcal{V}_{1}\right\} + \left\{\mathcal{V}_{2}\right\} + \dots$\\
+• Statiques : $\left\{\mathcal{T}_{eq}\right\} = \left\{\mathcal{T}_{1}\right\} = \left\{\mathcal{T}_{2}\right\} = \dots$\columnbreak\\
+\textbf{En parallèle} : Les mouvements sont identiques, mais les efforts se répartissent.\\
+• Cinématiques : $\left\{\mathcal{V}_{eq}\right\} = \left\{\mathcal{V}_{1}\right\} = \left\{\mathcal{V}_{2}\right\} = \dots$\\
+• Statiques : $\left\{\mathcal{T}_{eq}\right\} = \left\{\mathcal{T}_{1}\right\} + \left\{\mathcal{T}_{2}\right\} + \dots$
+\end{multicols}
+\end{propriété}
+\begin{méthode}[label=methodo14]{Trouver le nombre de mobilités}
+La mobilité $m$ se décompose en deux parties : une mobilité utile $m_u$ et interne $m_i$.
+\formuleo{$m=m_u+m_i$}\vspace*{-7pt}
+\textbf{Pour $m_u$} :\\
+- On se pose la question \textit{"Combien de moteurs ou d'actionneurs indépendants faut-il pour piloter ce système ?"}\\
+\hspace*{10pt}$\hookrightarrow$ Donc pour un seul actionneur, $m_u=1$. Il faut penser à faire jouer les symétries (multiplications).\\
+\textbf{Pour $m_i$} :\\
+- On bloque l'entrée et la sortie puis on se pose la question si une pièce peut encore bouger.\\
+\hspace*{15pt}$\hookrightarrow$ Si "mentalement" elle ne bouge plus (rotation/translation), alors $m_i=0$.\\
+\hspace*{15pt}$\hookrightarrow$ Si "mentalement" elle bouge encore, on bloque la pièce qui bouge.\\
+\hspace*{30pt}$\circ$ Si ça ne bouge plus $m_i=1$ sinon on recommence.\\
+- On pensera à ajouter $+1$ tant que le système bouge.\\
+- On a donc $m=m_u+m_i$.
+\end{méthode}
+\begin{exemple}{Déterminer le degré d'hyperstatisme d'une imprimante 3D}
+On étudie une imprimante 3D dont une image du système est visible ci-dessous. De plus, on y a décrit son graphe de liaison (auquel on a ajouté en jaune les boucles, et les inconnues cinématiques (et donc statiques) en violet).
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.35]{schematics/Imprimante_3D.pdf} 
+\end{center}
+\begin{center}
+\includegraphics[scale=0.35]{Imprimante_3D.png} 
+\end{center}
+\end{multicols}
+\But{Rq : On a mis des appuis plans au lieu de glissières car IRL on aurait des risques de blocages et d'usures}\\
+- \textbf{Déterminons le degré d'hyperstatisme $h$ de cette imprimante en cinématique et en statique}\\
+Sur notre système, on a $3$ actionneurs, donc $m_u=3$.\\
+De plus, en bloquant nos entrées, seules les $6$ biellettes peuvent encore bouger. Donc : $m_i=6$.\\
+D'où : $m=6+3=9$.\\
+De plus, le nombre d'inconnues cinématiques $I_c$ vaut $54$. ($12\cdot 3=54$).\\
+Sur notre graphe de liaisons, on compte $\mu=8$ (flèches jaunes).\\
+Ainsi, le nombre d'équations cinématiques est de $E_c=6\times 8=48$.\\
+D'où,\vspace*{-7pt}
+$$h=m-I_c+E_c=9-54+48=\bm{3}>0$$
+Le système est donc hyperstatique de degré 3. Il est donc compliqué d'assembler ce système. De ce fait, on peut venir jouer sur l'élasticité des matériaux pour l'assemblage (ici c'est comme des "GEOMAG", donc l'assemblage est simple, mais il faut être précis).
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Inertie}
+\noindent{\Large\textbf{Inertie}}\vspace*{4pt}\\
+Ceci marque le début du programme de TSI2.
+\begin{definition}{Inertie}
+L'inertie est la résistance qu'opposent les corps, de par leur masse, au changement de l'état de repos ou de mouvement.\\
+• \textbf{En translation}:\\
+En cas d'une forte décélération, un conducteur d'un véhicule d'une masse plus faible qu'un autre (Moto/Tracteur) sera plus sujet à l'inertie dû à la \textbf{masse} du véhicule.\\
+• \textbf{En rotation}:\\
+Il est plus facile de se la représenter: On a plus d'inertie loin du centre de rotation (Ex: Porte). Il sera par ailleurs plus compliqué à mettre rotation proche du centre dû au \textbf{moment d'inertie}.
+\end{definition}
+\begin{definition}[label=def48]{Matrice d'inertie}
+Pour un solide $S$ autour d'un point $A$. On définit la matrice d'inertie comme:
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Matrice_d_inertie.pdf} 
+\end{center}
+$\to$ C'est une description de la répartition des masses dans le solide $S$ par rapport à $A$
+\end{definition}
+\begin{definition}{Moment d'inertie}
+On définit le moment d'inertie noté $I_\Delta$ tel que $\Delta$ est un axe comme:
+\formulev{$I_\Delta=\overrightarrow{u}\cdot (\overline{\overline{I_(A,S)}}\cdot \overrightarrow{u})$}
+$\overrightarrow{u}$, doit être unitaire donc pour un vecteur $\overrightarrow{v}$, $\overrightarrow{u}=\dfrac{\overrightarrow{v}}{||\overrightarrow{v}||}$
+\end{definition}
+\begin{exemple}{Moment d'inertie d'un solide}
+Soit $\overrightarrow{AB}=2\vec{y}+\vec{z}$. On note $\mathcal{B}=(\vec{x},\vec{y},\vec{z})$\\
+- \textbf{Cherchons le moment d'inertie d'un solide $S$ passant par $A$ et dirigé par $\overrightarrow{AB}$}\\
+• On norme $\overrightarrow{AB}$ pour chercher $\overrightarrow{u}$:
+$$\overrightarrow{u}=\dfrac{\overrightarrow{AB}}{||\overrightarrow{AB}||}=\dfrac{2\vec{y}+\vec{z}}{\sqrt{2^2+1^2}}=\dfrac{2}{\sqrt 5}\cdot\vec{y}+\dfrac{1}{\sqrt 5}\cdot\vec{z}=\begin{bmatrix}
+0\\ \dfrac{2}{\sqrt{5}}\\\dfrac{1}{\sqrt{5}}\end{bmatrix}_\mathcal{B} = \begin{bmatrix}0& \dfrac{2}{\sqrt{5}}& \dfrac{1}{\sqrt{5}}\end{bmatrix}_\mathcal{B} $$
+• Or, d'après la \hyperref[def48]{\textcolor{mygreen}{\textbf{Définition \ref*{def48}}}} :\\
+\But{Bien faire attention à la taille des matrices quand on fait des produits !!}
+\begin{align*}
+I_{(A,\overrightarrow{u})}&=\begin{bmatrix}0& \dfrac{2}{\sqrt{5}}& \dfrac{1}{\sqrt{5}}\end{bmatrix}_\mathcal{B}\cdot \begin{bmatrix}
+A & -F & -E\\
+* & B & -D\\
+* & * & C
+\end{bmatrix}_\mathcal{B} \cdot \begin{bmatrix}
+0\\ \dfrac{2}{\sqrt{5}}\\\dfrac{1}{\sqrt{5}}\end{bmatrix}_\mathcal{B}\\
+&=\begin{bmatrix}0& \dfrac{2}{\sqrt{5}}& \dfrac{1}{\sqrt{5}}\end{bmatrix}_\mathcal{B}\cdot \begin{bmatrix}
+-F\frac{2}{\sqrt{5}} &-&E \frac{1}{\sqrt{5}}\vspace*{5pt}\\
+B\frac{2}{\sqrt{5}} &-&D \frac{1}{\sqrt{5}}\vspace*{5pt}\\
+-D\frac{2}{\sqrt{5}} &+&C \frac{1}{\sqrt{5}}
+\end{bmatrix}_\mathcal{B}
+\end{align*}
+$$\boxed{I_{(A,\overrightarrow{u})}=\dfrac{2}{\sqrt{5}}\left( B\frac{2}{\sqrt{5}} -D \frac{1}{\sqrt{5}} \right) + \dfrac{1}{\sqrt{5}}\left(-D\frac{2}{\sqrt{5}} +C \frac{1}{\sqrt{5}} \right)}$$
+\end{exemple}
+\begin{definition}{Centre de gravité}
+C'est le point $G$ pour lequel le torseur de l'effort est un glisseur:
+\formulev{$\{\mathcal{T}_{S_1\to S_2}\}_G=\begin{Bmatrix}\overrightarrow{F_{S_1\to S_2}}\\ \overrightarrow{0}\end{Bmatrix}_G$}
+\end{definition}
+\begin{propriété}{Additivité des matrices d'inertie}
+Pour former un solide, il est possible de le \textbf{décomposer en plusieurs sous-solide} pour en définir plus facilement sa matrice d'inertie.
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Additivité_matrice_d_inertie.pdf} 
+\end{center}
+\end{propriété}
+\begin{definition}{Matrices pour différentes formes}
+\includegraphics[scale=0.63]{schematics/Exemples_matrices_d_inertie.pdf} 
+\end{definition}
+\begin{propriété}{Symétrie}
+Si une pièce admet \textbf{un plan de symétrie}, les \textbf{produits d'inertie de l'axe n'appartenant pas au plan s'annule}.\\\\
+Si une pièce admet \textbf{deux plans}, on ne garde \textbf{que les moments} d'inertie.\\\\
+Si une pièce possède \textbf{un axe de révolution}, les \textbf{deux moments d'inertie ne suivant pas l'axe} sont \textbf{égaux}.
+\end{propriété}
+\begin{exemple}{Symétries pour différents cas (Jules a été volontaire)}
+\begin{center}
+\includegraphics[scale=0.63]{schematics/Exemples_symétries.pdf} 
+\end{center}
+\end{exemple}
+\begin{propriété}{Théorème de Huygens}
+\begin{multicols}{2}
+Pour trouver une matrice ou un moment d'inertie en un autre point, on utilise le théorème de Huygens:\\
+\textbf{Pour un moment:}
+\formuler{$I_{(A,\vec{u})}=I_{(G,\vec{u})}+md^2$}
+\textbf{ATTENTION} $d$ est la distance entre les axes.\columnbreak
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Huygens.pdf} 
+\end{center}
+\end{multicols}
+\textbf{Pour un moment:}
+Pour $\overrightarrow{AG}=a\vec{x}+b\vec{y}+c\vec{z}$:
+\formuler{$\overline{\overline{I_{(A,S)}}}=\underbrace{\overline{\overline{I_{(G,S)}}}}_{\text{donné en abaque}}+m\cdot\begin{bmatrix}
+b^2+c^2 & -ab & -ac \\
+\ast  & a^2+c^2 & -bc \\
+\ast & \ast & a^2+b^2
+\end{bmatrix}_\mathcal{B}$}
+\end{propriété}
+\phantomsection
+\addcontentsline{toc}{section}{Dynamique}
+\noindent{\Large\textbf{Dynamique}}\vspace*{4pt}\\
+La dynamique permet de résoudre deux types de problèmes:\\
+\hspace*{10pt}- On connait les efforts, on souhaite alors déterminer les mouvements.\\
+\hspace*{10pt}- On connait les mouvements, on souhaite déterminer les efforts nécessaires ou engendrés.
+\begin{definition}{Torseur cinétique}
+On définit le torseur cinétique comme (pour $A$ un point fixe ou le centre de masse $G$)
+\formulev{$\{\mathcal{C}_{1/0}\}=\begin{Bmatrix}
+m_1 \overrightarrow{v_{G\in 1/0}} \\
+\overrightarrow{\sigma_{A\in 1/0}}= \overline{\overline{I_{(A,1)}}}\cdot\overrightarrow{\Omega_{1/0}}
+\end{Bmatrix}_A$}
+\end{definition}
+\begin{definition}{Torseur dynamique}
+C'est la dérivée du torseur cinétique. On se place toujours en un point $A$ fixe ou au centre de masse.
+\formulev{$\{\mathcal{D}_{1/0}\}=\begin{Bmatrix}
+m_1 \overrightarrow{\Gamma_{G\in 1/0}} \\
+\overrightarrow{\delta_{A\in 1/0}}=\dfrac{d\overrightarrow{\sigma_{A\in 1/0}}}{dt}
+\end{Bmatrix}_A$}
+On pensera à se référer à la formule de Bour.
+\end{definition}
+\begin{definition}{Principe Fondamental de la Dynamique (PFD)}
+Pour un ensemble de $n$ solides.
+\formulev{$\sum_{i=1}^n\{\mathcal{T}_{ext\to i}\}=\sum_{i=1}^n \{\mathcal{D}_{i/0}\}$}
+\end{definition}
+\begin{exemple}{Cas pour un système quelconque}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.45]{schematics/PFD.pdf} 
+\end{center}
+\noindent Ainsi, le PFD s'exprimera
+$$\begin{Bmatrix}\mathcal{T}_{1 \to 2}\end{Bmatrix}+\begin{Bmatrix}\mathcal{T}_{4 \to 3}\end{Bmatrix}+\begin{Bmatrix}\mathcal{T}_{pes \to 3}\end{Bmatrix}=\begin{Bmatrix}\mathcal{D}_{2/0}\end{Bmatrix}+\begin{Bmatrix}\mathcal{D}_{1/0}\end{Bmatrix}$$
+\end{exemple}
+\begin{multicols}{2}
+\begin{propriété}{Théorème de la résultante dynamique (TRD)}
+\formuler{$\displaystyle\sum_{i=1}^n \overrightarrow{F_{ext \to i}}=m\cdot\overrightarrow{\Gamma_{G\in 1/0}}$}
+\end{propriété}
+\begin{propriété}{Théorème du moment dynamique (TMD)}
+Au même point ($A$):
+\formuler{$\displaystyle\sum_{i=1}^n \overrightarrow{m_{A \in ext \to i}}= 
+\overrightarrow{\delta_{A\in i/0}}$}
+\end{propriété}
+\end{multicols}
+\begin{méthode}{Résolution d'un exercice de dynamique}
+- On commence à faire le graphe d'analyse du système\\
+- On fait les figures de changements de bases (pour nous aider lors de nos calculs)\\
+- On détermine l'isolement à réaliser (cf: \hyperref[méthodoPFS]{\textcolor{myorange}{\textbf{Méthode \ref*{méthodoPFS}}}})\\
+- Pour chaque isolement\\
+\hspace*{10pt}$\hookrightarrow$ On cherches les torseurs dynamique\\
+\hspace*{10pt}$\hookrightarrow$ On fait le bilan des actions mécaniques\\
+\hspace*{10pt}$\hookrightarrow$ On écrit le PFD\\
+\hspace*{10pt}$\hookrightarrow$ On applique le TRD et/ou le TMD (en un point fixe ou le centre de gravité)\\
+\hspace*{18pt} {\small \textbf{ATTENTION} on pensera à bien projeter nos équations (on peut faire l'hypothèse plan)}\\
+- On détermine le mouvement voulu ou les efforts engendrés.
+\end{méthode}
+\begin{exemple}{Dynamique d'un mandrin en rotation}
+Intéressons nous à une visseuse dont le mandrin est en rotation et à laquelle on applique un mouvement de translation selon $\overrightarrow{y}$.
+\begin{multicols}{2}\vspace*{-30pt}
+\noindent\begin{center}
+\includegraphics[scale=0.45]{schematics/Mandrin.pdf} 
+\end{center}
+\begin{center}\vspace*{15pt}
+\hspace{40pt}\includegraphics[scale=0.5]{schematics/Schéma_cinématique_Mandrin.pdf}\\
+\textbf{Schéma cinématique du mandrin en translation
+}\end{center}
+\end{multicols}
+On pose: $\overrightarrow{G_1G_2}=a\cdot\vec{x}$\qquad$\overrightarrow{\Omega_{2/1}}=\omega(t)\cdot \vec{x}$\qquad$\overrightarrow{v_{G_1\in 1/0}}=v(t)\cdot \vec{y}$\qquad$\overline{\overline{I_{(G_2,2)}}}=\begin{bmatrix}
+A_2 & -F_2 & -E_2 \\
+-F_2 & B_2 & -D_2 \\
+-E_2 & -D_2 & C_2
+\end{bmatrix}_\mathcal{B}$\\
+On donne:
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Graphe_d'analyse_Mandrin.pdf} 
+\end{center}
+\textbf{- Quel est le moment sur l'axe $(G_1,\vec{z})$ que doit exercer la main sur la visseuse?}\\
+\underline{Isolons $\{1+2\}$:}
+$$\Torseur{\mathcal{C}_{1/0}}=\Torseur{m_1\cdot \overrightarrow{v_{G_1\in 1/0}}=m_1\cdot v \cdot \vec{y}\\
+\overrightarrow{\sigma_{G_1 \in 1/0}}=\overline{\overline{I_{(G_2,1)}}}\cdot \cancel{\overrightarrow{\Omega_{1/0}}}=\vec{0}}_{G_1}$$$$\Torseur{\mathcal{C}_{2/0}}=\Torseur{m_2\cdot \overrightarrow{v_{G_2\in 1/0}}=m_2\left(\cancel{\overrightarrow{v_{G_2 \in 2/1}}}+\overrightarrow{v_{G_2 \in 1/0}} \right)\\
+\overrightarrow{\sigma_{G_2 \in 2/0}}=\overline{\overline{I_{(G_2,1)}}}\cdot \overrightarrow{\Omega_{2/0}}=\begin{bmatrix}
+A_2 & -F_2 & -E_2 \\
+-F_2 & B_2 & -D_2 \\
+-E_2 & -D_2 & C_2
+\end{bmatrix}_\mathcal{B}\wedge\begin{bmatrix}
+\omega\\
+0 \\
+0
+\end{bmatrix}_\mathcal{B}}_{G_2}=\Torseur{m_2\cdot v \cdot \vec{y}\\A_2\omega \vec{x_2}-F_2\omega \vec{y_2}-E_2\vec{z_2}}_{G_2}$$
+On peut alors écrire nos torseurs dynamiques:
+$$\Torseur{\mathcal{D}_{1/0}}=\Torseur{m_1 \dot{v}\vec{y}\\
+\vec{0}}_{G_1}\qquad \Torseur{\mathcal{D}_{2/0}}=\Torseur{m_2 \dot{v}\vec{y}\\
+\dfrac{d(A_2\omega \vec{x}-F_2\omega \vec{y}-E_2\vec{z})}{dt}}_{G_2}$$
+Considérons $F_2=E_2=0$\\
+Ainsi, $\overrightarrow{\delta_{G_2 \in 2/0}}=\left.\begin{matrix}
+\dfrac{dA_2\omega \vec{x}}{dt}
+\end{matrix}\right|_\mathcal{B}=A_2\omega \vec{x}$\quad $\Torseur{\mathcal{D}_{1/0}}=\Torseur{m_1 \dot{v}\vec{y}\\
+\vec{0}}_{G_1}\qquad \Torseur{\mathcal{D}_{2/0}}=\Torseur{m_2 \dot{v}\vec{y}\\
+A_2\omega \vec{x}}$\\
+\underline{Faisons le bilan des actions mécaniques extérieurs:} (BAME)
+$$\{\mathcal{T}_{0 \to 1}\} = \left\{ \begin{array}{c} X_{01} \vec{x} + Z_{01} \vec{z} \\ L_{01} \vec{x} + M_{01} \vec{y} + \underbrace{N_{01}}_{\text{objectif}} \vec{z} \end{array} \right\}_{G_1} \qquad \{\mathcal{T}_{pes \to 1}\} = \left\{ \begin{array}{c} -m_1 g \vec{y} \\ \vec{0} \end{array} \right\}_{G_1} \qquad \{\mathcal{T}_{F \to 1}\} = \left\{ \begin{array}{c} F \vec{y} \\ \vec{0} \end{array} \right\}_{G_1}$$
+$$\{\mathcal{T}_{pes \to 2}\} = \left\{ \begin{array}{c} -m_2 g \vec{y} \\ \vec{0} \end{array} \right\}_{G_2} = \left\{ \begin{array}{c} -m_2 g \vec{y} \\ \vec{M}_{G_1, pes \to 2} = a \vec{x} \wedge (-m_2 g \vec{y}) = -a m_2 g \vec{z} \end{array} \right\}_{G_1}$$
+\underline{Appliquons le PFD:}\\
+- TRD:\\
+\hspace*{7pt}• Sur $\vec{x}$ : $X_{01} = 0$\\
+\hspace*{7pt}• Sur $\vec{y}$ : $F - m_1 g - m_2 g = m_1 \dot{V} + m_2 \dot{V}$\\
+\hspace*{7pt}• Sur $\vec{z}$ : $Z_{01} = 0$\\
+\But{On a pas $M_{01}$ donc:}\\
+- TMD en $G_1$:\\
+Commençons par calculer $\overrightarrow{\delta_{G_1 \in 2/0}}$\\
+D'après la formule de Varignon:
+\begin{align*}
+\overrightarrow{\delta_{G_1 \in 2/0}} &= \overrightarrow{\delta_{G_2 \in 2/0}} + \overrightarrow{G_1 G_2} \wedge m_2 \overrightarrow{\Gamma_{G_1 \in 2/0}}\\
+&= A_2 \dot{\omega} \vec{x} + a \vec{x} \wedge m_2 \dot{V} \vec{y}\\
+&= a m_2 \dot{V} \vec{z} + A_2 \dot{\omega} \vec{x}
+\end{align*}
+Donc:\\
+\hspace*{7pt}• Sur $\vec{x}$ : $L_{01} = A_2 \dot{\omega}$\\
+\hspace*{7pt}• Sur $\vec{y}$ : $M_{01} = 0$\\
+\hspace*{7pt}• Sur $\vec{z}$ : $N_{01} - a m_2 g = a m_2 \dot{V}$\\
+Donc : \fbox{$N_{01} = a m_2 g + a m_2 \dot{V}$}
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Energétique}
+\noindent{\Large\textbf{Energétique}}\vspace*{4pt}\\
+L'énergétique fait parti intégrante de tout sujet. Il faut donc savoir retrouver une énergie cinétique d'un sous-système car cette expression permettra de répondre aux questions qui suivent. Ce serait dommage de passer à côté de quelques points.
+\begin{propriété}{Intérêt de l'énergétique}
+Contrairement à la dynamique, l'énergétique permet de \textbf{trouver plus rapidement} des \textbf{relations d'entrée-sortie} (entre des actions mécaniques) ou bien des \textbf{accélérations} (lois de mouvement).\\
+Attention c'est efficace pour des systèmes à \textbf{1 degré de liberté} (glissière et pivot).
+\end{propriété}
+\begin{definition}{Energie}
+On appelle \textbf{énergie} ou \textbf{travail}, ce qu'il faut fournir à un système pour le passer d'un état initial vers un état final. Elle s'exprime en Joule ($J\equiv ML^2T^{-2}$)
+\end{definition}
+\begin{definition}{Puissance}
+On appelle \textbf{puissance}, ce qui caractérise le débit d'énergie fournir à chaque instant entre un état initial vers un état final. Cela permet de décrire les flux d'énergie entre ces deux états. Elle s'exprime en Watt ($W \equiv ML^2T^{-3}$)
+\end{definition}
+\begin{propriété}{Conservation de l'énergie}
+L'énergie ne se perd pas, elle se transforme. Voici un schéma qui explique bien ce concept:
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Conservation_de_l_energie.pdf} 
+\end{center}
+\end{propriété}
+\begin{definition}{Comoment}
+Le comoment noté $\otimes$ est une opération entre deux torseurs $\mathcal{T}_1=\Torseur{\overrightarrow{R_1}\\ \overrightarrow{m_{1,P}}}_P$ et $\mathcal{T}_2=\Torseur{\overrightarrow{R_2}\\ \overrightarrow{m_{2,P}}}_P$ appliqué \textbf{au même point}, tel que:
+\formulev{$\mathcal{T}_1 \otimes \mathcal{T}_2=\overrightarrow{R_1}\cdot \overrightarrow{m_{2,P}}+\overrightarrow{R_2}\cdot \overrightarrow{m_{1,P}}$}
+NB: On peut voir l'opération comme un $\gamma$.
+\end{definition}
+\begin{definition}{Energie cinétique}
+On appelle \textbf{énergie cinétique}, l'énergie que possède un corps du fait de son \textbf{mouvement dans un référentiel donné}. On peut alors donner ce tableau qui référence les formules adaptées pour chaque cas par rapport au solide $S_0$:
+\begin{center}
+\includegraphics[scale=0.63]{schematics/Tableau_energie_cinétique.pdf}
+\end{center}
+\end{definition}\pagebreak
+\begin{propriété}{Additivité de l'énergie cinétique}
+L'énergie étant une grandeur extensive, alors on peut l'additionner. Soit $\Sigma=\{S_1,S_2,...,S_n\}$, alors:
+\formuler{$E_{c,\Sigma/0}=E_{c,1/0}+E_{c,2/0}+...+E_{c,n/0}$}
+\underline{\textbf{Remarque}}: On ne peut pas faire de relation de Chasles ($E_{c,2/1}=\textrm{Interdit}$)
+\end{propriété}
+\begin{definition}{Moment d'inertie équivalent}
+On appelle \textbf{moment d'inertie équivalent} $J_{eq}$, l'inertie d'un système possédant plusieurs pièces en rotation (et translation) telle que cette inertie corresponde à celle de l'énergie cinétique totale du système. Donc sur un axe de référence $\Delta$ en exprimant sa vitesse comme $\omega_\Delta$, on exprimera l'énergie cinétique totale tel que:
+\formulev{$E_{c,\Sigma/0} = \frac{1}{2} J_{eq} \omega_\Delta^2$}
+\end{definition}
+\begin{definition}{Puissance d'une action mécanique extérieure}
+On appelle \textbf{puissance exercée par une action mécanique \underline{extérieure}} sur un solide $S$ dans son mouvement par rapport au référentiel $\mathcal{R}_0$, la grandeur:
+\formulev{$P_{ext \to S/0}=\Torseur{\mathcal{T}_{ext\to S}}\otimes\Torseur{\mathcal{V}_{S/0}}$}
+\underline{\textbf{Remarque}}: Cette expression découle bien de $P=\overrightarrow{F}\cdot\overrightarrow{v}$\\
+\underline{\textbf{Remarque}}: Il faudra faire attention aux indices qui peuvent être source d'erreur !
+\end{definition}
+\begin{propriété}{Cas particuliers de puissances}
+\begin{multicols}{2}
+\begin{center}
+\textbf{Torseur glisseur:}
+\end{center}
+Si au point $A$, on a un torseur glisseur, alors on aura:\\
+$\Torseur{\mathcal{T}_{ext\to S}}=\Torseur{\overrightarrow{F_{ext\to S}}\\ \vec{0}}_A$ d'où:
+\formuler{$P_{ext\to S/0}=\overrightarrow{F_{ext\to S}}\cdot\overrightarrow{v_{A\in S/0}}\columnbreak$}
+\begin{center}
+\textbf{Torseur couple:}
+\end{center}
+Si l'effort est un torseur couple, alors on aura:\\
+$\Torseur{\mathcal{T}_{ext\to S}}=\Torseur{\vec{0}\\ \overrightarrow{m_{A\in ext\to S}}}_A$ d'où:
+\formuler{$P_{ext\to S/0}=\overrightarrow{m_{A \in ext\to S}}\cdot\overrightarrow{\Omega_{S/0}}$}
+\end{multicols}
+\end{propriété}
+\begin{definition}{Puissance d'une action mécanique intérieure}\vspace*{-10pt}
+\begin{multicols}{2}
+On appelle puissance des actions mécaniques intérieures ou \textbf{puissance des inter-efforts}, la \underline{puissance développée par les actions mutuelles} entre deux systèmes $S_1$ et $S_2$:
+\formulev{$P_{1\leftrightarrow 2}=P_{1\to 2/0}+P_{2\to 1/0}=\Torseur{\mathcal{T}_{1\to2}}\otimes\Torseur{\mathcal{V}_{2/1}}$}
+\columnbreak
+\begin{center}
+\phantom{}\\
+\includegraphics[scale=0.55]{schematics/Puissance_des_inter-efforts.pdf}\\
+\textbf{Représentation des inter-efforts}
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}{Cas d'une liaison parfaite}
+Une liaison parfaite implique qu'il n'y a \textbf{pas de frottement entre deux solides}. De ce fait, aucune action mécanique n'a lieu d'être entre ces deux solides. D'où $\Torseur{\mathcal{T}_{1\to 2}}=\Torseur{\vec{0}\\ \vec{0}}$. Ainsi,
+\formuler{$P_{1\leftrightarrow 2}^{\text{liaison parfaite}}=0$}
+\underline{\textbf{Remarque}}: En cas de frottement, la puissance des inter-efforts sera négative (le système perd en puissance).
+\end{propriété}
+\begin{propriété}{Théorème de l'énergie cinétique (TEC)}\vspace*{-10pt}
+\begin{multicols}{2}
+• \textbf{Cas pour un solide $\bm{S_1}$}:
+\formuler{$\displaystyle \frac{dE_{c,1/0}}{dt}=\sum P_{ext \to 1/0}$}\columnbreak
+• \textbf{Cas pour un ensemble de $\bm{n}$ solides}
+\formuler{$\displaystyle \frac{dE_{c,\Sigma/0}}{dt}=\sum_{i=1}^n P_{ext(\Sigma)\to i/0}+\sum_{\substack{i=1 \\j=i+1 }}^{n}P_{i\leftrightarrow j}$}
+\end{multicols}
+\end{propriété}
+\begin{méthode}{Résoudre un problème d'énergétique}
+Si le système possède \textbf{un seul degré de liberté} et \textbf{on ne s'intéresse pas aux inconnues de liaisons}, on peut utiliser le TEC.\\
+- On fait le \textbf{graphe d'analyse}\\
+- On fait nos \textbf{figures de changement de base}\\
+- On \textbf{isole} notre système (au complet généralement)\\
+\hspace*{10pt}$\hookrightarrow$ On calcul l'\textbf{énergie cinétique de chaque solides} du système\\
+\hspace*{10pt}$\hookrightarrow$ On fait le \textbf{BAME} (Bilan des actions mécaniques extérieures)\\
+\hspace*{20pt}$\circ$ On y calcul les \textbf{puissances associées}\\
+\hspace*{10pt}$\hookrightarrow$ On fait le \textbf{BAMI} (Bilan des actions mécaniques intérieures)\\
+\hspace*{20pt}$\circ$ On y calcul les \textbf{puissances associées} \\
+\hspace*{30pt}$\bullet$ Si liaison parfaite, $P=0$\\
+\hspace*{10pt}$\hookrightarrow$ Ecriture du \textbf{TEC}
+\end{méthode}
+\begin{exemple}{Calcul de puissance par frottement}
+On étudie deux solides $S_1$ et $S_2$ en contact ponctuel en $A$ avec frottement sec de coefficient $f=\tan(\varphi)$ et en mouvement relatif. On associe le repère $\mathcal{R}_1(A,\vec{x},\vec{y},\vec{z})$ au solide $S_1$. Le vecteur vitesse $\overrightarrow{v_{A\in 2/1}}$ est porté par la direction $\vec{x}$ mais peut être positive ou négative.
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Exemple_puissance.pdf} 
+\end{center}
+On se référera aux \hyperref[premièreloidecoulomb]{\textcolor{myred}{\textbf{Propriété \ref*{premièreloidecoulomb}}}} et \hyperref[secondeloidecoulomb]{\textcolor{myred}{\textbf{Propriété \ref*{secondeloidecoulomb}}}} décrivant les lois de Coulomb.\\
+\textbf{- Exprimer $\overrightarrow{T_{1\to 2}}$ en fonction de $||\overrightarrow{N_{1\to 2}}||$ et $f$ en utilisant le vecteur unitaire $\dfrac{\overrightarrow{v_{A\in 2/1}}}{||\overrightarrow{v_{A\in 2/1}}||}$.}\\
+Les solides $S_1$ et $S_2$ (\textbf{1} et \textbf{2}) sont en mouvement relatif, on est en situation de glissement. De ce fait, $||\overrightarrow{T_{1 \to 2}}|| = f \cdot ||\overrightarrow{N_{1 \to 2}}||$.\\
+$\overrightarrow{T_{1\to 2}}$ est opposé au vecteur unitaire. Ainsi, d'après la première loi de Coulomb,
+$$\overrightarrow{T_{1 \to 2}} = - f \cdot ||\overrightarrow{N_{1 \to 2}}|| \frac{\overrightarrow{v_{A \in 2/1}}}{||\overrightarrow{v_{A \in 2/1}}||}$$
+\textbf{- Calculer la puissance des inter-efforts $P_{1\leftrightarrow 2}$ en fonction de $||\overrightarrow{N_{1 \to 2}}||$.}\\
+On a:
+$$\{\mathcal{T}_{1 \to 2}\} = \begin{Bmatrix} \overrightarrow{R_{1 \to 2}} \\ \overrightarrow{0} \end{Bmatrix}_A = \begin{Bmatrix} \overrightarrow{N_{1 \to 2}} + \overrightarrow{T_{1 \to 2}} \\ \overrightarrow{0} \end{Bmatrix}_A \hspace*{20pt}\text{et}\hspace*{20pt} \{\mathcal{V}_{2/1}\} = \begin{Bmatrix} \overrightarrow{\Omega_{2/1}} \\ \overrightarrow{v_{A \in 2/1}} \end{Bmatrix}_A$$
+Or, par définition de la puissance des inter-efforts
+\begin{align*}
+P_{1 \leftrightarrow 2} &= \{\mathcal{T}_{1 \to 2}\} \otimes \{\mathcal{V}_{2/1}\}\\
+&= \left(\left(\overrightarrow{N_{1 \to 2}} + \overrightarrow{T_{1 \to 2}}\right) \cdot \overrightarrow{v_{A \in 2/1}} \right) + \cancel{\left( \overrightarrow{0} \cdot \overrightarrow{\Omega_{2/1}} \right)}
+\end{align*}
+En développant le produit scalaire,
+$$P_{1 \leftrightarrow 2} = \underbrace{\left( \overrightarrow{N_{1 \to 2}} \cdot \overrightarrow{v_{A \in 2/1}} \right)}_{\text{car $\perp$}} + \left( \overrightarrow{T_{1 \to 2}} \cdot \overrightarrow{v_{A \in 2/1}} \right)$$
+Donc d'après la première question,
+\begin{align*}
+P_{1 \leftrightarrow 2} &= \left( - f \cdot ||\overrightarrow{N_{1 \to 2}}|| \frac{\overrightarrow{v_{A \in 2/1}}}{||\overrightarrow{v_{A \in 2/1}}||} \right) \cdot \overrightarrow{v_{A \in 2/1}}\\
+\overset{\vec{v}\cdot \vec{v}=||\vec{v}||^2}{\iff}\phantom{P_{1 \leftrightarrow 2hh}} &= - f \cdot ||\overrightarrow{N_{1 \to 2}}|| \frac{||\overrightarrow{v_{A \in 2/1}}||^2}{||\overrightarrow{v_{A \in 2/1}}||}
+\end{align*}
+D'où,
+$$\boxed{P_{1 \leftrightarrow 2} = - f \cdot ||\overrightarrow{N_{1 \to 2}}|| \cdot ||\overrightarrow{v_{A \in 2/1}}||}$$
+\end{exemple}
+\begin{exemple}{Application du TEC sur un balourd ponctuel}
+Un balourd caractérise une masse non parfaitement répartie sur un volume de révolution entraînant un déséquilibre. L'axe d'inertie ne se confond plus avec l'axe de rotation.\\
+Ici, on considérera que le balourd est une masse ponctuelle excentrée liée au solide \textbf{1} et en rotation par rapport au solide \textbf{0}. Le solide est soumis à la pesanteur de direction $\overrightarrow{x_0}$.\\
+L'objectif est de connaître les actions mécaniques dans les paliers de guidage en $A$ et en $B$.\\
+L'ensemble est composé:\\
+\hspace*{10pt}- du support \textbf{0}, auquel est associé le repère $\mathcal{R}_0(A,\overrightarrow{x_0},\overrightarrow{y_0},\overrightarrow{z_0})$\\
+\hspace*{10pt}- du rotor \textbf{1}, de centre d'inertie $G$, auquel est associé le repère $\mathcal{R}_1(A,\overrightarrow{x_1},\overrightarrow{y_1},\overrightarrow{z_0})$.\\
+On définit l'angle $\alpha=(\overrightarrow{x_0},\overrightarrow{x_1})$ et on note $m$ sa masse localisée uniquement au point $G$. On négligera la masse et l'inertie des autres parties du rotor.\\
+On supposera que le solide \textbf{1} est en liaison avec le bâti \textbf{0} par l'intermédiaire de deux paliers (en $A$ et $B$) modélisables par une liaison pivot d'axe $(A,\overrightarrow{z_0})$
+On donne le paramétrage suivant:
+$$\overrightarrow{AB}=a\cdot \overrightarrow{z_0} \qquad \overrightarrow{BG}=b\cdot \overrightarrow{z_0}+r\cdot \overrightarrow{x_1}$$
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Exemple_TEC.pdf} 
+\end{center}
+\textbf{- Appliquer le TEC pour déterminer le couple $C$ à fournir pour obtenir une accélération angulaire constante}\\
+Isolons le solide \textbf{1}:\\
+D'après le TEC, on a:
+$$\frac{dE_{c,1/0}}{dt}=\underbrace{P_{0\to 1/0}^C+P_{0\to 1/0}^{pes}}_{\text{Externe}}+\underbrace{P_{0\to 1/0}^{rot}+P_{0\to 1/0}^{LA}}_{\text{Interne}}$$
+Or, par définition: \vspace*{-10pt}
+\begin{align*}
+E_{c,1/0}&=\frac{1}{2}\{\mathcal{C}_{1/0}\}\otimes \{\mathcal{V}_{1/0}\}\\
+&=\frac{1}{2}\Torseur{m\cdot \overrightarrow{v_{G \in 1/0}}\\ \overrightarrow{\sigma_{G\in 1/0}}}_G \otimes \Torseur{\overrightarrow{\Omega_{1/0}}=\dot{\alpha}\cdot \overrightarrow{z_0}\\ \vec{0}}_{A\text{ ou }B}
+\end{align*}
+Mettons le torseur cinématique en $G$. Ainsi d'après la formule de Varignon:
+\begin{align*}
+\overrightarrow{v_{G \in 1/0}}&=\cancel{\overrightarrow{v_{A \in 1/0}}}+\overrightarrow{GA}\wedge \dot{\alpha}\cdot \overrightarrow{z_0}\\
+&=r\overrightarrow{x_1}\wedge \dot{\alpha}\cdot\overrightarrow{z_0}\\
+&=r\cdot\dot{\alpha}\cdot \overrightarrow{y_1}
+\end{align*}
+Donc, comme $G$ est le centre d'inertie:\vspace*{-10pt}
+\begin{align*}
+E_{c,1/0}&=\frac{1}{2}\Torseur{m\cdot \overrightarrow{v_{G \in 1/0}}\\ \overline{\overline{I_{1,G}}}\cdot\overrightarrow{\Omega_{1/0}}}_G \otimes \Torseur{\dot{\alpha}\cdot \overrightarrow{z_0}\\ r\cdot\dot{\alpha}\cdot \overrightarrow{y_1}}_G\\
+&=\frac{1}{2}m(r\cdot\dot{\alpha}\cdot\overrightarrow{y_1})r\cdot\dot{\alpha}\cdot \overrightarrow{y_1}+\cancel{\begin{bmatrix}0 & 0 &0  \\0 &0  &0  \\0 & 0 & 0 \\\end{bmatrix}\cdot\begin{bmatrix}0 \\0 \\\dot{\alpha} \end{bmatrix}\cdot\dot{\alpha}\overrightarrow{z_0}}\\
+&=\frac{1}{2}mr^2\dot{\alpha}^2
+\end{align*}
+Ainsi,$$\frac{dE_{c,1/0}}{dt} = \frac{1}{2} m \cdot r^2 \cdot (2 \cdot \dot{\alpha} \cdot \ddot{\alpha})\xeq{\text{composition}} m \cdot r^2 \cdot \dot{\alpha} \cdot \ddot{\alpha}$$
+Cherchons l'expression de nos puissances.\\
+D'après l'énoncé, il n'y a aucun frottement entre \textbf{0} et \textbf{1}, de ce fait les puissances internes sont nulles.\\
+La puissance dû au couple $P_{0 \to 1/0}^C $ fait apparaître un torseur couple, donc:
+$$P_{0 \to 1/0}^C = C \cdot \dot{\alpha}$$
+Il ne nous reste plus qu'à calculer le comoment pour la pesanteur:\\
+Pour rappel, on a:
+$$\{\mathcal{T}_{pes \to 1}\} = \begin{Bmatrix}- m \cdot g \cdot \overrightarrow{x_0} \\ \vec{0} \end{Bmatrix}_G \quad \text{et} \quad \{\mathcal{V}_{1/0}\} = \begin{Bmatrix} \dot{\alpha} \cdot \overrightarrow{z_0} \\ r \cdot \dot{\alpha} \cdot \overrightarrow{y_1} \end{Bmatrix}_G$$
+Donc, d'après la définition de puissance:\vspace*{-10pt}
+\begin{align*}
+P_{0 \to 1/0}^{pes} &= \{\mathcal{T}_{pes \to 1}\}_G \otimes \{\mathcal{V}_{1/0}\}_G\\
+ &= (-m \cdot g \cdot \overrightarrow{x_0}) \cdot (r \cdot \dot{\alpha} \cdot\overrightarrow{y_1})\\
+&= m \cdot g \cdot r \cdot \dot{\alpha} \cdot \sin(\alpha)
+\end{align*}
+Donc d'après le théorème de l'énergie cinétique,
+$$m \cdot r^2 \cdot \dot{\alpha} \cdot \ddot{\alpha} = C \cdot \dot{\alpha} + m \cdot g \cdot r \cdot \dot{\alpha} \cdot \sin(\alpha) + 0 + 0$$
+En supposant que le système tourne à $\dot{\alpha}\neq 0$:
+$$m \cdot r^2 \cdot \ddot{\alpha} = C + m \cdot g \cdot r \cdot \sin(\alpha)$$
+d'où:
+$$\boxed{C = m \cdot r^2 \cdot \ddot{\alpha} - m \cdot g \cdot r \cdot \sin(\alpha)}$$
+\end{exemple}
+\end{document}

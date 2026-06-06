@@ -1,0 +1,616 @@
+\documentclass{article}
+\usepackage{lcpackage}
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont S.I.}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Résistance des matériaux - Léandre Courtoy $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Résistance des matériaux} %Titre à changer
+\end{center}
+Avant tout, pour la bonne compréhension de ce domaine, il convient d'être à l'aise sur la partie statique en mécanique. De plus, ce document ne contient aucune information en rapport avec les torseurs des petits déplacements et des petites déformations.
+\tableofcontents
+\begin{center}\vspace*{50pt}
+\includegraphics[scale=0.67]{Pont.png}
+\end{center}
+\vfill
+\begin{center}
+{\footnotesize Ce document s'inspire des cours d'Amaury Dalla Monta et de Nicolas Milhaud, professeurs agrégés en sciences industrielles de l'ingénieur.}\\
+{\footnotesize Latest version as of \today}
+\end{center}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+\noindent{\Large\textbf{Introduction}}\vspace*{4pt}
+\begin{definition}{Poutre et hypothèses sur le matériau}
+Une poutre est un solide dont \textbf{2 dimensions sont négligeables devant la troisième}.\\
+Le matériau utilisé doit être:\vspace*{-2pt}
+\begin{multicols}{2}
+\hspace*{7pt}- \underline{Continu et homogène:} Les propriétés du matériau sont les mêmes en tout point de la poutre\\\\
+\hspace*{7pt}- \underline{Isotrope:} Il faut que ce soit aussi facile de tirer sur chaque axe du matériau.\\\\
+\hspace*{7pt}- \underline{Élastique linéaire:} Lorsqu'après une faible déformation, le matériau retourne à son état initial.\\
+\textit{(cf: partie élastique d'une courbe de traction \hyperref[def12]{\textcolor{mygreen}{\textbf{Déf. \ref*{def12}}}})}\columnbreak
+\begin{center}
+\includegraphics[scale=0.3]{schematics/Pas_isotrope.pdf} 
+\end{center}
+\end{multicols}\vspace*{-2pt}
+Lorsqu'un objet respecte ces caractéristiques, on dira qu'il respecte le \textbf{modèle poutre}.
+\end{definition}
+\begin{vocabulaire}[label=voc1]{Poutre}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Poutre_vocab.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{propriété}{Hypothèses de Navier-Bernoulli}
+- Les \textbf{déformations sont petites} par rapport à toutes les dimensions  de la poutre\\
+- La \textbf{direction des efforts reste inchangée} après déformation\\
+- Il n'y a \textbf{pas de gauchissement} (les sections transversales restent planes)
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Gauchissement.pdf} 
+\end{center}
+\end{propriété}
+\begin{propriété}{Principe de Barré de Saint-Venant}
+Le principe dit que les résultats calculés ne sont \textbf{valables qu'à une distance suffisamment éloignée du point d'application} des charges
+\end{propriété}
+\begin{definition}{Charge concentrée et charges réparties}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Charges.pdf} 
+\end{center}
+\end{definition}
+\pagebreak
+\begin{propriété}{Cadre d'étude}
+De préférence, on placera notre poutre \textbf{selon l'axe} $\overrightarrow{x}$ avec des efforts normaux selon $\overrightarrow{y}$
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Cadre_d_etude.pdf} 
+\end{center}
+\end{propriété}
+\begin{definition}[label=def3]{Différents torseurs en RDM}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Tableau_torseurs.pdf} 
+\end{center}
+\end{definition}
+\begin{vocabulaire}[label=voc2]{Nom des forces ou moments en RDM}\vspace*{-8pt}
+\begin{multicols}{2}
+$N$ est appelé, \textbf{effort normal}.\\
+$M_{fz}$ est appelé, \textbf{moment fléchissant} selon $\vec z$\columnbreak\\
+$T_y$ est appelé, \textbf{effort tranchant} selon $\vec y$
+$M_t$ est appelé, \textbf{moment de torsion}.
+\end{multicols}
+\end{vocabulaire}
+\begin{definition}{Diagrammes de sollicitations}\vspace*{-10pt}
+\begin{multicols}{2}\vspace*{38pt}
+Ce sont des diagrammes en fonction de $x$ représentant \textbf{l'évolution d'un moment ou bien d'un effort}.\\\\
+Voici un exemple dans le cas d'une flexion \textit{(cf: \hyperref[ex2]{\textcolor{mygray}{\textbf{Exemple \ref*{ex2}}}} pour en voir un 2$^\text{nd}$)}\columnbreak
+\begin{center}
+\includegraphics[scale=0.54]{schematics/Diagramme_de_sollicitation.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Modélisation des liaisons}
+Lorsqu'on modélise un problème de RDM, on peut utiliser ces 3 liaisons typiques (ou celles de la mécanique):
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Liaisons.pdf} 
+\end{center}
+\end{definition}
+\begin{definition}{Torseur de cohésion}
+Soit une poutre $S$. Coupons-la en deux en un point $G$ à l'abscisse $x$. On obtient alors 2 poutres appelées \textbf{tronçons} $S_1$ (à gauche) et $S_2$ (à droite).
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Torseur_de_cohesion.pdf} 
+\end{center}
+Par convention, le torseur de cohésion (ou bien torseur des efforts intérieurs), est le torseur des actions mécaniques exercées par $S_2$ sur $S_1$.\\
+Une autre définition serait que le torseur de cohésion est \textbf{la somme des actions mécaniques à droite du point $G$}.
+\formulev{$\{\mathcal{T}_{coh}\}_{G(x)}=\{\mathcal{T}_{S_2\to S_1}\}_{G(x)}=\begin{Bmatrix}
+N & M_t \\
+T_y & M_{fy} \\
+T_z & M_{fz} \\
+\end{Bmatrix}_{G(x),(\overrightarrow{x},\overrightarrow{y},\overrightarrow{z})}$}
+cf: \hyperref[voc2]{\textcolor{mypurple}{\textbf{Vocabulaire \ref*{voc2}}}} pour le nom des forces / moments
+\end{definition}
+\begin{méthode}[label=methodo1]{Trouver un torseur de cohésion}
+Soit une poutre.\\
+- On écrit notre \textbf{bilan des actions mécaniques} en supposant le problème plan.\\
+- On applique le PFS (si besoin):\\
+\hspace*{10pt}$\hookrightarrow$ \textbf{TRS} + projection sur $\mathcal{B}_0$.\\
+\hspace*{10pt}$\hookrightarrow$ \textbf{TMS} en \textbf{un point}. (généralement celui avec le plus d'inconnues)+ projection sur $\mathcal{B}_0$.\\
+\hspace*{10pt}$\hookrightarrow$ \textbf{Détermination} de nos inconnues de liaison.\\
+- \textbf{Découpage} de notre poutre en plusieurs tronçons. Généralement 2.\\
+- Écriture du torseur de cohésion:\\
+\hspace*{10pt}$\hookrightarrow$ On se place \textbf{sur un tronçon}\\
+\hspace*{10pt}$\hookrightarrow$ On se place \textbf{en un point $G(x)$} sur cette section\\
+\hspace*{10pt}$\hookrightarrow$ On écrit le \textbf{torseur}:\vspace*{-10pt}
+\begin{multicols}{2}
+Si à gauche de ce point, il y a moins de torseurs, on exprime:
+$$\{\mathcal{T}_{coh}\}_{G(x)}=-\{\textrm{Somme des torseurs à gauche en }G(x)\}$$
+Si à droite de ce point, il y a moins de torseurs, on exprime:
+$$\{\mathcal{T}_{coh}\}_{G(x)}=\{\textrm{Somme des torseurs à droite en }G(x)\}$$\columnbreak
+\begin{center}\vspace*{-50pt}
+\includegraphics[scale=1.3]{schematics/Bras_de_levier.pdf}\\
+\textbf{Signe du bras de levier}
+\end{center}
+\end{multicols}\vspace*{-20pt}
+\textcolor{gray}{\textit{NB: On pensera bien à appliquer un Varignon ou un \textbf{bras de levier} pour se placer en $G(x)$}.}\\
+- \textbf{Recommencer} l'étape précédente pour les autres tronçons.
+\end{méthode}
+\begin{méthode}[label=methodo2]{Dessiner un diagramme de sollicitation pour une poutre}\vspace*{-10pt}
+\begin{multicols}{2}
+- On écrit les \textbf{torseurs de cohésion} \hfill cf: \hyperref[methodo1]{\textbf{\textcolor{myorange}{Méthode \ref*{methodo1}}}}\\
+- On \textbf{trace nos axes}, selon nos différentes composantes\\
+- Pour le 1$^{\text{er}}$ torseur sur le premier tronçon:\\
+\hspace*{10pt}$\hookrightarrow$ On s'intéresse premièrement à \textbf{une composante} \\
+\hspace*{10pt}$\hookrightarrow$ On regarde la \textbf{forme de la fonction sur un tronçon} (cste, affine, $x^2$, $1/x$) \columnbreak\\
+\hspace*{10pt}$\hookrightarrow$ On \textbf{vérifie} bien son \textbf{signe}\\
+\hspace*{30pt}Attention $x$ peut être $\geq cste$\\
+\hspace*{10pt}$\hookrightarrow$ On \textbf{trace} sur le diagramme \textbf{la forme} de la fonction\\
+\hspace*{10pt}$\hookrightarrow$ On recommence pour \textbf{une autre composante}\\
+- On \textbf{recommence pour chaque tronçon}/segment.\\
+\end{multicols}
+\end{méthode}
+\noindent Un exemple type sera fait dans la partie flexion.\\
+\phantomsection
+\addcontentsline{toc}{section}{Traction/compression}
+\noindent{\Large\textbf{Traction / Compression}}\vspace*{4pt} \\
+Cette section a pour but de décrire le concept de \hyperref[def3]{traction et de compression}. On se placera dans le modèle poutre.
+\begin{definition}{Contrainte normale uniforme $\sigma$}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.9]{schematics/Contrainte_normale_uniforme.pdf} 
+\end{center}\columnbreak
+La \textbf{contrainte normale} notée $\sigma$, représente la pression que le système exerce sur un autre système.
+\formulev{$\sigma=\dfrac{N}{S}$}
+\underline{Pour rappel}: - $1N/m^2 \equiv 1 Pa$\\
+\hspace*{55pt} - $1N/mm^2 \equiv 1MPa$ (on utilisera le $MPa$)
+\end{multicols}
+\end{definition}
+\begin{multicols}{2}
+\begin{definition}{Contrainte maximale}
+On définit la contrainte maximale comme:
+\formulev{$\sigma_{max}=K\cdot\sigma$}
+avec: $K$ un coefficient de concentration de contraintes (on l'obtient par des abaques)
+\end{definition}
+\begin{definition}{Allongement $\Delta L$}
+Soit une poutre de longueur initiale $L_0$, on définit son allongement comme:
+\formulev{$\Delta L=\varepsilon_x \cdot L_0$}
+\end{definition}\columnbreak
+\begin{propriété}{Loi de Hooke}
+La loi de Hooke représente la proportionnalité du domaine élastique d'un matériau:
+\formuler{$\sigma=E\cdot\varepsilon_x$}
+Voici différents modules de Young $E$:\\
+\hspace*{7pt}$E_{acier}=210 000MPa \hfill E_{aluminium}=70 000MPa$\phantom{gl}
+\end{propriété}
+\begin{definition}[label=def10]{Coefficient de sécurité $s$}
+Le coefficient de sécurité est défini via l'inégalité suivante:
+\formulev{$\sigma_{max}\leq R_{pe}=\dfrac{R_e}{s}$}
+\end{definition}
+\end{multicols}
+\begin{definition}{Allongement unitaire $\varepsilon_x$}
+À partir des différentes relations précédentes, on peut définir l'allongement unitaire $\varepsilon_x$ comme:
+\formulev{$\varepsilon_x=\dfrac{N}{ES}$}
+\end{definition}
+\begin{definition}[label=def12]{Courbe de traction typique d'une éprouvette en acier}
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Courbe_de_traction.pdf} 
+\end{center}
+\end{definition}
+\begin{vocabulaire}{Vocabulaire associé à une courbe de traction}
+- \textbf{Zone élastique}: Partie pour laquelle le matériau peut retrouver sa forme\\ initiale. \textit{(avec des tests répétés, non)}\vspace*{5pt}\\
+- \textbf{Zone plastique}: Partie pour laquelle le matériau ne peut pas retourner à\\ sa forme initiale.\vspace*{5pt}\\
+- \textbf{Zone d'écrouissage}: Partie d'une éprouvette qui garde une section\\ homogène sur sa longueur. Cela ne l'empêche pas de subir un allongement.\vspace*{5pt}\\
+- \textbf{Zone de striction}: Dès l'apparition d'un changement sur sa longueur, on\\ entre dans cette zone: la déformation n'est plus homogène et se produit\\ sur une petite partie de l'éprouvette, il y a apparition d'un étranglement.\vspace*{-125pt}\\
+\hspace*{365pt}\includegraphics[scale=0.68]{schematics/Etranglement_éprouvettes.pdf} 
+\end{vocabulaire}
+\begin{exemple}{Etude d'un câble soumis à de la traction (colle s16-17)}
+\begin{multicols}{2}
+On étudie la structure ci-contre, constituée d'une poutrelle (1) et d'un câble (2). On néglige l'effet de la pesanteur, et on suppose que la poutrelle 1 est parfaitement rigide. On se place dans un problème plan. On note le bâti (0)\\\\
+Le câble est en aluminium et de section circulaire. On donne $F=20kN,  h=9.0m, l=45m$ et $L=65m$.\\\\
+\textbf{Q1: Déterminer les inconnues de liaison aux points $O, A$ et $C$.}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Câble_soumis_à_de_la_traction.pdf} 
+\end{center}
+\end{multicols}
+Faisons le bilan des actions mécaniques:
+$$\{\mathcal{T}_{0\to 1}\}_O = \begin{Bmatrix} X_O \vec{x} + Y_O \vec{y} \\ \vec{0} \end{Bmatrix}_O \; ; \;
+\{\mathcal{T}_{charge\to 1}\}_B = \begin{Bmatrix} -F \vec{y} \\ \vec{0} \end{Bmatrix} \xrightarrow[]{en\ O} \begin{Bmatrix} -F \vec{y} \\ -LF \vec{z} \text{\quad \textit{{\scriptsize (Bras de levier)}}} \end{Bmatrix}_O \; ; \;$$$$
+\{\mathcal{T}_{2\to 1}\}_A = \begin{Bmatrix} X_A \vec{x} + Y_A \vec{y} \\ \vec{0} \end{Bmatrix} \xrightarrow[]{en\ O} \begin{Bmatrix} X_A \vec{x} + Y_A \vec{y} \\ l\vec{x} \wedge (X_A \vec{x} + Y_A \vec{y}) = lY_A \vec{z} \end{Bmatrix}_O$$
+Le PFS en $\vec x$ (projection selon $\vec x$) nous donne: $X_O=-X_A$ \hspace{20pt} et en $\vec y$: $Y_A+Y_O-F=0$.\\
+Le TMS \textbf{en $\bm O$} sur $\vec z$ nous permet d'écrire:
+$$lY_A-FL=0 \implies Y_A=\frac{FL}{l}$$
+Donc: $Y_O=F-Y_A=F-\frac{FL}{l}=F(1-\frac{L}{l})$\\
+Exprimons $X_A$:\hspace*{40pt} (dans $\overrightarrow{AC}$ on a $X_A$)\\
+$\overrightarrow{AC}\xeq{\text{Chasles}}\overrightarrow{AO}+\overrightarrow{OC}=\underbrace{-45}_{X_A}\vec x + \underbrace{9}_{Y_A} \vec y$ \quad Donc: $\frac{Y_A}{X_A}=\frac{-1}{5}$ \quad Donc: $X_A=-5Y_A$\\
+\underline{Synthèse:}
+$$\left\{\begin{matrix}
+X_O&=&-X_A=5Y_A=\frac{5FL}{l}&=&\bm{144 kN} \\
+Y_O&=&F\left(1-\frac{L}l\right)&=&\bm{-8.9 kN} \\
+F_A&=&\sqrt{X_A^2+Y_A^2}=\sqrt{(-144)^2+(28)^2}&=&\bm{147 kN}
+\end{matrix}\right.$$
+\textbf{Q2: Déterminer le rayon du câble permettant de respecter un coefficient de sécurité de $s=3$. On rappelle que la limite élastique de l'aluminium est $R_e=250 MPa$}\vspace*{5pt}\\
+D'après la définition de contrainte normale uniforme: $\sigma=\frac{F_A}{S}=\frac{F_A}{\pi r^2}\leq \frac{R_e}{s}$\\
+Donc: $r\geq \sqrt{\frac{s\cdot F_A}{\pi R_e}}=24mm$\\
+\textbf{Q3: Déterminer l'allongement du câble}\\
+La contrainte étant \underline{homogène tout le long du câble}, on a:
+$$\Delta L'=L'\cdot \varepsilon=\frac{\sigma \cdot L'}{E}=\frac{R_e\cdot L'}{s\cdot E}=\frac{R_e\sqrt{l^2+h^2}}{s \cdot E}=5.5cm$$\vspace*{15pt}\\
+\textit{\textcolor{gray}{\footnotesize {Pour plus de questions: regarder le sujet 0 de la colle correspondante.}}}
+\end{exemple}\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Flexion}
+\noindent{\Large\textbf{Flexion}}\vspace*{4pt} \\
+Cette section a pour but de décrire le domaine de la flexion. On se placera dans le modèle poutre. (cf: \hyperref[def3]{\textcolor{mygreen}{\textbf{Définition \ref*{def3}}}})\\
+\begin{definition}{Moment quadratique}
+Noté $I_{G}$, le moment quadratique caractérise la raideur d'une poutre au fléchissement. Son unité est le $m^4$.
+\formulev{$\displaystyle I_{Gz}(S)=\iint_{(S)}y^2 d^2S=\iint_{(S)} y^2 dy dz$}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Moment_quadratique.pdf} 
+\end{center}
+\end{definition}
+\begin{multicols}{2}
+\begin{propriété}{Moment quadratique d'une surface rectangulaire}\vspace*{-10pt}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Moment_quadratique_rectangle.pdf} 
+\end{center}\columnbreak\vspace*{0pt}
+\formuler{$I_{Gz}(S)=\dfrac{bh^3}{12}$}\vspace*{0pt}
+\end{multicols}
+\end{propriété}
+\columnbreak
+\begin{propriété}{Moment quadratique d'une surface circulaire}\vspace*{-10pt}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Moment_quadratique_cercle.pdf} 
+\end{center}\columnbreak\vspace*{0pt}
+\formuler{$I_{Gz}(S)=\dfrac{\pi r^4}{4}=\dfrac{\pi D^4}{64}$}\vspace*{0pt}
+\end{multicols}
+\end{propriété}
+\end{multicols}
+\begin{démonstration}{Cas d'une section rectangulaire}
+\begin{multicols}{2}\noindent
+\begin{align*}
+I_{Gz}&\overset{\underset{\mathrm{def}}{}}{=}\iint_{(S)}y^2 dydz\\
+&=\int_{-b/2}^{b/2}\left(\int_{-h/2}^{h/2}y^2dy\right)dz\\
+&=\frac{1}{3}\int_{-b/2}^{b/2}\left[y^3\right]_{-h/2}^{h/2}dz
+\end{align*}
+\begin{align*}
+I_{Gz}&=\frac{1}{3}\int_{-b/2}^{b/2}\left(\frac{h^3}{8}+\frac{h^3}{8}\right)dz\\
+&=\frac{h^3}{12}\int_{-b/2}^{b/2}dz
+\end{align*}
+$$\boxed{I_{Gz}=\frac{bh^3}{12}}\hspace*{80pt}$$
+\end{multicols}
+\end{démonstration}
+\begin{definition}{Déformée}
+Lorsque la \hyperref[voc1]{ligne moyenne} se déplace sous l'effet d'un chargement, les points la constituant ne sont plus alignés mais forment la \textbf{déformée} notée $y(x)$.\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Déformée.pdf} 
+\end{center}\vspace*{-10pt}
+\end{definition}
+\begin{definition}{Flèche}\vspace*{-10pt}
+\begin{multicols}{2}
+\noindent\\
+On définit la \textbf{flèche} comme l'écart maximal de la ligne moyenne à la déformée, c'est donc une distance.\\
+Ainsi, pour une poutre de longueur $L$, $y(L)$ est la flèche. \columnbreak
+\begin{center}\vspace*{-30pt}
+\includegraphics[scale=0.7]{schematics/Flèche.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Contrainte normale}
+\begin{multicols}{2}
+On définit la contrainte normale comme:
+\formulev{$\sigma(y)=\dfrac{-M_{fz}\cdot y}{I_{Gz}}$}
+Elle devient maximale pour $y_{max}$:
+\formulev{$\sigma_{max}=\dfrac{|M_{fz}|\cdot y_{max}}{I_{Gz}}$}
+On se référera à la \hyperref[def10]{\textcolor{mygreen}{\textbf{Définition \ref*{def10}}}} pour l'expression du coefficient de sécurité.\columnbreak\\
+En négligeant les contraintes de cisaillement:
+\begin{center}
+\includegraphics[scale=1.5]{schematics/Contrainte_max_flexion.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}{Expression de la déformée sur un tronçon}
+Dans le cas d'une poutre, on peut exprimer la dérivée seconde (par rapport à $x$) de la déformée:
+\formuler{$M_{fz}=E\cdot I_{Gz}\cdot y''(x)$}
+Il s'ensuit qu'il faudra l'intégrer 2 fois afin d'obtenir la véritable expression de la déformée.
+\end{propriété}
+\begin{propriété}[label=prop8]{Conditions aux limites}
+Sur une poutre, selon les liaisons, les conditions aux limites varient:
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Conditions_aux_limites.pdf} 
+\end{center}
+\end{propriété}
+\begin{méthode}[label=methodo3]{Trouver l'expression d'une déformée}
+Soit une poutre avec un premier tronçon entre $[a,b]$\\
+- On trouve l'expression d'un \textbf{torseur de cohésion} sur \underline{le 1$^\text{er}$ tronçon} via la \hyperref[methodo1]{\textbf{\textcolor{myorange}{Méthode \ref*{methodo1}}}}.\\
+- Si demandé, on cherchera à exprimer le \textbf{graphe de sollicitation} avec la \hyperref[methodo2]{\textbf{\textcolor{myorange}{Méthode \ref*{methodo2}}}}.\\
+- On sait que $M_{fz}=E\cdot I_{Gz}\cdot y''(x)$ donc:\\
+\hspace*{10pt}$\hookrightarrow$ On \textbf{isole} $y''$.\\
+\hspace*{10pt}$\hookrightarrow$ On \textbf{intègre} notre expression plusieurs fois. (en pensant à mettre nos \textbf{constantes} d'intégration)\\
+\hspace*{25pt}{\small \textbf{ATTENTION} à ne mettre qu'\textbf{une seule} constante par intégration}\\
+- On pose $\bm{x=a}$ (conditions aux limites) pour obtenir l'expression de la constante.\\
+\hspace*{10pt}$\hookrightarrow$ On commence par \textbf{regarder $\bm{y'(a)}$} pour avoir l'expression de la première constante.\\
+\hspace*{10pt}$\hookrightarrow$ Puis on regarde pour $\bm{y(a)}$\\
+\hspace*{25pt}{\small \textbf{ATTENTION} selon le cas de la poutre, les \textbf{conditions aux limites} sont bien définies (cf: \hyperref[prop8]{\textcolor{myred}{\textbf{Propriété \ref*{prop8}}}})}\\
+$\to$ On obtient l'expression de la déformée sur notre tronçon\\
+- \textbf{Recommencer} sur d'autres tronçons
+\end{méthode}
+\begin{méthode}{Chercher la flèche}
+- On cherche l'\textbf{expression de la déformée} sur le tronçon recherché\\
+- On pose $x= \textrm{Longueur max du tronçon}$ (pour un tronçon de $x=0$ à $x=L$, on prendra $x=L$)\\
+- On obtient alors le \textbf{maximum}, et donc la flèche.
+\end{méthode}
+\noindent Toutes ces méthodes regroupées forment de longs exercices très calculatoires ! \textbf{Attention} pour le concours !!\pagebreak
+\begin{exemple}[label=ex2]{Expression d'une déformée (DM + Colle s16-17)}
+Soit la poutre suivante:\vspace*{-15pt}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Poutre_exemple.pdf} 
+\end{center}
+- \textbf{Exprimons son torseur de cohésion:}\\
+On isole la poutre (1) et on note le bâti (0).\\
+• Bilan des actions mécaniques:
+$$\{\mathcal T _{0\to 1}\}_A=\begin{Bmatrix}Y_A\cdot \vec y \\ \vec 0 \end{Bmatrix}_A ; \{\mathcal T _{0\to 1}\}_B=\begin{Bmatrix}X_B\cdot \vec x + Y_B \cdot \vec y \\ \vec 0 \end{Bmatrix}_B ; \{\mathcal T _{ext\to 1}\}_C=\begin{Bmatrix}-F\cdot \vec y \\ \vec 0 \end{Bmatrix}_C$$
+• Or, en appliquant le principe fondamental de la statique (PFS) et dans un premier temps le théorème de la résultante statique (TRS):\\
+\hspace*{10pt} - projection sur $\vec{x}$ (donc on multiplie par $\vec{x}$): $X_B=0$\\
+\hspace*{10pt} - projection sur $\vec{y}$ (donc on multiplie par $\vec{y}$): $Y_A+Y_B-F=0$ \hfill {\small \textit{(zut on a encore des inconnues de liaison donc TMS)}}\\
+• Appliquons le TMS en A \textit{(pour le fun allez)}\vspace*{-7pt}
+\begin{multicols}{2}
+\noindent \begin{align*}
+\overrightarrow{m_{A,\in 0\to 1}}&=\vec{0}+\overrightarrow{AB}\wedge(X_B\cdot \vec{x}+Y_B\cdot \vec{y})\\
+&= a\cdot \vec{x}\wedge (X_B \cdot  \vec{x} + Y_B\cdot \vec{y})\\
+&= a\cdot Y_B\cdot \vec{z}
+\end{align*}\columnbreak
+\begin{align*}
+\overrightarrow{m_{A,\in ext \to 1}}&= \overrightarrow{AC} \wedge (-F \cdot \vec{y})\\
+&= b \vec{x} \wedge (-F\cdot \vec{y})\\
+&= -bF \cdot \vec{z}
+\end{align*}
+\end{multicols}\vspace*{-15pt}
+D'où en projetant sur $\vec{z}$: $aY_B - bF=0$\\
+Donc: $Y_B=\dfrac{b\cdot F}{a}$\\
+Et donc: $Y_A=F-\dfrac{b\cdot F}{a}=F\left(1-\dfrac{b}{a}\right)$\\
+• Notre poutre contient 2 tronçons:\vspace*{0pt}
+\begin{multicols}{2}
+\noindent $\hookrightarrow \forall x \in [0,a], G(x)\in [AB]$,\\
+Le torseur de cohésion à gauche (moins de torseurs) est:
+$$\{\mathcal{T}^1_{coh}\}_G=-\begin{Bmatrix}
+ F\left(1-\frac{b}{a}\right) \cdot \vec{y}\\
+F(\frac{b}{a}-1)x \cdot \vec{z}
+\end{Bmatrix}=\begin{Bmatrix}
+ F\left(\frac{b}{a}-1\right) \cdot \vec{y}\\
+F(1-\frac{b}{a})x \cdot \vec{z}
+\end{Bmatrix}$$
+\noindent $\hookrightarrow \forall x \in [a,b], G(x)\in [BC]$,\\
+Le torseur de cohésion à droite (moins de torseurs) est:
+$$\{\mathcal{T}^2_{coh}\}_G=\begin{Bmatrix}
+ -F \cdot \vec{y}\\
+-F(b-x) \cdot \vec{z} \textit{{\quad \scriptsize (Bras de levier)}}
+\end{Bmatrix}$$ \columnbreak\vspace*{-70pt}\\
+• Traçons les graphes de sollicitations\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.58]{schematics/Diagramme_de_sollicitation_exemple.pdf} 
+\end{center}
+\end{multicols}\vspace*{10pt}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Poutre_exemple_tronçon1.pdf}\\
+\begin{footnotesize}
+\textbf{Figure 1: Représentation de la poutre dans le cas $x \in [0,a]$}
+\end{footnotesize}
+\end{center}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Poutre_exemple_tronçon2.pdf}\\
+\begin{footnotesize}
+\textbf{Figure 2: Représentation de la poutre dans le cas $x \in [a,b]$}
+\end{footnotesize}
+\end{center}
+\end{multicols}
+- \textbf{Calculons la déformée}:\\
+\underline{Entre $A$ et $B$}:
+\begin{align*}
+E\cdot I_{Gz}y_1''(x)=F\left(1-\frac{b}{a}\right)x &\iff y_1''(x)=\dfrac{F\left(1-\frac{b}{a}\right)x}{E\cdot I_{Gz}}\\
+&\iff y_1'(x)=\dfrac{F\left(1-\frac{b}{a}\right)x^2}{E\cdot I_{Gz}\cdot 2}+C \hspace{44pt} (C\text{ cste})\\
+&\iff y_1(x)=\dfrac{F\left(1-\frac{b}{a}\right)x^3}{6E\cdot I_{Gz}}+Cx+K \hspace{20pt} (K\text{ cste})
+\end{align*}
+• Regardons les conditions aux limites:\\
+Or, $y_1'(0)=0$ et $y_1'(0)=C$ \qquad donc: $C=0$\\
+De même $y_1(0)=0$ et $y_1(0)=K$ \quad donc: $K=0$\\
+Ainsi:
+$$\boxed{y_1(x)=\dfrac{F\left(1-\frac{b}{a}\right)x^3}{6E\cdot I_{Gz}}}$$
+\underline{Entre $B$ et $C$}:
+\begin{align*}
+E\cdot I_{Gz}y_2''(x)=-F(b-x) &\iff y_2''(x)=\dfrac{-F\cdot b+F\cdot x}{E\cdot I_{Gz}}\\
+&\iff y_2'(x)=\dfrac{-F\cdot b\cdot x+\frac{F\cdot x^2}{2}}{E\cdot I_{Gz}}+C' \hspace{44pt} (C'\text{ cste})\\
+&\iff y_2(x)=\dfrac{-\frac{F\cdot b\cdot x^2}{2}+\frac{F\cdot x^3}{6}}{E\cdot I_{Gz}}+C'x+K' \hspace{20pt} (K'\text{ cste})
+\end{align*}
+• Regardons les conditions aux limites:\\
+\textcolor{gray}{{\small \textit{NB: Ici on ne regarde pas $x=0$, mais plutôt $x=a$ !!}}}\\
+\underline{Par continuité de la pente ($y'$) en $B$}\qquad (En gros on pose $x=a$):
+\begin{align*}
+y_2'(a) = y_1'(a) &\iff \dfrac{-F\cdot b\cdot a+\frac{F\cdot a^2}{2}}{E\cdot I_{Gz}}+C' = \dfrac{F\left(1-\frac{b}{a}\right)a^2}{2E\cdot I_{Gz}} \\
+&\iff \dfrac{-F\cdot a\cdot b}{E\cdot I_{Gz}} + \dfrac{F\cdot a^2}{2E\cdot I_{Gz}} + C' = \dfrac{F\cdot a^2}{2E\cdot I_{Gz}} - \dfrac{F\cdot a\cdot b}{2E\cdot I_{Gz}} \\
+&\iff C' = \dfrac{F\cdot a\cdot b}{E\cdot I_{Gz}} - \dfrac{F\cdot a\cdot b}{2E\cdot I_{Gz}} \\
+&\iff C' = \dfrac{F\cdot a\cdot b}{2E\cdot I_{Gz}}
+\end{align*}
+
+\underline{Et par continuité de la flèche $y$ en $B$} \qquad (Toujours pour $x=a$):
+\begin{align*}
+y_2(a) = y_1(a) &\iff \dfrac{-\frac{F\cdot b\cdot a^2}{2}+\frac{F\cdot a^3}{6}}{E\cdot I_{Gz}}+C'a+K' = \dfrac{F\left(1-\frac{b}{a}\right)a^3}{6E\cdot I_{Gz}}\\
+&\iff \dfrac{-F\cdot a^2\cdot b}{2E\cdot I_{Gz}} + \dfrac{F\cdot a^3}{6E\cdot I_{Gz}} + \left(\dfrac{F\cdot a\cdot b}{2E\cdot I_{Gz}}\right)a + K' = \dfrac{F\cdot a^3}{6E\cdot I_{Gz}} - \dfrac{F\cdot a^2\cdot b}{6E\cdot I_{Gz}} \\
+&\iff \dfrac{-F\cdot a^2\cdot b}{2E\cdot I_{Gz}} + \dfrac{F\cdot a^2\cdot b}{2E\cdot I_{Gz}} + K' = -\dfrac{F\cdot a^2\cdot b}{6E\cdot I_{Gz}} \\
+&\iff K' = -\dfrac{F\cdot a^2\cdot b}{6E\cdot I_{Gz}}
+\end{align*}
+
+En remplaçant $C'$ et $K'$ dans l'équation de départ, on obtient:
+$$y_2(x) = \dfrac{-\frac{F\cdot b\cdot x^2}{2}+\frac{F\cdot x^3}{6}}{E\cdot I_{Gz}} + \dfrac{F\cdot a\cdot b}{2E\cdot I_{Gz}}x - \dfrac{F\cdot a^2\cdot b}{6E\cdot I_{Gz}}$$
+
+Et en factorisant par $\dfrac{F}{E\cdot I_{Gz}}$:
+$$\boxed{y_2(x)=\dfrac{F}{E\cdot I_{Gz}}\left(\frac{x^3}{6}-\frac{b\cdot x^2}{2}+\frac{a\cdot b\cdot x}{2}-\frac{a^2\cdot b}{6}\right)}$$
+• Ce qui nous permet de trouver la flèche:\\
+On pose $x=b$:\\
+\begin{align*}
+y_2(b) &= \dfrac{F}{E\cdot I_{Gz}}\left(\frac{b^3}{6}-\frac{b\cdot b^2}{2}+\frac{a\cdot b\cdot b}{2}-\frac{a^2\cdot b}{6}\right) \\
+\iff y_2(b)& = \dfrac{F}{E\cdot I_{Gz}}\left(\frac{b^3}{6}-\frac{b^3}{2}+\frac{a\cdot b^2}{2}-\frac{a^2\cdot b}{6}\right)
+\end{align*}
+On simplifie l'expression pour mettre tout sur le même dénominateur:
+\begin{align*}
+&\phantom{l}y_2(b) = \dfrac{F}{E\cdot I_{Gz}}\left(\frac{b^3}{6}-\frac{3b^3}{6}+\frac{3a\cdot b^2}{6}-\frac{a^2\cdot b}{6}\right) \\
+\iff &\boxed{y_2(b)= \dfrac{F}{6E\cdot I_{Gz}}\left(-2b^3 + 3a\cdot b^2 - a^2\cdot b\right)}
+\end{align*}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{section}{Torsion}
+\noindent{\Large\textbf{Torsion}}\vspace*{4pt} \\
+Cette dernière section de RDM vient décrire notre dernière sollicitation au programme: la torsion. (cf: \hyperref[def3]{\textcolor{mygreen}{\textbf{Définition \ref*{def3}}}})
+\begin{propriété}{Cadre d'étude en torsion}\vspace*{-10pt}
+\begin{multicols}{2}\vspace*{	20pt}
+Durant toute cette partie, chaque section sera \underline{assimilée à une section circulaire}:\columnbreak
+\begin{center}
+\includegraphics[scale=0.35]{schematics/Cadre_d_etude_torsion.pdf} 
+\end{center}
+\end{multicols}
+\end{propriété}
+\begin{definition}{Moment quadratique polaire}\vspace*{-10pt}
+\begin{multicols}{2}\vspace*{20pt}
+On appelle \textbf{moment quadratique polaire} de la section droite $(S)$ par rapport au point $G$ (noté $I_G(S)$) ce qui caractérise la \textbf{raideur de la poutre} à la torsion.
+\formulev{$\displaystyle I_G(S)=\iint_{(S)}r^2d^2S=\iint_{(S)}r^2rdrd\theta$}\columnbreak
+\begin{center}\vspace*{-20pt}
+\includegraphics[scale=0.5]{schematics/Moment_quadratique_polaire.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{multicols}{2}
+\begin{propriété}{Section circulaire pleine}
+\begin{multicols}{2}
+\begin{center}\vspace*{-20pt}
+\hspace*{-10pt}\includegraphics[scale=0.8]{schematics/Moment_quadratique_polaire_cercle_plein.pdf} 
+\end{center}
+\makebox[\linewidth][c]{\hspace{0pt}\tcbox[colframe=myred, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{$I_{Gy\text{ et }z}(S)=\frac{\pi D^4}{64}$}}
+\formuler{$I_{Gx}(S)=\frac{\pi D^4}{32}$}
+\phantom{truc}
+\end{multicols}
+\end{propriété}\columnbreak
+\begin{propriété}{Section circulaire creuse}
+\begin{multicols}{2}
+\begin{center}\vspace*{-20pt}
+\hspace*{-10pt}\includegraphics[scale=0.8]{schematics/Moment_quadratique_polaire_cercle_creux.pdf} 
+\end{center}
+\makebox[\linewidth][c]{\hspace{0pt}\tcbox[colframe=myred, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{$I_{Gy\text{ et }z}(S)=\frac{\pi (D^4-d^4)}{64}$}}
+\formuler{$I_{Gx}(S)=\frac{\pi (D^4-d^4)}{32}$}
+\phantom{truc}
+\end{multicols}
+\end{propriété}
+\end{multicols}
+\begin{definition}{Angle de torsion unitaire $\gamma_x$}
+\begin{multicols}{3}\vspace*{-10pt}
+Lors d'une torsion sur une poutre, la \textbf{génératrice} entre les points $P_1$ et $P_2$ (cf: schéma) vient à se déformer, l'angle formé par cette déformation se note $\gamma_x$ et est appelé angle de torsion unitaire tel que:
+\formulev{$\gamma_x=\dfrac{d\theta_x}{dx}=\dfrac{\theta_{x,tot}}{L}$}\columnbreak\
+\\ \phantom{truc}\columnbreak
+\begin{center}
+\hspace*{-180pt}\includegraphics[scale=0.53]{schematics/Angle_de_torsion_unitaire.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{module de Coulomb $G$}
+Le \textbf{module de Coulomb} $G$, ou module de cisaillement ou \textbf{module d'élasticité transversal} ou euuuh M. Grün caractérise la \textbf{rigidité d'un matériau} lorsqu'il est soumis à de la torsion.
+$$G=\dfrac{E}{2(1+\nu)}$$
+Avec: $\nu$, le \href{https://www.youtube.com/watch?v=hBnzrBhnzVo}{\underline{coefficient de Poisson}} tel que \emph{en traction}: $\nu=\dfrac{\varepsilon_{Transversale}}{\varepsilon_{Longitudinale}}$
+\end{definition}
+\begin{definition}{Contrainte en torsion $\tau$}
+En torsion, la contrainte est notée $\tau$ (car elle est uniquement tangentielle) et au point $P$ on peut écrire:
+$$\tau=G\cdot\varepsilon_P=G\cdot r \cdot \gamma_x$$
+Avec: $r$, le rayon du cercle étudié
+\end{definition}
+\begin{propriété}{Moment en torsion $M_t$}\vspace*{-10pt}
+\begin{multicols}{2}
+Pour une poutre droite, on définit le moment en torsion comme:
+\formuler{$M_t=G\cdot I_G \cdot \gamma_x$}
+Pour un moteur, le moment en torsion est: $M_t=\dfrac{P}{\omega}$\columnbreak
+\begin{center}
+\includegraphics[scale=0.4]{schematics/Contrainte_en_torsion.pdf} 
+\end{center}
+\end{multicols}
+\end{propriété}
+\begin{multicols}{2}
+\begin{propriété}{Relation entre effort, contrainte et déformation}
+À l'aide des anciennes relations on peut définir cette expression:
+\formuler{$\tau=\dfrac{M_t}{I_G}\cdot r$}
+Avec: $r$, le rayon du cercle étudié.
+\end{propriété}
+\begin{definition}{Coeff. de sécu. en torsion}
+Parallèlement aux autres sollicitations, $s$ se définit par:
+\formulev{$\tau_{max}\leq R_{pg}=\dfrac{R_g}{s}$}
+Avec: $R_g$, la résistance au glissement du matériau ou\\
+\hspace*{25pt} limite au cisaillement\\
+\hspace*{25pt} $R_{pg}$, la résistance pratique au glissement du\\ \hspace*{28pt}matériau
+\end{definition}
+\end{multicols}
+\begin{exemple}{Arbre à étage}
+On considère un arbre en acier, de module de Coulomb $G=8.0 \cdot 10^4 N\cdot mm^{-2}$, de longueur $L=1.2 m$, étagé en trois morceaux égaux de diamètres respectifs $D_1=40mm, D_2=30mm$ et $D_3=20mm$. Cet arbre est sollicité en torsion pure par un couple $M_t$.
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Exemple_torsion_1.pdf} 
+\end{center}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Schéma_3D_Torsion_Arbre_Exemple.pdf}\\
+\textbf{Représentation 3D du problème}
+\end{center}\columnbreak
+- \textbf{Quelle doit être l'intensité du couple de torsion $M_t$ pour que les sections en $A$ et $D$ tournent de $1^\circ$ l'une par rapport à l'autre?}\\\\
+On a: $$\theta_{tot}=\theta_1+\theta_2+\theta_3=1^\circ$$
+Or, d'après la formule des moments en torsion: $$M_t=G\cdot I_G \cdot \gamma_x \iff M_t=G\cdot I_G \cdot \frac{\theta}{L} \iff \theta= \dfrac{M_t \cdot L}{G \cdot I_G}$$
+Donc:
+$$\theta_{tot} = \frac{M_t \cdot L_1}{G \cdot I_{G1}} + \frac{M_t \cdot L_2}{G \cdot I_{G2}} + \frac{M_t \cdot L_3}{G \cdot I_{G3}}$$
+\end{multicols}
+Factorisons et développons notre moment quadratique: $I_G=\frac{\pi D^4}{32}$:
+$$\theta_{tot} = \frac{M_t \cdot L_1}{G \cdot \frac{\pi D_1^4}{32}} + \frac{M_t \cdot L_2}{G \cdot \frac{\pi D_2^4}{32}} + \frac{M_t \cdot L_3}{G \cdot \frac{\pi D^4}{32}}\iff \theta_{tot}=\dfrac{32 M_t}{\pi G}\left(\frac{L_1}{D_1^4}+\frac{L_2}{D_2^4}+\frac{L_3}{D_3^4}\right)$$
+D'où:
+$$\bm{M_t}=\dfrac{\theta_{tot}\cdot \pi G}{32\left(\frac{L_1}{D_1^4}+\frac{L_2}{D_2^4}+\frac{L_3}{D_3^4}\right)}=\bm{43,5N.m}$$
+\end{exemple}
+\begin{exemple}{Arbre de moteur}
+Un moteur électrique d'une puissance de $10 kW$ tourne à la vitesse de $N=750 tr\cdot min^{-1}$. Son arbre est en acier XC32, c'est-à-dire un alliage de fer avec $0.32 \%$ de carbone ayant subi un traitement thermique, de limite élastique $R_e=320 N\cdot mm^{-2}$ et de limite au cisaillement $R_g=0.58\cdot R_e$.\\
+- \textbf{Déterminons le diamètre de l'arbre nécessaire pour assurer un coefficient de sécurité $s=2.3$}\\
+On sait que $\tau_{max}=\dfrac{R_g}{s}=\dfrac{0.58\cdot R_e}{s}$\\
+Or,
+\begin{align*}
+\tau_{max}=\dfrac{0.58\cdot R_e}{s} &\iff \dfrac{M_t}{I_G}r=\dfrac{0.58\cdot R_e}{s}\\
+&\iff \dfrac{D}{2}=\dfrac{0.58\cdot R_e}{s\cdot P}\cdot v \cdot \dfrac{\pi D^4}{32}\\
+&\iff \dfrac{D^4\cdot \pi}{32}=\dfrac{D}{2}\dfrac{s\cdot P \cdot 60}{0.58\cdot R_e \cdot N \cdot 2\pi}\\
+&\iff D^3 = \dfrac{16 \cdot s \cdot P \cdot 60}{2\pi^2 \cdot 0.58 \cdot R_e \cdot N}\\
+&\iff D = \sqrt[3]{\dfrac{480 \cdot s \cdot P}{\pi^2 \cdot 0.58 \cdot R_e \cdot N}}
+\end{align*}
+Donc pour assurer un coefficient de sécurité $s=2.3$, il faut un diamètre $\bm D = \sqrt[3]{\dfrac{480 \cdot 2.3 \cdot 10000 \cdot 10^3}{\pi^2 \cdot 0.58 \cdot 320 \cdot 750}}=\bm{20.03 mm}$
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{section}{Choix d'un matériau}
+\noindent{\Large\textbf{Choix d'un matériau}}\vspace*{4pt} \\
+Chez un industriel, il est obligé d'étudier quelle matériau il doit utiliser selon les contraintes qu'on lui a donné. C'est pourquoi, on va chercher à maximiser ou minimiser certaines valeurs pour en choisir le meilleur matériau .
+\begin{vocabulaire}{Noms associés à différentes valeurs}
+- \textbf{Contraintes}: Ce sont des valeurs qu'on ne peut pas toucher. Elles ne devront pas apparaître dans l'indice de performance.\\
+- \textbf{Objectifs}: Ce sont les valeurs du cahier des charges qu'on va venir maximiser ou minimiser.\\
+- \textbf{Paramètres libres}: Ce sont des valeurs modifiables. Elles apparaitront dans l'indice de performance.
+\end{vocabulaire}
+\begin{definition}{Indice de performance}
+L'\textbf{indice de performance}, est la valeur à \underline{maximiser} qui ne fait intervenir que les variables libres du matériau. On la note $G$.
+\end{definition}
+\begin{méthode}{Méthode d'Ashby}
+- On trouve les \textbf{contraintes} et les \textbf{paramètres libres}\\
+- On regarde ce qu'on doit \textbf{minimiser} ($\diamondsuit$) ce qui \textbf{revient à maximiser} $\frac{1}{\diamondsuit}$\\
+- En posant $\frac{1}{\diamondsuit}$, on fait une \textbf{suite d'égalité} jusqu'à arriver à une uniquement des variables contraintes ou des variables libres du matériau.\\
+- On obtient $G=\dfrac{A}{B}$ qui \textbf{contient} que les \textbf{variables libres} du matériau.\\
+- On le passe en $\log{G}=\log(A)-\log(B)$.\\
+- Selon nos graphes logarithmiques, on vient \textbf{écrire la droite} d'équation $y=ax+b$.\\
+- La \textbf{tracer} et choisir la \textbf{droite} avec le $b$ le \textbf{plus élevé} passant pour un matériau.\\
+- On a obtenu le \textbf{meilleur matériau} selon les contraintes et nos paramètres libres.\\
+- En réalité, on utilisera des matériaux plus bas \textit{(exemple: béton très fin = friable)} et classera nos matériaux sous forme de \textbf{tableau}.
+\end{méthode}
+\begin{exemple}[label=ex5]{Graphe logarithmique typique (Ne pas hésiter à zoomer)}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Graphe_log.pdf} 
+\end{center}
+\end{exemple}
+\begin{exemple}{Mise en équation pour trouver un indice de performance et sa droite}
+Imaginons un tirant, qui fait partie d'un satellite de télécommunication et dont on souhaite par conséquent minimiser la masse. Il subit un effort de traction $F$, et le cahier des charges impose sa longueur $L$ et son allongement maximale $\Delta L$.\\
+On a donc $F,L,\Delta L$ qui sont nos contraintes, $m$ doit être minimale, donc on maximise $\frac{1}{m}$. Nos paramètres libres sont la section $S$, le matériau et le procédé.
+$$\frac{1}{m}=\frac{1}{\rho V}=\dfrac{1}{\rho L S}=\dfrac{\sigma}{\rho L F}=\frac{E\varepsilon}{\rho L F}=\underbrace{\frac{E}{\rho}}_{\text{Variables libres: } G}\cdot\underbrace{\frac{\Delta L}{L^2 F}}_{\text{Contraintes}}$$
+Ainsi: $\log(G)=\log(E)-\log(\rho) \iff \log(E) = 1\cdot \log(\rho) + \log(G)$\\
+On tracera cette droite pour trouver (cf:\hyperref[ex5]{\textcolor{mygray}{\textbf{Exemple \ref*{ex5}}}}) les céramiques techniques ou les alliages d'aluminium.
+\end{exemple}
+\end{document}
