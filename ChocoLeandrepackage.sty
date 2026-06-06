@@ -1,0 +1,343 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ChocoLeandrepackage}[2026/06/06 Preambule personnalisé]
+
+% --- Packages ---
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{amsmath, amssymb, bm}
+\RequirePackage{mathrsfs}
+\RequirePackage[a4paper,includehead,margin=0.7cm]{geometry}
+\RequirePackage{tcolorbox}
+\RequirePackage{xcolor}
+\RequirePackage{pgfplots}
+\RequirePackage{thmbox} 
+\RequirePackage{mdframed}
+\RequirePackage{amsfonts}
+\RequirePackage{svg}
+\RequirePackage{babel}
+\RequirePackage{graphicx}
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows, patterns}
+\RequirePackage{array}
+\RequirePackage{multicol}
+\RequirePackage{tikz} 
+\RequirePackage{lastpage}
+\RequirePackage{lipsum}
+\RequirePackage{fancyhdr}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{extarrows}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{inconsolata}
+\RequirePackage{cancel}
+\RequirePackage{stmaryrd}
+\RequirePackage{keystroke}
+\RequirePackage{tabularx}
+\RequirePackage{animate}
+
+\tcbuselibrary{skins, listings, breakable}
+
+% --- Couleurs ---
+\definecolor{mygreen}{RGB}{128,192,128}
+\definecolor{myhardred}{RGB}{148,49,49}
+\definecolor{mypurple}{RGB}{170,128,192}
+\definecolor{myred}{RGB}{192,128,128}
+\definecolor{myorange}{RGB}{230,173,85}
+\definecolor{mypink}{RGB}{192,128,168}
+\definecolor{mygray}{RGB}{76,76,76}
+\definecolor{verygray}{RGB}{26,26,26}
+\definecolor{violet}{RGB}{96,23,161}
+\definecolor{myBackground}{HTML}{1E1E1E}
+\definecolor{myText}{HTML}{D4D4D4}
+\definecolor{myKeyword}{HTML}{569CD6}
+\definecolor{myType}{HTML}{D19A66}
+\definecolor{myComment}{HTML}{6A9955}
+\definecolor{myString}{HTML}{CE9178}
+\definecolor{myNumber}{HTML}{B5CEA8}
+\definecolor{myFunction}{HTML}{DCDCAA}
+\definecolor{myLineNumbers}{HTML}{858585}
+\definecolor{boxheader}{HTML}{7A7A7A} 
+\definecolor{boxbg}{HTML}{404040}     
+\definecolor{sqlKeyword}{HTML}{569CD6} 
+\definecolor{sqlString}{HTML}{D69D85}  
+\definecolor{sqlComment}{HTML}{608B4E}
+\definecolor{mybrown}{RGB}{133,105,83}
+\definecolor{couleurhexa}{RGB}{160,15,176}
+\definecolor{pyFrameColor}{HTML}{7A7A7A} 
+\definecolor{myBlue}{RGB}{50,148,255}
+\definecolor{mygrayblue}{RGB}{120,120,140}
+
+% --- Commandes générales ---
+\newcommand{\dashfill}{\leaders\hbox to 0.2em{\hss-\hss}\hfill}
+
+% --- Boîtes tcolorbox ---
+\newtcolorbox[auto counter]{definition}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mygreen!80}, 
+  colback=mygreen!0, 
+  coltitle=mygreen!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip}, 
+  top=2pt, bottom=2pt, 
+  title=\textsc{Définition \thetcbcounter~: #2 \textcolor{mygreen!30}{\dashfill}},
+  #1
+}
+
+\newtcolorbox[auto counter]{theoreme}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{myhardred!80}, 
+  colback=myhardred!0, 
+  coltitle=myhardred!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip}, 
+  top=2pt, bottom=2pt, 
+  title=\textsc{Théorème \thetcbcounter~: #2 \textcolor{myhardred!30}{\dashfill}},
+  #1 
+}
+
+\newtcolorbox[auto counter]{vocabulaire}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mypurple!80}, 
+  colback=mypurple!0,
+  coltitle=mypurple!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Vocabulaire \thetcbcounter~: #2 \textcolor{mypurple!30}{\dashfill}},
+  #1
+}
+
+\newtcolorbox[auto counter]{propriété}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{myred!80}, 
+  colback=myred!0, 
+  coltitle=myred!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Propriété \thetcbcounter~: #2 \textcolor{myred!30}{\dashfill}},
+  #1
+}
+
+\tcbset{
+  styleMethode/.style={
+    enhanced, breakable,
+    frame hidden,
+    borderline west={3pt}{0pt}{myorange!80}, 
+    colback=myorange!0, 
+    coltitle=myorange!30!black,
+    fonttitle=\bfseries\large\sffamily, 
+    sharp corners,
+    attach title to upper,
+    after title={\par\smallskip},
+    top=2pt, bottom=2pt, 
+  }
+}
+
+\newtcolorbox[auto counter]{méthode}[2][]{%
+  styleMethode,
+  title=\textsc{Méthode \thetcbcounter~: #2 \textcolor{myorange!30}{\dashfill}},
+  #1
+}
+
+\newtcolorbox{méthode*}[2][]{%
+  styleMethode,
+  title=\textsc{Méthode : #2 \textcolor{myorange!30}{\dashfill}},
+  #1
+}
+
+\newtcolorbox[auto counter]{démonstration}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mypink!80}, 
+  colback=mypink!0, 
+  coltitle=mypink!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Démonstration \thetcbcounter~: #2 \textcolor{mypink!30}{\dashfill}},
+  #1
+}
+
+\newtcolorbox[auto counter]{exemple}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mygray!80}, 
+  colback=mygray!0, 
+  coltitle=mygray!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Exemple \thetcbcounter~: #2 \textcolor{mygray!30}{\dashfill}},
+  #1
+}
+
+\newtcolorbox[auto counter]{protocole}[2][]{%
+  enhanced, breakable,
+  frame hidden,
+  borderline west={3pt}{0pt}{mybrown!80}, 
+  colback=mybrown!0, 
+  coltitle=mybrown!30!black,
+  fonttitle=\bfseries\large\sffamily, 
+  sharp corners,
+  attach title to upper,
+  after title={\par\smallskip},
+  top=2pt, bottom=2pt, 
+  title=\textsc{Protocole \thetcbcounter~: #2 \textcolor{mybrown!30}{\dashfill}},
+  #1
+}
+
+% --- Formules & Macros ---
+\newcommand{\pg}[1]{%
+    \tikz[baseline=(X.base)] 
+    \node[fill=verygray, rounded corners=3pt, text=myText, font=\ttfamily, inner xsep=2pt, inner ysep=2pt] (X) {#1};%
+}
+\newcommand{\formuler}[1]{%
+  \begin{center}
+    \tcbox[colframe=myred, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
+  \end{center}
+}
+\newcommand{\formulev}[1]{%
+  \begin{center}
+    \tcbox[colframe=mygreen, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
+  \end{center}
+}
+\newcommand{\formuleo}[1]{%
+  \begin{center}
+    \tcbox[colframe=myorange, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
+  \end{center}
+}
+
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\im}[0]{\mathrm{Im}}
+\newcommand{\PP}[0]{\mathbb{P}}
+\newcommand{\Cov}[0]{\mathrm{Cov}}
+
+% --- Structures de démonstration (xBox, Donc, Mq, But) ---
+\newcommand{\xBox}[3]{
+\begin{thmbox}[M]{\textbf{#1}}
+\noindent #2\vspace*{5pt}
+\end{thmbox}\vspace*{-10pt}
+\hspace*{40pt} #3
+}
+
+\newcommand{\XBox}[3]{
+    \begin{thmbox}[S]{\textbf{#1}}
+        #2%
+    \end{thmbox}\vspace*{-15pt}
+    \hspace*{40pt} #3
+}
+
+\newcommand{\Mq}[1]{\textbf{\textcolor{myBlue}{#1}}}
+\newcommand{\Question}[2]{\noindent\textbf{- #1\hfill \emph{\textcolor{mygrayblue}{(#2)}}}}
+\newcommand{\Donc}[0]{\underline{Donc:}\quad}
+\newcommand{\But}[1]{\textbf{\textcolor{mypurple}{#1}}}
+\newcommand{\Torseur}[1]{\begin{Bmatrix}#1\end{Bmatrix}}
+
+% --- Codes (Python & SQL) ---
+\newtcblisting{prog}[2][]{%
+  width=\ifdim\linewidth<\textwidth \linewidth \else 0.85\linewidth \fi,
+  center, 
+  colframe=pyFrameColor, 
+  colback=boxbg, 
+  coltitle=white, 
+  boxrule=1.5pt, 
+  rounded corners,
+  arc=5pt,
+  fonttitle=\sffamily\bfseries,
+  halign title=center,
+  title={#2},
+  left=5pt,
+  top=2pt,
+  bottom=2pt,
+  #1,
+  listing only,
+  listing options={%
+    language=Python,
+    inputencoding=utf8,
+    literate=
+  {é}{{\'e}}1 {É}{{\'E}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {â}{{\^a}}1 {ç}{{\c{c}}}1 {ù}{{\`u}}1 {î}{{\^i}}1 {ô}{{\^o}}1,
+    extendedchars=true,
+    basicstyle=\color{myText}\fontsize{9pt}{11pt}\ttfamily,
+    keywordstyle=\color{myKeyword}\bfseries,
+    morekeywords={import, from, as, def, return, class, pass, if, elif, else, while, for, in, and, or, not, True, False, None},
+    emph={numpy, np, matplotlib, plt, scipy, array, linspace, plot, show, figure, polyfit, print, append, len, range},
+    emphstyle=\color{myFunction}\bfseries,
+    commentstyle=\color{myComment}\itshape, 
+    stringstyle=\color{myString},
+    identifierstyle=\color{myText},
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny\color{myLineNumbers},
+    numbersep=12pt,
+    xleftmargin=15pt,
+  },
+}
+
+\newtcblisting{progSQL}[2][]{%
+  width=\ifdim\linewidth<\textwidth \linewidth \else 0.85\linewidth \fi,
+  center, 
+  colframe=boxheader, 
+  colback=boxbg, 
+  coltitle=white, 
+  boxrule=1.5pt, 
+  rounded corners,
+  arc=5pt,
+  fonttitle=\sffamily\bfseries,
+  halign title=center,
+  title={#2},
+  left=5pt,
+  top=2pt,
+  bottom=2pt,
+  #1,
+  listing only,
+  listing options={%
+    language=SQL,
+    inputencoding=utf8,
+    literate=
+  {é}{{\'e}}1 {É}{{\'E}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {â}{{\^a}}1 {ç}{{\c{c}}}1 {ù}{{\`u}}1 {î}{{\^i}}1 {ô}{{\^o}}1,
+    extendedchars=true,
+    basicstyle=\color{white}\fontsize{9pt}{11pt}\ttfamily,
+    keywordstyle=\color{sqlKeyword}\bfseries,
+    morekeywords={REFERENCES, TEXT, INT, PRIMARY, KEY, AUTO_INCREMENT, VARCHAR, BOOLEAN},
+    emph={COUNT, SUM, AVG, MAX, MIN},
+    emphstyle=\color{sqlKeyword}\bfseries,
+    commentstyle=\color{sqlComment}\itshape, 
+    stringstyle=\color{sqlString},
+    identifierstyle=\color{white},
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny\color{myLineNumbers},
+    numbersep=12pt,
+    xleftmargin=15pt,
+  },
+}
+
+% --- Finitions ---
+\newcommand{\hatchedsquare}{%
+  \tikz[baseline=-0.25ex] {
+    \draw[pattern=north east lines, pattern color=mygreen,thin] 
+          (0,0) rectangle (1.2ex, 1.2ex);
+  }
+}
+\newcommand{\xeq}[1]{\xlongequal{#1}}
+\renewcommand{\contentsname}{Sommaire}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
