@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{ChocoLeandrepackage}[2026/06/06 Preambule personnalisé]
+\ProvidesPackage{lcpackage}[2026/06/07 Preambule personnalisé]
 
 % --- Packages ---
 \RequirePackage[utf8]{inputenc}
@@ -220,6 +220,12 @@
 \newcommand{\formuleo}[1]{%
   \begin{center}
     \tcbox[colframe=myorange, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
+  \end{center}
+}
+
+\newcommand{\formulen}[1]{%
+  \begin{center}
+    \tcbox[colframe=mygray, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
   \end{center}
 }
 
