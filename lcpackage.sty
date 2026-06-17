@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{lcpackage}[2026/06/07 Preambule personnalisé]
 
-% --- Packages ---
+% Packages
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{amsmath, amssymb, bm}
 \RequirePackage{mathrsfs}
@@ -33,10 +33,12 @@
 \RequirePackage{keystroke}
 \RequirePackage{tabularx}
 \RequirePackage{animate}
+\RequirePackage{microtype}
+\RequirePackage{paracol}
 
 \tcbuselibrary{skins, listings, breakable}
 
-% --- Couleurs ---
+%Couleurs possible
 \definecolor{mygreen}{RGB}{128,192,128}
 \definecolor{myhardred}{RGB}{148,49,49}
 \definecolor{mypurple}{RGB}{170,128,192}
@@ -66,11 +68,11 @@
 \definecolor{myBlue}{RGB}{50,148,255}
 \definecolor{mygrayblue}{RGB}{120,120,140}
 
-% --- Commandes générales ---
+%Commandes
 \newcommand{\dashfill}{\leaders\hbox to 0.2em{\hss-\hss}\hfill}
 
 % --- Boîtes tcolorbox ---
-\newtcolorbox[auto counter]{definition}[2][]{%
+\newtcolorbox[auto counter]{definition}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{mygreen!80}, 
@@ -85,7 +87,7 @@
   #1
 }
 
-\newtcolorbox[auto counter]{theoreme}[2][]{%
+\newtcolorbox[auto counter]{theoreme}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{myhardred!80}, 
@@ -100,7 +102,7 @@
   #1 
 }
 
-\newtcolorbox[auto counter]{vocabulaire}[2][]{%
+\newtcolorbox[auto counter]{vocabulaire}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{mypurple!80}, 
@@ -115,7 +117,7 @@
   #1
 }
 
-\newtcolorbox[auto counter]{propriété}[2][]{%
+\newtcolorbox[auto counter]{propriété}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{myred!80}, 
@@ -145,19 +147,19 @@
   }
 }
 
-\newtcolorbox[auto counter]{méthode}[2][]{%
+\newtcolorbox[auto counter]{méthode}[2][]{
   styleMethode,
   title=\textsc{Méthode \thetcbcounter~: #2 \textcolor{myorange!30}{\dashfill}},
   #1
 }
 
-\newtcolorbox{méthode*}[2][]{%
+\newtcolorbox{méthode*}[2][]{
   styleMethode,
   title=\textsc{Méthode : #2 \textcolor{myorange!30}{\dashfill}},
   #1
 }
 
-\newtcolorbox[auto counter]{démonstration}[2][]{%
+\newtcolorbox[auto counter]{démonstration}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{mypink!80}, 
@@ -172,7 +174,7 @@
   #1
 }
 
-\newtcolorbox[auto counter]{exemple}[2][]{%
+\newtcolorbox[auto counter]{exemple}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{mygray!80}, 
@@ -187,7 +189,7 @@
   #1
 }
 
-\newtcolorbox[auto counter]{protocole}[2][]{%
+\newtcolorbox[auto counter]{protocole}[2][]{
   enhanced, breakable,
   frame hidden,
   borderline west={3pt}{0pt}{mybrown!80}, 
@@ -202,34 +204,34 @@
   #1
 }
 
-% --- Formules & Macros ---
+% Formules & Macros
 \newcommand{\pg}[1]{%
     \tikz[baseline=(X.base)] 
     \node[fill=verygray, rounded corners=3pt, text=myText, font=\ttfamily, inner xsep=2pt, inner ysep=2pt] (X) {#1};%
 }
-\newcommand{\formuler}[1]{%
+\newcommand{\formuler}[1]{
   \begin{center}
     \tcbox[colframe=myred, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
   \end{center}
 }
-\newcommand{\formulev}[1]{%
+\newcommand{\formulev}[1]{
   \begin{center}
     \tcbox[colframe=mygreen, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
   \end{center}
 }
-\newcommand{\formuleo}[1]{%
+\newcommand{\formuleo}[1]{
   \begin{center}
     \tcbox[colframe=myorange, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
   \end{center}
 }
 
-\newcommand{\formulen}[1]{%
+\newcommand{\formulen}[1]{
   \begin{center}
     \tcbox[colframe=mygray, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
   \end{center}
 }
 
-\newcommand{\formulep}[1]{%
+\newcommand{\formulep}[1]{
   \begin{center}
     \tcbox[colframe=mypink, colback=white, boxrule=2pt, arc=6pt, boxsep=4pt]{#1}
   \end{center}
@@ -243,7 +245,7 @@
 \newcommand{\PP}[0]{\mathbb{P}}
 \newcommand{\Cov}[0]{\mathrm{Cov}}
 
-% --- Structures de démonstration (xBox, Donc, Mq, But) ---
+% Bloc monde démo maths
 \newcommand{\xBox}[3]{
 \begin{thmbox}[M]{\textbf{#1}}
 \noindent #2\vspace*{5pt}
@@ -264,7 +266,7 @@
 \newcommand{\But}[1]{\textbf{\textcolor{mypurple}{#1}}}
 \newcommand{\Torseur}[1]{\begin{Bmatrix}#1\end{Bmatrix}}
 
-% --- Codes (Python & SQL) ---
+% Blocs Python et SQL
 \newtcblisting{prog}[2][]{%
   width=\ifdim\linewidth<\textwidth \linewidth \else 0.85\linewidth \fi,
   center, 
@@ -282,7 +284,7 @@
   bottom=2pt,
   #1,
   listing only,
-  listing options={%
+  listing options={
     language=Python,
     inputencoding=utf8,
     literate=
@@ -304,7 +306,7 @@
   },
 }
 
-\newtcblisting{progSQL}[2][]{%
+\newtcblisting{progSQL}[2][]{
   width=\ifdim\linewidth<\textwidth \linewidth \else 0.85\linewidth \fi,
   center, 
   colframe=boxheader, 
@@ -343,8 +345,7 @@
   },
 }
 
-% --- Finitions ---
-\newcommand{\hatchedsquare}{%
+\newcommand{\hatchedsquare}{
   \tikz[baseline=-0.25ex] {
     \draw[pattern=north east lines, pattern color=mygreen,thin] 
           (0,0) rectangle (1.2ex, 1.2ex);
@@ -353,3 +354,65 @@
 \newcommand{\xeq}[1]{\xlongequal{#1}}
 \renewcommand{\contentsname}{Sommaire}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\newenvironment{demomethode}[2]{
+  \def\currentmethodotext{#2}
+  \par\vspace{\baselineskip}\noindent
+  \setlength{\columnsep}{-5pt}
+  \columnratio{0.72} 
+  \begin{paracol}{2}
+    % Démo
+    \begin{démonstration}[nobeforeafter]{#1}
+      \setlength{\columnsep}{15pt} 
+}{%
+    \end{démonstration}
+    \switchcolumn 
+    %Méthodo
+    \begin{tcolorbox}[
+        enhanced,
+        breakable,
+        colframe=myorange!70,
+        colback=white,
+        boxrule=1.2pt,
+        arc=4pt,
+        boxsep=7pt,
+        left=0pt, right=0pt, top=2pt, bottom=0pt,
+        nobeforeafter
+      ]
+      {\centering\textcolor{myorange}{\bfseries\sffamily Méthodo}\par}\vspace{4pt}
+      {\small\rmfamily\textls[40]{\currentmethodotext}}
+    \end{tcolorbox}
+  \end{paracol}
+  \par\vspace{\baselineskip}
+}
+
+\newenvironment{exemplemethode}[2]{
+  \def\currentmethodotext{#2}
+  \par\vspace{\baselineskip}\noindent
+  \setlength{\columnsep}{-5pt}
+  \columnratio{0.72} 
+  \begin{paracol}{2}
+    %Exemple
+    \begin{exemple}[nobeforeafter]{#1}
+      \setlength{\columnsep}{15pt}
+}{
+    \end{exemple}
+    \switchcolumn
+    %Méthodo
+    \begin{tcolorbox}[
+        enhanced,
+        breakable,
+        colframe=myorange!70,
+        colback=white,
+        boxrule=1.2pt,
+        arc=4pt,
+        boxsep=7pt,
+        left=0pt, right=0pt, top=2pt, bottom=0pt,
+        nobeforeafter
+      ]
+      {\centering\textcolor{myorange}{\bfseries\sffamily Méthodo}\par}\vspace{4pt}
+      {\small\rmfamily\textls[40]{\currentmethodotext}}
+    \end{tcolorbox}
+  \end{paracol}
+  \par\vspace{\baselineskip}
+}
