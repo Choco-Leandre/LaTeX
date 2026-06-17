@@ -1,0 +1,1328 @@
+\documentclass{article} % Définit le type de document, ici un article
+\usepackage{lcpackage}
+
+
+\begin{document}
+% Configuration des en-têtes
+\pagestyle{fancy} 
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont S.I.}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Électronique - Léandre Courtoy $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Électronique}
+\end{center}
+Ce document comporte actuellement "tout le programme de TSI1". Le programme de TSI2 (redresseur, onduleur) sera introduit plus tard.\\
+Je me suis permis quelques libertés dans l'électronique de puissance pour bien comprendre le concept, le contenu de celle-ci n'est pas forcément au programme.\\\\
+\textbf{IMPORTANT}: Les questions de concours en élec sont souvent reliées à l'asservissement et demandent de grosses connaissances calculatoires. De même, le cours peut être sollicité bien que celui-ci ne soit pas souvent demandé (d'où la présence faible de méthodes •$\_$•).
+\tableofcontents
+\begin{center}\vspace*{30pt}
+\includegraphics[scale=0.18]{Electronique.png} 
+\end{center}
+\vfill
+\begin{center}
+{\footnotesize Ce document s'inspire des cours d'Amaury Dalla Monta et de Nicolas Milhaud, professeurs agrégés en sciences industrielles de l'ingénieur.}\\
+{\footnotesize Une IA a été utilisée pour corriger l'orthographe et réaliser certains graphes Python}\\
+{\footnotesize Latest version as of \today}
+\end{center}
+\pagebreak
+
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+\noindent{\Large\textbf{Introduction}}\vspace*{4pt}
+\phantomsection
+\addcontentsline{toc}{subsection}{Principes de base}
+\begin{definition}{Électronique}
+On appelle \textbf{électronique} la branche de la physique qui étudie et qui utilise les variations de grandeurs électriques (\textit{champ électromagnétique, courant, tension, ...}) afin de capter, transmettre et exploiter de l'information.
+\end{definition}
+Lors de l'étude de l'électronique, on sera amené à étudier ces domaines de la \underline{chaîne d'information et d'énergie}.
+\begin{center}
+\includegraphics[scale=0.42]{schematics/Chaine_d'info_d'énergie.pdf}
+\end{center}
+
+
+
+\begin{definition}{Grandeurs principales}
+\begin{center}
+\includegraphics[scale=0.63]{schematics/Grandeurs_principales.pdf} 
+\end{center}
+NB: Une résistance est aussi appelée \textbf{impédance} (complexe). \textit{(cf: plus tard)}
+\end{definition}
+
+
+
+\begin{definition}{Conventions}
+Dans le cas d'un dipôle:
+\begin{multicols}{2}
+\begin{center}
+\textbf{Convention récepteur}\\
+\includegraphics[scale=0.6]{schematics/Convention_Récepteur.pdf}\\
+La tension \textbf{s'oppose} au courant
+\end{center}
+\columnbreak
+\begin{center}
+\textbf{Convention génératrice}\\
+\includegraphics[scale=0.6]{schematics/Convention_Générateur.pdf}\\
+La tension \textbf{suit} le courant
+\end{center}
+\end{multicols}
+\end{definition}\pagebreak
+
+
+
+\begin{propriété}{Lois de l'électricité}
+\noindent \begin{multicols}{2}
+• \textbf{\underline{Loi d'Ohm}:}
+\formuler{$U=R\cdot I$}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Loi_d'Ohm.pdf} 
+\end{center}
+\end{multicols}
+• \textbf{\underline{Loi de Kirchhoff}:}
+\noindent \begin{multicols}{2}
+$\circ$ \textbf{Loi des nœuds:}\\
+La somme des courants qui entrent dans un carrefour est égale à la somme de ceux qui en ressortent.\\
+Ici,\vspace*{-15pt} \formuler{$i_0=i_1+i_2$}
+$\circ$ \textbf{Loi des mailles}\\
+Pour une boucle fermée dans un circuit, la somme des tensions vaut $0$.\\
+Sur le schéma ci-contre \formuler{$E+U_2-U_1=0 \Leftrightarrow E=U_1-U_2$}
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Loi_des_noeuds.pdf}\vspace*{15pt}\\
+\includegraphics[scale=0.42]{schematics/Loi_des_mailles.pdf}  
+\end{center}
+\end{multicols} 
+\end{propriété}
+\begin{vocabulaire}{Sources}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Sources.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{propriété}{Associations possibles ou non de sources}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Association_sources.pdf} 
+\end{center}
+\end{propriété}\pagebreak
+\begin{multicols}{2}
+\begin{definition}{Composants actifs}
+Ce sont des composants permettant d'\textbf{augmenter la puissance} d'un signal.\\
+\hspace{7pt} • \textbf{Exemple}: transistor
+\end{definition}
+\begin{definition}{Composants passifs}
+Ce sont des composants ne permettant \textbf{pas} d'augmenter la puissance d'un signal.\\
+\hspace{7pt} • \textbf{Exemple}: résistance, bobine, condensateur ...
+\end{definition}
+\end{multicols}
+\begin{definition}{Bobine}
+\begin{multicols}{2}
+Appelée aussi \textbf{inductance}, c'est un composant passif utilisé dans les moteurs pour ses \textbf{propriétés magnétiques} lorsqu'un \textbf{courant} la traverse.\\
+De plus, une bobine \textbf{lisse le courant} et son unité est le henry ($H$)\\
+Sa caractéristique est la suivante:
+\formulev{$u_L(t)=L\cdot \dfrac{di(t)}{dt}$}
+En complexe:\\
+\includegraphics[scale=0.62]{schematics/Bobine_impédance.pdf} \\
+\columnbreak
+\hspace*{-36pt}\includegraphics[scale=0.44]{schematics/Réponse_Bobine.pdf} 
+\end{multicols}
+\noindent NB: Une bobine est vue comme un composant qui \textbf{dérive}:\\
+$j\omega = p$ et $p$ est un dérivateur (cf: \textbf{\pg{Asservissement.pdf}})
+\end{definition}
+\begin{definition}{Condensateur}
+\begin{multicols}{2}
+C'est un composant passif capable de \textbf{stocker des charges électriques} (énergie élec).\\
+Il \textbf{lisse la tension} et son unité est le farad ($F$).\\
+Sa caractéristique est la suivante:
+\formulev{$i(t)=C\cdot\dfrac{du_c(t)}{dt}$}
+En complexe:\\
+\includegraphics[scale=0.62]{schematics/Condensateur_impédance.pdf} \\
+\columnbreak
+\hspace*{-36pt}\includegraphics[scale=0.44]{schematics/Charge_Condensateur.pdf} 
+\end{multicols}
+\noindent NB: Un condensateur est vu comme un composant qui \textbf{intègre}:\\
+$\dfrac{1}{j\omega} = \dfrac{1}{p}$ et $\dfrac{1}{p}$ est un intégrateur. (cf: \textbf{\pg{Asservissement.pdf}})
+\end{definition}
+\begin{propriété}{Comportement en basse et haute fréquence d'une bobine et d'un condensateur}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/BF_VHF_Passif.pdf} 
+\end{center}
+\end{propriété}\pagebreak
+\begin{propriété}{Association de résistances/impédances}
+\vspace*{-10pt}\begin{multicols}{2}
+\textbf{En série}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Association_résistance_série.pdf} 
+\end{center}
+\formuler{$\displaystyle\underline{Z_{eq}}=\sum_{i=1}^n \underline{Z_i}$}
+\columnbreak
+\textbf{En parallèle}
+\begin{center}
+\includegraphics[scale=0.65]{schematics/Association_résistance_parallèle.pdf} 
+\end{center}
+\formuler{$\displaystyle\frac{1}{\underline{Z_{eq}}}=\sum_{i=1}^n \frac{1}{\underline{Z_i}}$}
+\end{multicols}
+\end{propriété}
+\noindent \begin{multicols}{2}
+\begin{propriété}{Pont diviseur de tension}
+Pour des impédances en \textbf{série} telles que:
+\begin{center}
+\includegraphics[scale=0.58]{schematics/Pont_diviseur_de_tension.pdf} 
+\end{center}
+Alors, \formuler{$\underline{U_k}=\underline{U_{tot}}\cdot\dfrac{\underline{Z_k}}{\underline{Z_1}+...+\underline{Z_k}}$}
+\end{propriété}\columnbreak
+\begin{propriété}{Pont diviseur de courant}
+Pour des impédances en \textbf{parallèle} (admittances):
+\begin{center}
+\includegraphics[scale=0.42]{schematics/Pont_diviseur_de_courant.pdf} 
+\end{center}
+Alors,
+\formuler{$\underline{I}_k = \underline{I}_{tot} \cdot \frac{\frac{1}{\underline{Z}_k}}{\frac{1}{\underline{Z}_1}+...+\frac{1}{\underline{Z}_k}}$}
+\end{propriété}
+\end{multicols}
+\begin{exemple}{Caractéristique de fonctionnement d'un dipôle}
+\vspace*{-10pt}\begin{multicols}{2}
+On s'intéresse au dipôle suivant.
+\begin{center}
+\includegraphics[scale=0.48]{schematics/Exemple_1-b.pdf}
+\end{center}
+\noindent On donne $E=20V$ et $R_1=R_2=100\Omega$.\\\\
+\textbf{Q1. Faire apparaître sur le schéma les caractéristiques $U_1$, $U_2$, $I_1$ et $I_2$ associées aux résistances $R_1$ et $R_2$:}\\
+\textit{cf: ce qu'il y a d'inscrit en violet}\\\\
+\textbf{Q2. Exprimer $I_1$ en fonction de $I$ et $I_2$:}\\
+D'après la loi des nœuds:
+$$I=I_1+I_2\text{ \hspace*{5pt}d'où\hspace*{5pt} } I_1=I-I_2$$
+\textbf{Q3. Exprimer la loi des mailles:}
+$$E-U_1+U_2=0$$
+\textbf{Q4. Établir une relation entre $E,R_1,R_2,I_1$ et $I_2$}\\
+D'après la loi d'Ohm appliquée sur $U_1$ et $U_2$:
+$$E-R_1\cdot I_1 + R_2\cdot I_2=0$$\columnbreak\\
+\textbf{Q5. Déterminer l'expression de $I_2$ en fonction de $I$ et des données du problème.}
+\begin{align*}
+E-R_1(I-I_2)+R_2\cdot I_2\overset{\text{Q2}}{=}& 0\\
+E-R_1\cdot I+I_2(R_1+R_2)=& 0\\
+I_2=& \frac{R_1\cdot I-E}{R_1+R_2}
+\end{align*}
+\textbf{Q6. En déduire l'expression de $U_2$ en fonction de $I$ et des données du problème et tracer la courbe caractéristique $U$-$I$.}\\
+D'après la loi d'Ohm: $U_2=R_2\cdot I_2=\frac{R_2(R_1\cdot I-E)}{R_1+R_2}$\\
+On peut alors tracer via les données:
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Exemple_1-c.pdf} 
+\end{center}
+\end{multicols}
+\end{exemple}
+\pagebreak
+\phantomsection
+\addcontentsline{toc}{subsection}{Signaux}
+\begin{vocabulaire}{Formes de signaux}
+\textbf{Continu} (DC) : il sera toujours de même signe \\
+\textbf{Alternatif} (AC): il est alternativement positif et négatif. Ils sont souvent périodiques (carré, triangulaire, sinusoïdal)
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Continu_Alternatif.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{protocole}{Mesurer des valeurs efficaces/moyennes}
+• Pour mesurer une valeur \textbf{efficace}, on utilise un \textbf{multimètre en AC}.\\
+• Pour mesurer une valeur \textbf{moyenne}, on utilise un \textbf{multimètre en DC}.
+\end{protocole}
+\begin{vocabulaire}{Caractéristique d'un signal sinusoïdal et différents régimes}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Régimes.pdf} 
+\end{center}
+NB: Le réseau EDF possède en efficace du $230V$ et du $50Hz$
+\end{vocabulaire}
+\begin{propriété}{Fréquence, pulsation, déphasage}
+\begin{multicols}{3}
+\formuler{$f=\dfrac{1}{T}$}\formuler{$\omega=2\pi\cdot f$}\formuler{$\varphi=\dfrac{2\pi}{T}\cdot \Delta t = \omega \cdot \Delta t$}
+\end{multicols}
+NB: Le déphasage se fait \textbf{toujours} de l'intensité vers la tension !! (Très utile dans les diagrammes de Fresnel)
+\end{propriété}
+\begin{vocabulaire}{Noms associés au déphasage}
+Si: $\varphi>0$ alors le signal est en \textbf{avance de phase} sinon en \textbf{retard}.\\
+De plus, selon des valeurs de déphasage, le signal sera dit:
+\begin{multicols}{3}
+\begin{center}
+$\varphi=0$\vspace*{7pt}\\ \textbf{En phase}
+\end{center}\columnbreak
+\begin{center}
+$\varphi=\pm \pi/2$\vspace*{7pt}\\ \textbf{En quadrature de phase}
+\end{center}\columnbreak
+\begin{center}
+$\varphi=\pm \pi$\vspace*{7pt}\\ \textbf{En opposition de phase}
+\end{center}
+\end{multicols}
+\end{vocabulaire}
+\pagebreak
+\begin{multicols}{2}
+\begin{definition}{Valeur moyenne}
+On définit la \textbf{valeur moyenne} comme:
+\formulev{$\langle U(t)\rangle = \dfrac{1}{T} \displaystyle\int_0^T U(t) \, dt$}
+\end{definition}
+\begin{definition}[label=val_eff]{Valeur efficace}
+On définit la \textbf{valeur efficace} comme:
+\formulev{$\displaystyle X=\sqrt{\dfrac{1}{T}\int_0^T x^2(t)dt}=\sqrt{\dfrac{1}{2\pi}\int_0^{2\pi} x^2(\theta )d\theta}$}
+\end{definition}
+\end{multicols}
+\begin{propriété}{Valeur moyenne d'une dérivée}
+\begin{multicols}{2}
+La \textbf{valeur moyenne d'une dérivée} est toujours \textbf{nulle} en \underline{régime permanent} \formuler{$\langle \dfrac{dU}{dt}\rangle = 0$}
+\end{multicols}
+\end{propriété}
+\begin{definition}{Régime sinusoïdal}
+On note le \textbf{régime sinusoïdal} $s(t)$ comme:
+\formulev{$s(t)=S\sqrt{2}\cdot \cos(\omega t + \varphi)$}
+où $S$ est la valeur efficace: $S=\frac{S_{max}}{\sqrt{2}}$
+\end{definition}
+\phantomsection
+\addcontentsline{toc}{subsection}{Puissances}
+\begin{definition}{Puissance instantanée}
+La \textbf{puissance instantanée} vaut:
+\formulev{$p(t)=u(t)\cdot i(t)$}
+\end{definition}
+\begin{definition}{Puissance active $P$}
+On exprime la \textbf{puissance active} ou \textbf{puissance moyenne} comme:
+\formulev{$P=\langle p(t) \rangle =VI\cos(\varphi)$}
+\end{definition}
+\begin{definition}{Puissance Réactive $Q$}
+On exprime la \textbf{puissance réactive} comme:
+\formulev{$Q=VI\sin(\varphi)$}
+$Q$ s'exprime en $VAr$ pour volt-ampère-réactif.
+\end{definition}
+\begin{definition}{Puissance Apparente $S$}
+On exprime la \textbf{puissance apparente} comme:
+\formulev{$S=\sqrt{P^2 +Q^2}$}
+\end{definition}\pagebreak
+\phantomsection
+\addcontentsline{toc}{subsection}{Triphasé}
+\begin{definition}{Système triphasé}
+On appelle \textbf{système triphasé}, tout système constitué de trois tensions sinusoïdales de même amplitude, même fréquence, déphasées de $2\pi/3$ les unes par rapport aux autres.
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Système_triphasé.pdf} 
+\end{center}
+\end{definition}
+\begin{propriété}{Intérêt du triphasé}
+A puissance transportée égale, le triphasé permet de réduire les pertes en ligne (section de câbles plus faible) par rapport au monophasé. De plus, la puissance instantanée totale d'un système triphasé est continue contrairement au monophasé où elle pulse à $2\omega$.
+\end{propriété}
+\begin{vocabulaire}{Tensions simples et composées}\vspace*{-10pt}
+\begin{multicols}{2}
+- \textbf{Tension simple} $V$: Tension entre une phase et le neutre.\\\\
+- \textbf{Tension composée} $U$: Tension entre deux phases.\\
+On notera que:
+\formuler{$U=\sqrt{3}\cdot V$}
+Et que le réseau EDF envoie du $230V/50Hz$ ce qui revient à $U=400V$.\columnbreak
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Tensions_simples_et_composées.pdf} 
+\end{center}
+\end{multicols}
+\end{vocabulaire}
+\begin{definition}{Montage étoile (Y) et triangle ($\Delta$)}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Montage_étoile_et_triangle.pdf} 
+\end{center}
+- En \textbf{triangle} ($\Delta$), les charges dissipent 3 fois plus de puissance qu'en étoile (Y).\\
+- De plus en \textbf{triangle} ($\Delta$),
+\formulev{$I_{ligne}=\sqrt{3}\cdot I_{enroulement}$}
+\end{definition}\pagebreak
+\begin{méthode}{Choisir le couplage selon la plaque signalétique}
+Avant tout, on se référera au \hyperref[plaque_signalétique]{\textcolor{mypurple}{\textbf{Vocabulaire \ref*{plaque_signalétique}}}}\\
+- Lire les deux couples (tension et courant) sur la plaque. $\Delta U$/Y$U$.\\
+- La tension la plus faible correspond à la tension nominale d'un enroulement\\
+- La comparer au réseau disponible pour choisir le couplage adapté.
+\end{méthode}
+\begin{exemple}{Calcul de puissance triphasée}
+Un récepteur triphasé est alimenté sous $U=400V$. Le courant en ligne est $I=10A$ et $\cos(\varphi)=0.8$.\\
+\textbf{- Calculer la puissance active absorbée.}\\
+$$P=VI\cos(\varphi)=\sqrt{3}UI\cos(\varphi)$$
+A.N.: $P=\sqrt{3}\cdot 400 \cdot 10 \cdot 0.8 \approx 5543 W$\\
+\textbf{- Le récepteur est couplé en étoile. Donner la tension et le courant dans chaque enroulement.}\\
+On a $V=\dfrac{U}{\sqrt{3}}=\dfrac{400}{\sqrt{3}}\approx 231V$.\\
+Et, en couplage étoile,
+$$I_{enr}=I$$
+Donc: $I_{enr}=10A$
+\end{exemple}
+\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{L'électronique de puissance}
+\noindent{\Large\textbf{L'électronique de puissance}}
+\phantomsection
+\addcontentsline{toc}{subsection}{Introduction}
+\begin{definition}{Modulateur statique}
+Un \textbf{modulateur statique} est un dispositif traitant l'énergie électrique c'est-à-dire en \textbf{modulant} (rendre compatibles les fonctions de tension, courant et fréquence) et en \textbf{convertissant} (passer d'un type d'énergie à une autre).
+\end{definition}
+\begin{vocabulaire}{Différentes formes de modulateurs statiques et réversibilité}
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Conversion_modulateur.pdf} 
+\end{center}
+Un modulateur est dit \textbf{réversible} lorsqu'il renvoie de l'énergie de la charge vers la source en permutant les rôles d'entrées et de sorties.
+\end{vocabulaire}
+\begin{vocabulaire}{Commutation}
+Un régime est dit \textbf{statique} lorsqu'il a 2 types de commutation avec:\\
+\hspace*{10pt}- un \underline{état passant}: interrupteur fermé (faible résistance $R=0$)\\
+\hspace*{10pt}- un \underline{état bloqué}: interrupteur ouvert (résistance très grande $R\to \infty$)\\
+Dans l'autre cas, le régime est \textbf{dynamique}, c'est-à-dire lorsqu'entre ces deux états, il y a une \textbf{commutation} de mise en conduction ou de blocage.\\
+Ces commutations peuvent être \textbf{commandées}: interrupteur à 3 bornes dont une \underline{borne de commande}.\\
+Sinon, elles sont \textbf{spontanées}: la commutation n'a lieu que par le biais des éléments externes au composant.
+\end{vocabulaire}
+\begin{multicols}{2}
+\begin{definition}{Interrupteur idéal}
+Un interrupteur permet de varier l'état d'un système, c'est-à-dire en ouvrant ou fermant le courant de celui-ci.
+Voici les symboles associés:\\%
+\includegraphics[scale=0.4]{schematics/Interrupteur_symboles.pdf} 
+\end{definition}
+\begin{propriété}{Propriétés d'un interrupteur idéal}
+Voici les propriétés d'un interrupteur idéal:\\
+- Supporte des \textbf{tensions directes} (échelon?)\vspace{3pt}\\
+- Conduit des courants de valeurs arbitraires avec des \textbf{chutes de tension nulles à l'état fermé}\vspace{3pt}\\
+- \textbf{Commute} de façon \textbf{instantanée} (dès contact $\Rightarrow$ état ouvert)\vspace{3pt}\\
+- Nécessite une \textbf{puissance nulle} pour la commande
+\end{propriété}
+\end{multicols}
+\begin{definition}{Diode}\vspace*{-10pt}
+\begin{multicols}{2}
+Une \textbf{diode} est un semi-conducteur permettant de créer un \textbf{interrupteur parfait}, \textbf{unidirectionnel} en courant et en tension.\\
+Elle sera dite \textbf{passante}, lorsque:\\
+Son \underline{potentiel à l'anode est} \underline{supérieur à celui de la cathode}.\\
+\columnbreak
+\hspace{15pt}\includegraphics[scale=0.45]{schematics/Diode_symbole_image.pdf} 
+\end{multicols}
+\end{definition}
+\begin{méthode}{Étudier un état de diode par l'absurde}
+- On suppose un état (passant ou bloqué)\\
+- On déduit la valeur de $i(t)$ ou $u_D(t)$ selon l'état.\\
+- Vérifier la coherence avec les contraintes de la diode.\\
+\hspace*{7pt}$\hookrightarrow$ Si contradiction: l'état opposé est le bon\\
+- Conclure et exprimer $u_D(t)$ et $i(t)$.
+\end{méthode}\pagebreak
+\begin{démonstration}{Démontrer l'état d'une diode et tracé de graphe sur un exemple}
+On s'intéresse à un circuit électronique appelé "redresseur simple alternance".
+Dedans, une source de tension $e(t)$ délivre une tension alternative sinusoïdale.\\
+\textbf{Traçons les schémas réduits correspondants aux deux états de la diode.}\vspace*{-15pt}
+\begin{center}
+\includegraphics[scale=0.47]{schematics/Etats_diodes.pdf} 
+\end{center}
+\textbf{Déterminons $u_R(t)$ et $i(t)$ en fonction de $e(t)$ et traçons les signaux associés}\\
+On va raisonner par l'absurde.\vspace*{-10pt}
+\begin{multicols}{2}
+\underline{Pour $e(t)>0$}:\\
+Supposons que la diode est \underline{bloquée}.\\
+Ainsi, $i(t)=0$ donc: $u_R(t)=R\cdot i(t)=0$\\
+\underline{et:} $e(t)=u_D(t)+u_R(t)=u_D(t)$\\
+Or, $i(t)<0$ mais $u_D(t)<0$\\
+Mais, $e(t)=u_D(t)>0$ ce qui est absurde...\\
+Donc la \underline{diode est passante} !\\
+Donc: $u_r(t)=e(t)$ et $i(t)=\frac{u_r(t)}{R}=e(t)v$
+\columnbreak\\
+\underline{Pour $e(t)<0$}:\\
+Supposons que la diode est \underline{passante}.\\
+donc: $u_D(t)=0$ et donc: $u_R(t)=e(t)$ et $i(t)=\frac{e(t)}{R}<0$\\
+Mais, $i(t)>0$ \textit{(diode passante)} ce qui est absurde...\\
+donc: la diode est bloquée\\
+donc: $i(t)=0$\\
+donc: $u_R(t)=R\cdot i(t)=0$
+\end{multicols}
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Démo2.pdf} 
+\end{center}
+\end{démonstration}
+\begin{definition}{Thyristor}
+\begin{multicols}{2}
+Un \textbf{thyristor} est un semi-conducteur à 3 jonctions.
+En gros, un thyristor est une diode qui peut être "déverrouillée" par la gâchette, mais une fois ouverte, elle reste ouverte tant que le courant reste suffisant.\\\\
+Problème majeur: sa \underline{faible fréquence de commutation}.
+\columnbreak
+\hspace*{40pt}\includegraphics[scale=0.45]{schematics/Thyristor_symbole.pdf}
+\end{multicols}
+\end{definition}
+\begin{definition}{Transistor de puissance}
+\begin{multicols}{2}
+\vspace*{2pt}Un \textbf{transistor} est un interrupteur commandé à deux segments de même signe.
+Il contrôle le passage du courant entre deux bornes grâce à un signal de commande appliqué sur une troisième borne.
+Les 3 présentés ci-contre sont \textbf{unidirectionnels en tension et en courant}.\\
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.3]{schematics/Transistor_symboles.pdf}
+\end{center}
+\end{multicols}\vspace*{-15pt} 
+\end{definition}
+\begin{vocabulaire}{Termes associés aux transistors}
+Pour le \textbf{BJT} \textit{(transistor bipolaire)}: on parle de \textbf{base} (partie gauche), \textbf{collecteur} (en bas) et \textbf{émetteur} (en haut).\vspace*{5pt}\\
+Pour le \textbf{MOSFET}: on parle de \textbf{grille} (partie gauche), \textbf{drain} (en bas) et \textbf{source} (en haut).\vspace*{5pt}\\
+Pour le \textbf{IGBT} \textit{(combinaison des deux)}: on parle de \textbf{grille} (partie gauche), \textbf{collecteur} (en bas), et \textbf{émetteur} (en haut).
+\end{vocabulaire}
+\begin{propriété}{Plan U-I des différents composants}\vspace*{-10pt}
+\begin{center}
+\hspace*{-10pt}\includegraphics[scale=0.7]{schematics/PlanUI.pdf} 
+\end{center}
+\end{propriété}
+\begin{propriété}{Principe de l'électronique de puissance}
+Le principe de l'électronique de puissance est de \textbf{commuter à hautes fréquences} un circuit électronique.
+Dans celui-ci il y a généralement une \textbf{bobine}.
+\end{propriété}
+\phantomsection
+\addcontentsline{toc}{subsection}{Hacheur}
+\begin{definition}{Hacheur}
+\begin{multicols}{2}
+\vspace*{-10pt}
+Un \textbf{hacheur} est un convertisseur statique permettant de transformer une tension \textbf{continue} en une autre tension \textbf{continue de valeur réglable}.
+\columnbreak
+\hspace*{80pt}\includegraphics[scale=0.4]{schematics/Hacheur_symbole.pdf} 
+\end{multicols}
+\end{definition}
+\begin{definition}{Hacheur série}
+On appelle \textbf{hacheur série}, un montage électrique permettant d'obtenir une tension moyenne de sortie inférieure à la tension d'entrée en commutant un interrupteur commandé à haute frequency.
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Hacheur_série.pdf} 
+\end{center}
+Il is souvent utilisé pour créer des variations de vitesse simples.
+\end{definition}
+\begin{multicols}{2}
+\begin{definition}{Rapport cyclique}
+Le \textbf{rapport cyclique} noté $\alpha$ est la \textbf{fraction de temps} pendant laquelle un signal périodique est actif \textit{(haut)} au cours d'une \textbf{période}.
+\end{definition}
+\begin{definition}{Réversibilité}
+Un dipôle est dit \textbf{réversible en tension et/ou en courant} s’il peut fonctionner de la \textbf{même manière} lorsque la tension et/ou le courant \textbf{change de signe}.
+\end{definition}
+\end{multicols}
+\begin{propriété}{Valeur moyenne d'un hacheur série}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Valeur_moyenne_Hacheur_série.pdf} 
+\end{center}
+\end{propriété}
+\begin{propriété}{Couple thermique équivalent}
+Le \textbf{couple thermique équivalent} est le couple constant qui produirait le même échauffement dans la machine que le couple réel variable.\vspace{-10pt}
+\formuler{$C_{th}=\sqrt{\dfrac{1}{T}\displaystyle\int_0^T C_{em}(t)^2dt \,}$}
+On peut faire un lien avec la valeur efficace de la \hyperref[val_eff]{\textcolor{mygreen}{\textbf{Définition \ref*{val_eff}}}}
+\end{propriété}
+\begin{méthode}{Analyser un hacheur par phase}
+- Décomposer le fonctionnement en phases selon l'état de l'interrupteur commandé\\
+- Pour chaque phase faire un schéma réduit:\vspace*{-15pt}
+\begin{center}
+\includegraphics[scale=0.15]{schematics/Passant_bloqué_diff.pdf} 
+\end{center}
+- Déterminer la tension de la charge $v(t)$ par une loi des mailles dans chaque phase\\
+- Tracer le chronogramme de $v(t)$ sur une période\\
+- Calculer $\langle v(t) \rangle$ par intégration ou par calcul d'aire
+\end{méthode}
+\begin{exemple}[label=exemple_hacheur_série]{Résolution d'un exercice sur les hacheurs et la MCC}
+On étudie le \textbf{hacheur série} ci-dessous alimentant une \textbf{machine à courant continu}.
+Le montage est alimenté par une \textbf{source de tension continue} $U$.
+Le circuit est composé d'un \textbf{interrupteur commandé} $T$ et d'un \textbf{interrupteur non commandé} $D$ (diode).
+La $MCC$ est modélisée par sa \textbf{résistance} $R$ et sa force \textbf{électromotrice} \textit{(fém)} $E$.\\
+L'interrupteur $T$ est \textbf{fermé} \textit{(passant)} sur une \underline{durée $\alpha T$} et \textbf{ouvert} \textit{(bloqué)} sur le \underline{reste de la période $T$}.
+On suppose que le courant \underline{$i_M$ dans le moteur ne s'annule jamais} \textit{(conduction continue)}.
+\begin{center}
+\includegraphics[scale=0.8]{schematics/exemple12.pdf} 
+\end{center}
+{\large \textbf{I/ Analyse par phase}}\qquad \textcolor{myorange}{\textit{\textbf{(Méthode)}}}\\
+L'étude d'un convertisseur statique se fait toujours en décomposant son fonctionnement en phases.
+\begin{multicols}{2}
+\textbf{a.} \textsc{Phase 1}: $(t \in [0,\alpha T[) \Rightarrow$ le transistor $T$ est fermé et la diode $D$ est bloquée.\vspace*{5pt}\\
+\textbf{Q1.
+Faire un schéma simplifié du circuit durant cette phase}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/exemple12_Phase1.pdf} 
+\end{center}
+\textbf{Q2.
+Quelle est la valeur de la tension $v_M(t)$ aux bornes du moteur?}\\
+Par loi des mailles, on obtient:
+\boxed{$$v_M(t)=U$$}
+\columnbreak\\
+\textbf{b.} \textsc{Phase 2}: $(t \in [\alpha T, T[) \Rightarrow$ le transistor $T$ est ouvert et la diode $D$ est passante.\vspace*{5pt}\\
+\textbf{Q3.
+Faire un schéma simplifié du circuit durant cette phase}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/exemple12_Phase2.pdf} 
+\end{center}
+\textbf{Q4. Quelle est la valeur de la tension $v_M(t)$ aux bornes du moteur?
+La diode sera supposée parfaite}\\
+La diode se comportant comme un fil, $v_D=0$.\\
+Donc: \boxed{$$v_M(t)=0V$$}
+\end{multicols}
+{\large \textbf{II/ Calcul de la valeur moyenne}}\\
+L'objectif du hacheur est de fournir une tension "moyenne" réglable à la $MCC$.\\
+\textbf{Q5.
+À l'aide de la question 1, tracez l'allure de la tension $v_M(t)$ sur une période $T$}
+\begin{center}
+\includegraphics[scale=0.75]{schematics/exemple12_signal_crénaux.pdf} 
+\end{center}
+
+\textbf{Q6.
+Calculer la valeur moyenne $\langle v_M(t)\rangle$ en fonction de $U$ et $\alpha$.}\\
+Utilisons la définition de la valeur moyenne: $\displaystyle\langle v_M(t)\rangle=\frac{1}{T}\int_0^T v_M(t)dt$
+\begin{multicols}{2}
+\begin{méthode*}{Calcul d'intégrales}
+Décomposons cette intégrale en deux phases:
+\begin{align*}
+\langle v_M(t)\rangle =&\frac{1}{T}\left(\int_0^{\alpha T} U dt+\int_{\alpha T}^{T}0dt\right)\\
+=& \frac{1}{T}\left(\left[ U\cdot t\right]_0^{\alpha\cdot T}+0\right)\\
+=& \frac{1}{T} (U\cdot \alpha T -0)\\
+=& \frac{U\cdot \alpha T}{T}\\
+\langle v_M(t)\rangle=& \alpha U
+\end{align*}
+\end{méthode*}
+\columnbreak
+\begin{méthode*}{Calcul par surface}
+On calcule l'aire verte $\mathcal{A}_{\textcolor{mygreen}{\text{\hatchedsquare}}}$:\vspace*{-5pt}
+\begin{center}
+\includegraphics[scale=0.5]{schematics/exemple12_signal_crénaux_Q6.pdf} 
+\end{center}
+$\displaystyle\boxed{\langle v_M(t) \rangle}= \frac{\mathcal{A}_{\textcolor{mygreen}{\text{\hatchedsquare}}}}{T}=\frac{U\cdot \alpha T}{T}=\boxed{\alpha U}$
+\end{méthode*}\vspace*{50pt}
+\end{multicols}
+{\large \textbf{III/ Point de fonctionnement du moteur (le modèle MCC)}}\\
+En régime permanent (vitesse constante), le moteur ne réagit qu'à la valeur moyenne de la tension et du courant.\vspace*{5pt}\\
+\textbf{Q7.
+Rappelez l'expression de la f.é.m. $E$ en fonction de la vitesse de rotation $\Omega$ et la constante $K_e$.}\\
+La force électromotrice est proportionnelle à la vitesse de rotation $\Omega$: \quad $E=K_e\cdot \Omega$\\
+\textbf{Q8.
+En appliquant la loi des mailles au modèle $(R,E)$ de la $MCC$ en valeur moyenne, quelle relation relie $\langle v_M\rangle$, la résistance $R$, le courant moyen $I_M$ et la f.é.m $E$?}\\
+Appliquons une loi des mailles au circuit en phase 2:
+$$v_M(t)=R\cdot i_M(t)+ L\frac{di_M}{dt}+E\Longleftrightarrow \langle v_M(t) \rangle= \langle R \cdot i_M(t) \rangle + \langle L \frac{di_M}{dt} \rangle + \langle E \rangle$$
+Or, $R$ est une constante donc $\langle R \cdot i_M(t) \rangle = R\cdot I_M$.\\
+De même, $\langle E \rangle= E$.\\
+Et la valeur moyenne d'une dérivée est nulle.\\
+Donc: \fbox{$\langle v_M(t) \rangle= R\cdot I_M+E $}\\
+\textbf{Q9.
+En combinant les résultats, déduisez l'expression de la vitesse de rotation $\Omega$ en fonction du rapport cyclique $\alpha$, de $U,R,I_M$ et $K_e$}
+\begin{multicols}{2}
+$\Omega=\frac{E}{K_e}$
+Or, $ E = \langle v_M \rangle - R \cdot I_M$ et $\langle v_M \rangle = \alpha U$ \qquad Donc:\columnbreak
+$$\boxed{\Omega = \frac{\langle v_M \rangle - R \cdot I_M}{K_e}}$$
+\end{multicols}
+\end{exemple}
+\begin{definition}{Hacheur parallèle}
+Un \textbf{hacheur parallèle} ou hacheur boost est un montage électronique permettant d'obtenir une tension de sortie supérieure à celle d'entrée. En voici son schéma:
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Hacheur_parallèle.pdf} 
+\end{center}
+Il est souvent utilisé dans les dispositifs de freinage.
+\end{definition}
+\begin{exemple}[label=exemple_hacheur_boost]{Étude d'un hacheur Boost}
+Soit le hacheur suivant alimenté par une source de tension continue $U=12V$. Sa fréquence de commutation est $f=25kHz$. La charge modélisée est $R=10\Omega$ en parallèle avec un condensateur $C$, maintenant la tension de sortie $U_s$ constante à $48V$. L'inductance vaut $L=1mH$.
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Exemple_hacheur_Boost_1.pdf} 
+\end{center}
+\textbf{- Établir les expressions de la tension $u_L(t)$ pour les deux phases de fonctionnement}\\
+On a 2 phases de fonctionnement.\\
+L'une de $[0,\alpha T]$ et la seconde de $[\alpha T,T]$.\\
+\But{Analysons par phase notre circuit}\pagebreak
+\begin{multicols}{2}
+- \textbf{Phase 1}: pour $t \in [0, \alpha T]$\\
+On a $K$ fermé et $D$ bloquée.\\
+Supposons l'interrupteur idéal,\\
+Le schéma réduit est représenté ci-contre:\\
+D'après la loi des mailles on a:
+$$\boxed{u_L(t)=U}$$\columnbreak
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Exemple_hacheur_Boost_2.pdf} 
+\end{center}
+\end{multicols}\vspace*{-25pt}
+\begin{multicols}{2}
+- \textbf{Phase 2}: pour $t \in [\alpha T, T]$\\
+On a $K$ ouvert et $D$ passante.\\
+Supposons les composants parfaits,\\
+Le schéma réduit est représenté ci-contre:\\
+D'après la loi des mailles on a:
+$$\boxed{u_L(t)=U-U_s}$$\columnbreak
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Exemple_hacheur_Boost_3.pdf} 
+\end{center}
+\end{multicols}
+\textbf{- Déterminer l'expression de $U_s$ en fonction de $U$ et du rapport cyclique $\alpha$.}\\
+D'après la loi de comportement d'une bobine: $u_L(t)=L\frac{di}{dt}$.\\
+Or, en régime permanent $\langle \frac{di}{dt}\rangle =0$\\
+Donc: $\langle u_L(t) \rangle=0$\\
+Et par méthode de surface:
+$$\langle u_L(t) \rangle=\dfrac{1}{T}\left(U\cdot \alpha T+(U-U_s)\cdot (1-\alpha)T\right)=0 \iff U=U_s(1-\alpha)$$
+D'où
+$$\boxed{U_s=\dfrac{U}{1-\alpha}}$$
+\textbf{- En déduire l'expression de $\alpha$ et donner sa valeur.}\\
+On en déduit de la question précédente $\alpha=1-\dfrac{U}{U_s}$\\
+A.N.: $\alpha=1-\dfrac{12}{48}=0.75$\\
+\textbf{- Exprimer l'ondulation de courant $\Delta i_L$}\vspace*{-10pt}
+\begin{multicols}{2}
+Durant la phase 1: 
+\begin{align*}
+& u_L(t)=L\cdot \dfrac{di_L}{dt}=U\\
+\overset{\text{même pente pdt }\alpha T}{\iff} & \dfrac{\Delta i_L}{\alpha T}=\dfrac{U}{L}\\
+\iff & \Delta i_L=\dfrac{U\cdot \alpha T}{L}\\
+\iff & \Delta i_L= \dfrac{U\cdot \alpha}{L\cdot f}
+\end{align*}
+A.N.: $\Delta i_L=\dfrac{12\cdot 0.75}{\cancel{10^{-3}}\cdot 25 \cdot \cancel{10^{3}}}=0.36A$\columnbreak\\\vspace*{-30pt}
+\begin{center}
+\hspace*{-40pt}\includegraphics[scale=0.9]{schematics/Ondulation_de_courant.pdf} \vspace*{-20pt}
+\end{center}
+\end{multicols}
+\end{exemple}
+\begin{definition}{Pont en H}
+C'est une \textbf{configuration} d'un \textbf{hacheur} permettant d'être \textbf{réversible} en tension et/ou en courant.\vspace*{-5pt}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Pont_en_H.pdf} 
+\end{center}
+\end{definition}
+\begin{definition}{Hacheur quatre quadrants}
+Un \textbf{hacheur quatre quadrants} est un convertisseur continu–continu permettant le fonctionnement dans les quatre quadrants du plan $U$-$I$.
+\begin{center}
+\includegraphics[scale=0.48]{schematics/Hacheur_quatre_quadrants.pdf} 
+\end{center}
+\end{definition}
+\begin{exemple}{Chronogramme et Plan (colle s22-23 TSI1)}
+On étudie une $MCC$ pilotée par un modulateur statique DC/DC.
+Une étude dynamique de l'arbre moteur permet de montrer que: \qquad $\displaystyle J_{eq}\cdot \frac{dN}{dt}+C_f=C_{em}$ \\ avec: $J_{eq}=500 kg\cdot m^2$ ;
+$C_f=100 Nm$\vspace{3pt}\\
+Dans une phase de test du produit, on entraîne le volant suivant le profil de vitesse suivant:
+\begin{center}
+\includegraphics[scale=0.54]{schematics/exemple_13_a.pdf}\\
+\end{center}
+\textbf{Tracer le chronogramme du couple $C_{em}$ et les points de fonctionnement du système sur un plan couple-vitesse au cours du temps.}\\
+De $t=0s$ à $t=600s$.
+La pente est de $\dfrac{\frac{\pi}{30}\cdot 100}{6}$.\\
+Donc $N(t)\approx 1.75 t$. \quad A.N.: $C_{em}= 500 \cdot 1.75 +100 = 975 Nm$\\
+En faisant de même à chaque fois on obtient:\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.51]{schematics/exemple13b.pdf} 
+\end{center}
+\end{exemple}
+\begin{definition}{Commande par MLI/PWM}
+On appelle \textbf{MLI} (Modulation de Largeur d'Impulsion) ou PWM, un type de commande où l'on compare un signal de référence sinusoïdal lent (consigne de vitesse) à un signal triangulaire haute fréquence (la \textbf{porteuse}).\\
+Pour un pont en H, le principe est le suivant:\\
+Si la référence$>$porteuse, alors on pose $K_1$ et $K_4$ fermés sinon $K_2$ et $K_3$ sont fermés.
+\begin{center}
+\includegraphics[scale=0.9]{schematics/Composition_MLI.pdf} 
+\end{center}
+\end{definition}
+\begin{propriété}{Tableau récap des hacheurs (leur choix pratique)}
+Ce tableau n'est pas à apprendre par cœur, mais peut être intéressant à dire à l'oral durant le TP.
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Tableau_recap_hacheur.pdf} 
+\end{center}
+\end{propriété}
+\phantomsection
+\addcontentsline{toc}{subsection}{Redresseur}
+\begin{definition}{Redresseur}\vspace*{-10pt}
+\begin{multicols}{2}
+Un \textbf{redresseur} est un convertisseur statique permettant de convertir une tension \textbf{alternative} en tension \textbf{continue}, en utilisant des \underline{diodes} (non commandées) ou des thyristors (commandés).\columnbreak
+\begin{center}
+\includegraphics[scale=0.4]{schematics/Redresseur_symbole.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Pont de diodes (Pont de Graëtz)}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Pont_de_diode.pdf} 
+\end{center}
+\end{definition}
+\begin{propriété}{MIN-MAX d'un PD3}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.8]{schematics/Min-Max.pdf} 
+\end{center}
+\end{propriété}
+\begin{méthode}{Étudier la valeur moyenne de la tension d'un PD3}
+On se place sur $\frac{T}{6}$ par symétrie.\\
+Comme un signal est $2\pi$-périodique, on se place entre $-\pi/6$ et $\pi/6$.\\
+Or, $\displaystyle \langle u \rangle = \dfrac{1}{\pi/3}\int_{-\pi/6}^{\pi/6}\sqrt{2}\cdot U \cos(\theta) d\theta=\dfrac{3\sqrt{2}}{\pi}\cdot U$
+\end{méthode}
+\phantomsection
+\addcontentsline{toc}{subsection}{Onduleur}
+\begin{definition}{Onduleur}\vspace*{-10pt}
+\begin{multicols}{2}
+\vspace*{2pt}Un \textbf{onduleur} est un convertisseur statique permettant de convertir une tension \textbf{continue} en tension \textbf{alternative} de fréquence réglable.\\
+C'est lui qu'on utilise pour commander des \hyperref[def_MS]{MS} ou des \hyperref[def_MAS]{MAS}.\columnbreak
+\begin{center}
+\includegraphics[scale=0.4]{schematics/Onduleur_symbole.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{propriété}{Montages d'un onduleur}\vspace*{-10pt}
+\begin{multicols}{2}
+\textbf{Onduleur de tension en pont en H}:
+\begin{center}
+\hspace*{-55pt}\includegraphics[scale=0.48]{schematics/Onduleur_en_pont_monophasé.pdf} 
+\end{center}\columnbreak
+\hspace*{-20pt}\textbf{Onduleur de tension triphasé}:\vspace*{-10pt}
+\begin{center}
+\hspace*{-40pt}\includegraphics[scale=0.4]{schematics/Onduleur_triphasé.pdf} 
+\end{center}
+\end{multicols}
+\end{propriété}
+\noindent L'étude reste la même que pour les hacheurs. Veuillez vous référer à l'\hyperref[exemple_hacheur_série]{\textbf{\textcolor{mygray}{Exemple \ref*{exemple_hacheur_série}}}} et l'\hyperref[exemple_hacheur_boost]{\textbf{\textcolor{mygray}{Exemple \ref*{exemple_hacheur_boost}}}} pour réussir un exercice dessus.\\\\
+\phantomsection
+\addcontentsline{toc}{section}{Electrocinétique}
+\noindent{\Large\textbf{Électrocinétique}}\vspace*{4pt}\\
+Pour information, il manque le programme de TSI2 incluant les moteurs synchrones et asynchrones.
+\phantomsection
+\addcontentsline{toc}{subsection}{Machine à Courant Continu}
+\begin{definition}{Machine à Courant Continu (MCC) et symboles}
+C'est une \textbf{machine tournante} et un \textbf{convertisseur électromécanique}, permettant la conversion bidirectionnelle d'énergie.
+\begin{center}
+\includegraphics[scale=0.3]{schematics/Symboles_MCC.pdf} 
+\end{center}
+\end{definition}
+\begin{multicols}{2}
+\begin{vocabulaire}{Composants d'une machine à courant continu}
+\includegraphics[scale=0.4]{schematics/Moteur_vocab.pdf} 
+\end{vocabulaire}
+\columnbreak
+\begin{definition}{Couple}
+Le \textbf{couple} désigne la force produite par le moteur et s'exprime en $Nm$.
+Dans le plan, le couple scalaire est le suivant:\vspace{-15pt}
+\formulev{$C=F\cdot d$}
+\end{definition}
+
+\begin{propriété}{Couple exercé sur le rotor}
+Le couple exercé sur le rotor est proportionnel au courant traversant les enroulements de spires du rotor:
+\formuler{$C_m(t)=K\cdot\Phi\cdot i(t)$}\vspace{10pt}
+Pour un courant fixe:\vspace*{-30pt}
+\begin{flushright}
+\tcbox[colframe=myred, colback=white, boxrule=2pt]{$C_m(t)=K_c\cdot i(t)$}
+\end{flushright}
+\end{propriété}\vspace*{-15pt}
+\end{multicols}
+\begin{propriété}{Principe du couple exercé}
+Dans un moteur à courant continu, on utilise \textbf{plusieurs spires} avec un \textbf{collecteur}.
+Chaque spire crée une force afin de créer \underline{un mouvement de rotation}.
+Or si on n'utilise qu'une spire, le couple moteur sera irrégulier.
+Pour ce faire on vient mettre plusieurs spires afin d'avoir un \textbf{couple "constant"}.
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Couple_moteur.pdf} 
+\end{center}
+\end{propriété}
+\begin{multicols}{2}
+\begin{definition}{Force électromotrice}
+La \textbf{force électromotrice} (f.é.m.) correspond à la tension créée par une source d'énergie (comme une pile) pour faire circuler un courant.
+Elle s'exprime en $V$.\\
+Dans le cas d'un moteur, celle-ci est créée via un flux magnétique variable, en voici la loi de Lenz-Faraday:
+\formulev{$e(t)=-\dfrac{d\Phi}{dt}=-\dfrac{d\Phi}{d\theta}\omega_m(t)$}
+\end{definition}
+\columnbreak
+\begin{propriété}{Force électromotrice}
+En pratique on vient utiliser cette formule pour la déterminer:
+\formuler{$e(t)=K\cdot\Phi\cdot\omega_m(t)$}
+Qu'on peut simplifier:
+\formuler{$e(t)=K_e\cdot\omega_m(t)$}
+\end{propriété}
+\end{multicols}
+\begin{propriété}{Égalité des constantes de couplage électromécanique}
+\formuler{$K_c=K_e$}Ces constantes sont appelées \textbf{constantes de couplage électromécanique}
+\end{propriété}
+\begin{vocabulaire}{Modélisation d'une MCC}
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Modélisation_MCC.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{propriété}{Bilan de puissance}
+Afin d'étudier une MCC, on vient utiliser ces bilans.
+Ceux-ci nous permettent de retrouver plusieurs valeurs:\\
+En fonctionnement \underline{\textbf{moteur}} \hspace{20pt} \framebox{énergie électrique $\to $ énergie mécanique}
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Bilan_de_puissance_MCC_moteur.pdf} 
+\end{center}
+En fonctionnement \underline{\textbf{génératrice}} \hspace{20pt} \framebox{énergie mécanique $\to $ énergie électrique}
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Bilan_de_puissance_MCC_génératrice.pdf} 
+\end{center}
+\end{propriété}
+\begin{méthode}{Courbes caractéristiques d'une MCC}
+Lorsqu'on doit choisir un moteur, on utilise des \underline{courbes caractéristiques}.
+Pour ce faire, il faut savoir lire ce type de graphe:
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Courbe_caractéristique_MCC.pdf} 
+\end{center}
+\end{méthode}
+\begin{démonstration}{Expression des courbes caractéristiques}
+\begin{multicols}{3}
+Exprimons $\Omega$ en fonction de $C_{em}$
+\begin{align*}
+\Omega&=\frac{E}{k}\\
+&=\frac{U}{k}-\frac{R\cdot I }{k}\\
+&=\frac{U}{k}-\frac{R\cdot C_{em}}{k^2}
+\end{align*}
+\columnbreak\\
+$$I=\frac{C_{em}}{k}$$
+$$P_{em}=C_{em}\cdot \Omega$$
+\columnbreak\\
+Ici $C_{em}$ correspond à un $x$ de mathématiques pour créer des formes telles que $ax+b$ pour le courant $I$ ou bien $-ax+b$ pour la vitesse angulaire $\Omega$
+\end{multicols}
+\end{démonstration}
+\begin{definition}{MCC à excitation séparée}
+Un moteur est en \textbf{excitation séparée} lorsque le \underline{circuit d'induction} (aimantation) est \underline{\textbf{alimenté indépendamment} du} \underline{circuit d’induit} (le rotor).
+\end{definition}
+\begin{propriété}{Propriété d'une MCC à excitation séparée}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.45]{schematics/MCC_Excitation.pdf}
+\end{center}
+\columnbreak
+Si on fait une loi des mailles on obtient dans l'\textbf{inducteur}:
+$$U_e=R_e\cdot I_e+L_e\cdot\dfrac{dI_e}{dt}$$
+En régime permanent: $U_e=R_e\cdot I_e$ et on obtient:
+\formuler{$\Phi=L_e\cdot I_e$}
+donc: $\Phi=\dfrac{L_e\cdot U_e}{R_e}$ \hspace{15pt} Or, $E=k\cdot\Phi\cdot\Omega$\\
+Et donc: $E=k\cdot\dfrac{L_e\cdot U_e}{R_e}\cdot\Omega$ \hspace{15pt} et ainsi on a: $\Omega=\dfrac{R_e}{k\cdot L_e}\cdot\dfrac{E}{U_e}$\\\\
+Ici, $E$ et $U_e$ sont des grandeurs ajustables pour faire varier la vitesse de rotation !
+\end{multicols}
+\end{propriété}
+\begin{propriété}{Propriété d'une MCC à excitation séparée}
+Ceci nous permet d'obtenir le schéma de conversion d'énergie suivant:
+\begin{center}
+\includegraphics[scale=0.53]{schematics/Bilan_de_puissance_MCC_moteur_excitation.pdf} 
+\end{center}
+\end{propriété}
+\noindent Voici pour information un \underline{schéma-bloc d'un moteur à courant continu}:
+\formulev{\includegraphics[scale=0.55]{schematics/Info_asservissement_MCC.pdf}}
+\begin{démonstration}{Retrouver l'équation de la dynamique}
+Durant une étude d'électrocinétique il est souvent demandé de retrouver l'équation de la dynamique, bien qu'elle utilise des concepts de mécanique, elle se situe généralement dans des questions d'électronique.\\
+\textbf{Hypothèses:}\\
+On note $\Sigma$ l'ensemble des éléments mobiles ramenés à l'arbre moteur\\
+De plus on note, $0$ un référentiel galiléen lié au bâti\\
+On note $\Omega(t)$ la vitesse angulaire de l'arbre moteur par rapport à $0$\vspace*{7pt}\\
+D'après le théorème de l'énergie cinétique,\\
+$$ (1)\qquad \dfrac{dE_{c,\Sigma/0}}{dt}=P_{ext\to\Sigma}+P_{int\to\Sigma}\text{\qquad avec \qquad} E_{c,\Sigma/0}=\dfrac{1}{2}J_{eq}\Omega^2 $$
+Faisons un bilan de puissance, en considérant les liaisons internes parfaites ($P_{int}=0$)
+\begin{align*}
+P_{ext \to \Sigma} &= P_{moteur} + P_{charge} + P_{frottements}\\
+&= C_{em}\Omega - C_r\Omega - C_{v}\Omega\\
+&= (C_{em} - C_f)\Omega \text{\qquad avec: } C_f=C_r+C_v
+\end{align*}
+En substituant nos expressions dans $(1)$:
+$$ \frac{d}{dt}\left(\frac{1}{2} J_{eq} \Omega^2\right) = (C_{em} - C_f)\Omega $$
+
+En dérivant le terme de gauche sachant que $J_{eq}$ est constant au cours du temps :
+$$\frac{1}{2} J_{eq} \cdot 2\Omega \frac{d\Omega}{dt} = (C_{em} - C_f)\Omega \iff J_{eq} \cdot\cancel{\Omega}\cdot \frac{d\Omega}{dt} = (C_{em} - C_f)\cdot\cancel{\Omega}$$
+d'où,
+\formulep{$J_{eq} \frac{d\Omega}{dt} = C_{em} - C_f$}
+\end{démonstration}
+\pagebreak
+\phantomsection
+\addcontentsline{toc}{subsection}{Machine Synchrone}
+\begin{definition}[label=def_MS]{Machine Synchrone (MS) et symbole}
+\begin{multicols}{2}
+On appelle \textbf{machine synchrone}, une machine électrique à courant alternatif où son rotor tourne à la même vitesse que le champ magnétique créé par le stator.\\\\
+Voici le symbole d'une MS:\columnbreak
+\begin{center}
+\includegraphics[scale=0.35]{schematics/Symbole_MS.pdf} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Vitesse de synchronisme $N_s$}
+Comme le rotor tourne à la même vitesse $N_s$ que le champ tournant statorique, on peut définir.
+\formulev{$N_s=\dfrac{60\cdot f}{p}$}
+\begin{small}
+Avec $p$, le nombre de paires de pôles et $N_s$ la vitesse de synchronisme en $tr\cdot min^{-1}$
+\end{small}
+\end{definition}
+\begin{propriété}{Conversion de $tr\cdot min^{-1}$ en $rad\cdot s^{-1}$}
+Pour convertir des $tr\cdot min^{-1}$ en $rad\cdot s^{-1}$, on a la relation:
+\formuler{$1 tr\cdot min^{-1}=\dfrac{2\pi}{60}rad\cdot s^{-1}=\dfrac{\pi}{30}rad\cdot s^{-1}$}
+\end{propriété}
+\begin{propriété}{Fonctionnement d'une MS}
+Une machine synchrone est constituée d'un \textbf{stator} (l'induit) et d'un \textbf{rotor} (l'inducteur) qui interagissent ensemble par l'interaction de leurs champs magnétiques.
+\begin{flushleft}
+\textbf{Le stator:}\\
+Il est \textbf{fixe} et contient trois enroulements distincts décalés de $2\pi/3$. Dans ceux-ci on y injecte 3 courants alternatifs déphasés de $2\pi/3$ créant alors un champ magnétique tournant global. Ce champ $\overrightarrow{B_{stator}}$ tourne à la vitesse de synchronisme $\Omega_s$.
+\end{flushleft}
+\begin{multicols}{2}
+\begin{center}
+\animategraphics[
+	controls,
+    loop,     
+    width=1.2\linewidth
+  ]{14}{Python/Champ_tournant/frame_champ_tournant_}{00}{19}
+\end{center}\vspace*{-210pt}
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Champ_tournant_stator.pdf} 
+\end{center}\columnbreak
+\begin{center}
+\hspace*{70pt}\includegraphics[scale=0.35]{schematics/Stators_MS.pdf} 
+\end{center}
+\end{multicols}
+\textbf{Le rotor:}\\
+C'est la partie \textbf{mobile} située au centre (un électroaimant alimenté en courant continu ou un aimant permanent) générant un champ magnétique $\overrightarrow{B_{rotor}}$.
+\begin{flushleft}
+\textbf{Principe:}\\
+Le pôle Nord de $\overrightarrow{B_{rotor}}$ est attiré par le pôle Sud de $\overrightarrow{B_{stator}}$. Le rotor tourne donc à la même vitesse que le champ tournant sans aucun \hyperref[glissement]{glissement}.
+\end{flushleft}
+\end{propriété}\pagebreak
+\begin{exemple}{Déterminer une vitesse de synchronisme}
+Une machine synchrone possède 4 pôles et est reliée au réseau EDF.\\
+\textbf{- Quelle est sa vitesse de synchronisme en $rad\cdot s^{-1}$?}\\
+Par définition,
+$$N_s=\dfrac{60f}{p}=\dfrac{60\cdot 50}{2}=1500 tr\cdot min^{-1}\equiv \boxed{157 rad\cdot s^{-1}}$$
+\end{exemple}
+\begin{definition}{Schéma électrique d'une machine synchrone en montage étoile}
+\begin{center}
+\includegraphics[scale=0.85]{schematics/Schéma_elec_MS_et_Behn_Eschenburg.pdf} 
+\end{center}
+\end{definition}
+\begin{definition}{Diagramme de Fresnel}
+Le \textbf{diagramme de Fresnel} est une représentation complexe ($Im$ et $Re$) de différentes composantes électriques permettant la compréhension de certains phénomènes physiques par son champ tournant.
+\end{definition}
+\begin{méthode}{Création d'un diagramme de Fresnel}
+Avant tout, on essaiera de faire un diagramme de Fresnel à l'échelle pour une potentielle exploitation des données de celui-ci.\\
+- On \textbf{trace} notre axe $Re/Im$.\\
+- On écrit à côté toutes nos \textbf{lois des mailles/nœuds/d'Ohm} en rapport avec le circuit électrique.\\
+- On pose un \textbf{vecteur comme référence}. \textit{(généralement un dont on connaît sa valeur)}\\
+- On \textbf{utilise le déphasage} de l'une des relations du 2. pour créer un second vecteur.\\
+- On trace une \textbf{résultante} via une des relations \textbf{ou} on \textbf{trace} grâce au \textbf{déphasage} un nouveau vecteur.\\
+- On \textbf{recommence} la dernière étape jusqu'à avoir tracé tout ce qu'on pouvait.\\
+- On \textbf{lit la norme} du/des vecteur(s) recherché(s) pour en trouver sa/leurs valeur(s).
+\end{méthode}\vspace*{-10pt}
+\begin{center}
+\animategraphics[
+	controls,
+    loop,     
+    width=0.33\linewidth
+  ]{1}{pellicules/frame-}{0}{6}
+\end{center}\vspace*{-10pt}
+(Il y a une animation pour l'exemple suivant juste au-dessus, pour la voir veuillez utiliser Adobe Acrobat ou un autre lecteur)
+\begin{exemple}{Methode pour construire un diagramme de Fresnel sur un circuit}
+\vspace*{-10pt}\begin{multicols}{2}
+Partons de cet exemple
+\begin{center}
+\includegraphics[scale=0.6]{schematics/exemple2a.pdf}
+\end{center}
+On donne des valeurs de référence pour le circuit ci-dessus:\\
+$f=159Hz ; \underline{I}=1A; R=10 \Omega; L=10 mH ;C=50 \mu F$ \\
+\textbf{Déterminons les valeurs de $I_C$ et de $I_L$}\\\\
+\textsc{1. Cherchons notre vecteur de référence de phase:}\\
+On pose $\underline{I}$ notre vecteur de référence. Il sera sur l'axe des réels.\\
+On prendra $1.5cm \equiv 1A$ et $4.275cm \equiv 1V$\quad (pour du A4)\\
+\textsc{2. On exprime notre circuit en régime sinusoïdal forcé (impédance)}\\
+On obtient ce circuit:
+\begin{center}
+\includegraphics[scale=0.6]{schematics/exemple2b.pdf} 
+\end{center}
+\textsc{3. On calcule l'impédance $\underline{Z_{eq}}$}\\
+On est en parallèle donc, travaillons avec des admittances. On a:\\
+$\underline{Y_L} = \frac{1}{jL\omega} = \frac{1}{j \cdot 10} = -0,1j \, S \quad (S \text{ pour Siemens})$\\
+$\underline{Y_C} = jC\omega = j \cdot 0,05 = 0,05j \, S$\\
+Donc:
+$$ \underline{Y_{eq}} = \underline{Y_L} + \underline{Y_C} = -0.1j + 0.05j = -0.05j \, S $$
+Donc:
+$$ \underline{Z_{eq}} = \frac{1}{-0,05j} = -20 \cdot (-j) = 20j \, \Omega $$
+\textsc{4- Calcul de $\underline{V_{eq}}$ et son déphasage}\\
+De par la loi d’Ohm:
+$$ \underline{V_{eq}} = \underline{Z_{eq}} \cdot \underline{I} $$
+\textcolor{black!30}{\textit{\small NB: le déphasage est toujours de l’intensité vers la tension !!}}\columnbreak\\
+Donc: Le module (norme) de $\underline{V_{eq}}$ sur le diagramme vaut
+$$ |\underline{V_{eq}}| = |\underline{Z_{eq}}| \cdot |\underline{I}| = 20V $$
+Et, $Arg(\underline{Z_{eq}}) = \frac{\pi}{2}$ donc $\underline{V_{eq}}$ sera en avance de $\frac{\pi}{2} // \underline{I}$
+\begin{center}
+\includegraphics[scale=0.75]{schematics/exemple2c.pdf} 
+\end{center}
+
+\textsc{5- Construction de $V$}\\
+On peut construire $V$ par somme sur les vecteurs\\
+\textcolor{black!30}{\textit{\small NB: Comme un triangle des forces en statique graphique}}
+
+\textsc{6- Construction de $\underline{I_C}$ et $\underline{I_L}$:}\\
+Par la loi des nœuds:
+$$ \underline{I} = \underline{I_L} + \underline{I_C} $$
+$\underline{I_L}$ et $\underline{I_C}$ sont exprimés par rapport à $\underline{V_{eq}}$ donc on orientera nos vecteurs par rapport à $\underline{V_{eq}}$.\\
+Par loi de comportement des bobines:
+$$ \varphi_L = +90^{\circ} $$
+\textcolor{black!30}{\textit{\small NB: Sur le graphique il sera dans le sens anti-horaire: On note le déphasage de l’intensité vers la tension.}}\\
+De plus de par la loi d’Ohm:
+$$ |\underline{I_L}| = \frac{V_{eq}}{L\omega} = \frac{20}{10} = 2 A $$
+Par loi de comportement des condensateurs:
+$$ \varphi_C = -90^{\circ} $$
+\textcolor{black!30}{\textit{\small NB: Sur le graphique il sera dans le sens horaire: On note le déphasage de l’intensité vers la tension.}}\\
+De plus de par la loi d’Ohm:
+$$ |\underline{I_C}| = V_{eq} \cdot C\omega = 20 \cdot 0,05 = 1 A $$
+\end{multicols}
+\end{exemple}
+\begin{propriété}{Caractérisation des dipôles élémentaires (Rappel)}
+\vspace*{-10pt}\begin{center}
+\includegraphics[scale=0.65]{schematics/Propriété_des_dipôles_élémentaires.pdf} 
+\end{center}
+\end{propriété}
+\begin{propriété}{Diagrammes de Fresnel d'une MS}
+En convention récepteur, la tension simple d'alimentation $\underline{V_s}$ contrebalance la force électromotrice à vide $\underline{E}$ et les chutes de tension internes.
+$$\underline{V_s} = \underline{E} + R_s \cdot \underline{I_s} + Z_L \cdot \underline{I_s} \hspace{40pt} \text{En négligeant }R_s: \underline{V_s} = \underline{E} + Z_L \cdot \underline{I_s}$$
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Fresnel_MS_Récepteur.pdf} 
+\end{center}\vspace*{-10pt}
+En convention \textbf{générateur}, la machine fournit de la puissance au réseau. La force électromotrice $\underline{E}$ induite au rotor devient la source qui pousse le courant vers l'extérieur:
+$$\underline{E} = \underline{V_s} + R_s \cdot \underline{I_s} + Z_L \cdot \underline{I_s} \quad \text{d'où} \quad \underline{V_s} = \underline{E} - R_s \cdot \underline{I_s} - Z_L \cdot \underline{I_s}$$
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Fresnel_MS_Générateur.pdf} 
+\end{center}
+Avec: - $\varphi$ le déphasage de la tension simple par rapport au courant. $\bm{\cos(\varphi)}$ représente \textbf{the facteur de puissance}.\\
+\hspace*{23pt} - $\psi$ le déphasage de la f.e.m par rapport au courant. On essayera d'avoir $\psi=0$ en mode récepteur afin de maximiser le couple.
+\end{propriété}
+\begin{definition}{Couple électromagnétique d'une MS}
+On définit le couple comme
+\formulev{$C_{em}=\dfrac{P_{em}}{\Omega_s}=\dfrac{3\cdot E\cdot I\cos(\psi)}{\Omega_s}$}
+A \textbf{excitation constante} \textit{(courant entrant à une valeur fixe)}:
+\formulev{$C_{em}=3K_eI\cos(\psi)$}
+\end{definition}
+\begin{propriété}{Relation entre vitesse linéaire et vitesse angulaire (Rappel)}
+On rappellera que:
+\formuler{$v=r\omega$}
+\end{propriété}\pagebreak
+\begin{propriété}{Bilans de puissance d'une MS}
+Afin d'étudier une MS, on vient utiliser ces bilans nous permettant alors de retrouver certaines valeurs.\\
+En fonctionnement \underline{\textbf{moteur}}:
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Bilan_de_puissance_machine_synchrone_moteur.pdf} 
+\end{center}
+En fonctionnement \underline{\textbf{génératrice}}:
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Bilan_de_puissance_machine_synchrone_générateur.pdf} 
+\end{center}
+\end{propriété}
+\begin{exemple}{Exercice sur les MS}
+Étudions la tension d'alimentation d'un moteur synchrone dans son cas le plus défavorable. C'est-à-dire pour une valeur angulaire mécanique $\omega_m=200 rad.s^{-1}$ et un couple mécanique $C_{em}=11N.m$.\\
+On donne les caractéristiques suivantes du moteur synchrone:
+\begin{center}
+\includegraphics[scale=0.63]{schematics/Tableau_exemple_MS.pdf} 
+\end{center}
+\textbf{- Modéliser le schéma du moteur synchrone}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.92]{schematics/Exemple_MS_montage_étoile.pdf} 
+\end{center}
+\textbf{- Expliquer l'intérêt d'imposer une valeur $\psi=0$. Puis déterminer l'expression de la constante de couple globale $k_c$, définie par $C_{em}=k_c\cdot I_s$, en fonction de $k_e$.}\\
+Pour un courant $I_s$ donné, le couple produit est maximal lorsque $\cos(\psi)=1$, soit pour $\psi=0$.\\
+Ainsi, $C_{em}=3k_e\cdot I_s$\\
+Or, $C_{em}=k_e\cdot I_s$\\
+Donc par unicité, $\boxed{k_c=3k_e}$\\
+\textbf{- Pour $\psi=0$, sur une phase, exprimer $\underline{V_s}$ en fonction de $\underline{E}$,$R_s$,$L$, la pulsation électrique $\omega$, et de $I_s$.} \textit{(on pourra s'appuyer sur un diagramme de Fresnel)}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Exemple_MS_Une_phase.pdf}
+\end{center}
+On remarque un triangle rectangle, d'où:
+$$\underline{V_s}=\sqrt{\left(\underline{E}+R_s\underline{I_s}\right)^2+\left(L\omega \underline{I_s}\right)^2}$$\columnbreak\\
+En regardant sur une phase du circuit, on se retrouve avec le modèle suivant:\\
+Une loi des mailles nous donne la relation:
+$$\underline{V_s}=\underline{E}+R_s\cdot \underline{I_s}+jL\omega\cdot \underline{I_s}$$
+Donc en se plaçant pour $\psi=0$.\\
+Et en prenant $\underline{I_s}$ en référence de phase, on obtient:
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Exemple_MS_Fresnel.pdf} 
+\end{center}
+\end{multicols}
+\end{exemple}
+\phantomsection
+\addcontentsline{toc}{subsection}{Machine Asynchrone}
+\begin{definition}[label=def_MAS]{Machine Asynchrone (MAS)}
+On appelle \textbf{machine asynchrone}, un moteur (ou un générateur) électrique à \underline{courant alternatif} dont la particularité est que son axe central (le rotor) tourne toujours à une vitesse légèrement différente de celle du champ magnétique tournant qui l'entraîne. Ce décalage perpétuel est appelé le \hyperref[glissement]{\underline{glissement}}.
+\begin{center}
+\includegraphics[scale=0.35]{schematics/Symbole_MAS.pdf} 
+\end{center}
+\end{definition}
+\begin{vocabulaire}{Composants d'une machine asynchrone}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.5]{schematics/Composants_MAS.pdf}
+\end{center}
+\end{vocabulaire}
+\begin{propriété}{Fonctionnement d'une MAS}
+Comme la machine synchrone (MS), la machine asynchrone (MAS) convertit l'énergie grâce au couplage magnétique entre le stator et le rotor, mais son principe actif repose fondamentalement sur l'induction.\\
+\textbf{Le stator:}\\
+Il est \textbf{fixe} et fonctionne comme une MS: il possède 3 enroulements (ou + selon les pôles) décalés de $2\pi/3$. Le fait d'injecter un courant déphasé de $2\pi /3$ permet de \textbf{créer un champ magnétique tournant}.\vspace*{-10pt}
+\begin{center}
+\animategraphics[
+	controls,
+    loop,     
+    width=0.7\linewidth
+  ]{14}{Python/Champ_tournant/frame_champ_tournant_}{00}{19}
+\end{center}\vspace*{-210pt}
+\begin{center}
+\includegraphics[scale=0.55]{schematics/Champ_tournant_stator.pdf} 
+\end{center}
+\textbf{Le rotor:}\\
+Il est \textbf{mobile}. Constitué de tôles d'acier laminé, il canalise le flux vers la cage d'écureuil. Tournant à $\Omega < \Omega_s$, ses barres sont balayées par le champ tournant. Cette variation de flux y crée des courants induits (\textbf{loi de Faraday}).\\
+\textbf{Principe:}\\
+Plongés dans $\overrightarrow{B_{stator}}$, ces courants subissent des \textbf{forces de Laplace} créant le couple moteur. D'après la \textbf{loi de Lenz} (les effets s'opposent aux causes qui lui ont donné naissance), le rotor tourne pour tenter de rattraper le champ et annuler cette variation de flux.
+\end{propriété}
+\begin{méthode}{Trouver le nombre de paires de pôles $p$ sans savoir la vitesse de synchronisme $N_s$}
+En connaissant la vitesse au nominal $N_n$:\\
+- On utilise la relation \vspace*{-10pt}
+\formuleo{$N=\dfrac{60\cdot f}{p}\iff p=\dfrac{60\cdot f}{N}$}
+- On en déduit (en arrondissant) la valeur de $p$\\
+\underline{\textbf{Remarque}}: On peut retrouver avec $p$ la vitesse de synchronisme $N_s$ ($g=0$)
+\end{méthode}
+\begin{vocabulaire}[label=plaque_signalétique]{Plaque signalétique}
+- Toutes les valeurs sont au \textbf{nominal}.\\
+- Les tensions et courants les plus faibles nous indiquent les valeurs maximales dans un enroulement.
+\begin{center}
+\includegraphics[scale=0.45]{schematics/Plaque_signalétique.pdf} 
+\end{center}
+\end{vocabulaire}
+\begin{definition}[label=glissement]{Glissement $g$}
+Le rotor tourne à une vitesse $\Omega$, très proche de $\Omega_s$ mais nécessairement différente. On caractérise cette différence par le glissement $g$, habituellement de l'ordre de quelques pourcents
+\formulev{$g=\dfrac{N_s-N}{N_s}=\dfrac{\Omega_s-\Omega}{\Omega_s}\qquad\text{donc:\qquad}\Omega=(1-g)\Omega_s$}
+\end{definition}
+\begin{propriété}{Bilan de puissance d'une MAS}
+\begin{center}
+\includegraphics[scale=0.52]{schematics/Bilan_de_puissance_machine_asynchrone.pdf} 
+\end{center}
+\end{propriété}
+\begin{exemple}{Lecture d'une plaque signalétique d'une MAS}
+\begin{multicols}{2}
+\begin{center}
+\includegraphics[scale=0.67]{Plaque_signalétique.jpg}
+\end{center}\columnbreak
+Un atelier est alimenté par un réseau électrique triphasé équilibré de fréquence $f = 50\text{ Hz}$.\\
+La tension efficace entre phases (tension composée) de ce réseau est $U = 400\text{ V}$.\\
+Pour entraîner une charge mécanique, on dispose d'un moteur asynchrone dont la plaque signalétique est fournie ci-contre (Moteur LEROY-SOMER LS 80 L T).\end{multicols}
+\textbf{- Déterminer la tension nominale d'un enroulement et le couplage sur un réseau 400 V.}\\
+La plaque indique $\Delta$ $230 V$ / Y $400 V$. Or la tension d'un enroulement est la plus petite valeur. Donc \underline{$230 V$}.
+Or, le réseau fournit $400 V$ entre phases. Ainsi le couplage est en \underline{étoile (Y)}.\\\\
+\textbf{- Déterminer le nombre de paires de pôles $p$ et la vitesse de synchronisme $N_s$.}\\
+La plaque indique $N = 2800 tr/min$ à $f = 50 Hz$.\\
+Or, $N_s\approx N$\\
+Donc, $p=\dfrac{60f}{N}=1.07 \equiv 1$\\
+Donc pour $p = 1$, on a: $N_s = 3000 tr/min$.\\\\
+\textbf{- Calculer la puissance active absorbée $P_a$ et le rendement $\eta$.}\\
+La plaque indique en étoile $I = 1,9\text{ A}$. De plus, $\cos \varphi = 0,83$ et $P_u = 750W$.\\\\
+Or, $P_a = \sqrt{3} \cdot U \cdot I \cdot \cos \varphi$.\qquad Donc: $P_a = \sqrt{3} \cdot 400 \cdot 1{,}9 \cdot 0{,}83=\underline{1092,5W=P_a}$.\\
+Or, \fbox{$\eta = \dfrac{P_u}{P_a}$}.\qquad Donc: $\eta = \dfrac{750}{1092{,}5}$. \qquad Ainsi \underline{$\eta \approx 0,686$}.
+\end{exemple}\pagebreak
+\begin{propriété}{Modèle équivalent d'une MAS}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.54]{schematics/Modèles_equiv_MAS.pdf} 
+\end{center}
+\end{propriété}
+\begin{démonstration}{Expression du couple électromagnétique}
+Par def,\vspace*{-10pt}
+$$C_{em} = \frac{P_{tr}}{\Omega_s} \xeq{\text{Loi de Joule}} \frac{3 \frac{R}{g} I_{tr}^2}{\Omega_s} \xeq{\text{Loi d'Ohm}} \frac{3 \frac{R}{g} \frac{V^2}{Z^2}}{\Omega_s} = \frac{3 R V^2}{\Omega_s g \left( \frac{R^2}{g^2} + X_r^2 \right)}$$
+D'où \vspace*{-10pt}\formulep{$C_{em}= \frac{1}{\Omega_s} \times \dfrac{3 R V^2}{\frac{R^2}{g} + X_r^2 g}$}
+\end{démonstration}
+\begin{multicols}{2}
+\begin{propriété}{$C_{em}$ aux faibles glissements}
+- Lorsque $\frac{R^2}{g} \gg X_r^2 g$
+\formuler{$C_{em} = \dfrac{3 V^2}{\Omega_s R} \cdot g$}
+\end{propriété}
+\columnbreak
+\begin{propriété}{$C_{em}$ aux forts glissements}
+- Lorsque $\frac{R^2}{g} \ll X_r^2 g$
+\formuler{$C_{em} = \dfrac{3 V^2}{\Omega_s X_r^2} \cdot \dfrac{1}{g}$}
+\end{propriété}
+\end{multicols}
+\begin{propriété}{Courbe de couple}\vspace*{-10pt}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Courbe_de_couple.pdf} 
+\end{center}
+\end{propriété}
+\begin{protocole}{Commande $V/f$}
+Pour augmenter la vitesse de rotation, il ne faut pas augmenter que $f$, il faut aussi augmenter la tension $V$.\\
+Donc si on garde $V/f$ constant, la courbe se déplacera \textbf{horizontalement}.\\
+Ceci permet de \textbf{garder un faible \hyperref[glissement]{glissement}}.\vspace*{-15pt}
+\begin{center}
+\includegraphics[scale=0.83]{schematics/Commande_V-f.pdf} 
+\end{center}
+\end{protocole}
+\begin{exemple}{Modélisation et bilan de puissance d'une MAS}
+On étudie un moteur asynchrone triphasé tétrapolaire ($p=2$) alimenté par un réseau $50Hz$. Lors d'un essai en charge nominale, on relève une vitesse de rotation $N_n = 1425tr/min$. La mesure des puissances a permis d'établir le bilan suivant :\\
+\hspace*{10pt}- Puissance électrique active absorbée : $P_a = 6000W$\\
+\hspace*{10pt}- Pertes par effet Joule au stator : $p_{js} = 250W$\\
+\hspace*{10pt}- Pertes mécaniques : $p_m = 120W$\\
+On suppose que les pertes fer au stator sont négligeables ($p_{fs} \approx 0$).\\[0.3cm]
+On rappelle que d'après le schéma électrique équivalent ramené au stator, la puissance transmise au rotor $P_{tr}$ correspond à la puissance dissipée dans la résistance fictive globale du rotor $R'_r/g$.\\
+Dans sa zone utile de fonctionnement, la caractéristique mécanique du couple électromagnétique en fonction de la vitesse est assimilable à une droite d'équation $\Gamma_{em} = K \cdot (\Omega_s - \Omega)$.\vspace*{7pt}\\
+\textbf{- Déterminer le glissement nominal $g_n$.}\\
+Le moteur est tétrapolaire donc $p=2$. \\
+On a, $N_s = \dfrac{60 \cdot f}{p}$. Donc $N_s = \dfrac{60 \cdot 50}{2} = 1500 tr/min$.\quad Or, $g_n = \dfrac{N_s - N_n}{N_s}$.\qquad A.N.: $g_n = \dfrac{1500 - 1425}{1500} =0.05=5\%$.\vspace*{7pt}\\
+\textbf{- Calculer la puissance transmise $P_{tr}$ et les pertes Joule rotoriques $p_{jr}$.}\\
+Les pertes fer statoriques sont supposées négligeables ($p_{fs} \approx 0$).\\
+Or, d'après le bilan de puissance au stator \fbox{$P_{tr} = P_a - p_{js}$}.\qquad Donc: $P_{tr} = 6000 - 250=5750W$.\\
+Or, le modèle électrique équivalent impose \fbox{$p_{jr} = g \cdot P_{tr}$}.\qquad Donc: $p_{jr} = 0{,}05 \cdot 5750=287,5W$.\vspace*{7pt}\\
+\textbf{- Calculer la puissance utile $P_u$ et le rendement $\eta$.}\\
+D'après le bilan de puissance, la puissance mécanique totale est $P_{meca} = P_{tr} - p_{jr}$. Donc: $P_{meca} = 5750 - 287,5 = 5462,5W$.\\
+\But{On note parfois $P_{meca}=P_{em}$ comme dans cet exo}\\
+Or, le bilan final donne $P_u = P_{meca} - p_m$.\\
+Donc $P_u = 5462,5 - 120=5342,5W$.\\
+Or, \fbox{$\eta = \dfrac{P_u}{P_a}$}.\qquad Donc $\eta = \dfrac{5342{,}5}{6000}=0,89$.\vspace*{7pt}\\
+\textbf{- Calculer le couple électromagnétique $C_{em}$ et la constante $K$.}\\
+Par def, \fbox{$P_{tr} = C_{em} \cdot \Omega_s$} avec $\Omega_s = N_s \cdot \dfrac{2\pi}{60} = 50\pi rad/s$.\quad Donc $C_{em} = \dfrac{5750}{50\pi}=36.61 N.m$.\\
+Or la caractéristique linéaire s'écrit: $C_{em} = K(\Omega_s - \Omega)$.\\
+Et l'écart de vitesse est $\Omega_s - \Omega = g \cdot \Omega_s = 0{,}05 \cdot 50\pi \approx 7{,}85rad/s$.\\
+Donc $K = \dfrac{C_{em}}{7{,}85} = \dfrac{36{,}61}{7{,}85}=4.66N.m.s.rad^{-1}$.
+\end{exemple}
+\pagebreak
+\phantomsection
+\addcontentsline{toc}{section}{Trucs en plus}
+\noindent{\Large\textbf{Trucs en plus}}\vspace*{4pt}\\
+\phantomsection
+\addcontentsline{toc}{subsection}{Codeurs}
+Parlons des codeurs qui font partie intégrante des sujets et qui font partie de l'étude des moteurs, sont présents dans les exos d'asservissements...
+\begin{definition}{Codeurs optiques}\vspace*{-10pt}
+\begin{multicols}{2}
+On appelle \textbf{codeur optique}, des capteurs permettant de \underline{mesurer} directement ou indirectement \underline{une position angulaire}.\\
+Un codeur optique est constitué d'un émetteur de lumière (LED) et d'un récepteur (photorécepteur) avec un disque intercalé comportant des zones \textbf{opaques} et \textbf{transparentes}.\\
+NB: Ils peuvent être reconnaissables par leur nombre de câbles plus important.\columnbreak
+\begin{center}
+\includegraphics[scale=0.38]{Codeur_optique.png} 
+\end{center}
+\end{multicols}
+\end{definition}
+\begin{definition}{Codeurs incrémentaux}
+C'est un codeur optique contenant un disque à $n$ encoches. Sur son chronogramme, chaque front montant indique que le disque a tourné de $\frac{2\pi}{n}$.\\
+Il possède 3 pistes:\\
+\hspace*{7pt}- Deux pistes A et B, en \textbf{quadrature de phase} ($\frac{\pi}{2}$) afin de déterminer le sens de rotation.\\
+\hspace*{7pt}- Une piste Z appelée \textit{top zéro} afin de \underline{déterminer la position de référence}.
+\vspace*{-10pt}
+\begin{center}
+\animategraphics[
+	controls,
+    loop,     
+    width=0.85\linewidth
+  ]{14}{Python/Codeur/frame_codeur_}{00}{49}
+\end{center}\vspace*{-230pt}
+\begin{center}
+\includegraphics[width=0.85\linewidth]{Python/Codeur/frame_codeur_25.pdf} \vspace*{-20pt}
+\end{center}
+\end{definition}
+\begin{méthode}{Trouver le sens de rotation}
+On a 2 sens possibles qui sont définis par le sujet. Généralement, on définira le sens 1 comme horaire.\\
+\hspace*{7pt}- Si lorsque B=0, A est en front montant, alors on est dans le sens 1 (horaire).\\
+\hspace*{7pt}- Sinon si lorsque B=1, A est en front montant, alors on est dans le sens 2 (anti-horaire).
+\end{méthode}
+\begin{definition}{Codeurs absolus}
+Il est composé de $n$ pistes concentriques visant à créer $2^n$ mots binaires traduisant alors $2^n$ portions différentes.
+\vspace*{-10pt}
+\begin{center}
+\animategraphics[
+	controls,
+    loop,     
+    width=0.85\linewidth
+  ]{14}{Python/Codeur_Absolu/frame_codeur_}{00}{49}
+\end{center}\vspace*{-230pt}
+\begin{center}
+\includegraphics[width=0.85\linewidth]{Python/Codeur_Absolu/frame_codeur_26.pdf} \vspace*{-20pt}
+\end{center}
+\end{definition}
+\begin{propriété}{Code Gray/Code réfléchi sur un codeur}
+Le \textbf{code Gray} est un système de codage en base 2 visant à ne changer qu'un seul bit entre chaque mot binaire.\\
+Sur un codeur il permet d'éviter les aléas de lecture. \textit{(bits changeant en même temps)}
+\end{propriété}
+\begin{exemple}{Exo reliant asservissement et codeur}
+Soit le schéma bloc suivant:
+\begin{center}
+\includegraphics[scale=0.7]{schematics/Asserv_codeur.pdf} 
+\end{center}
+On considérera le sens direct (horaire) lorsque la voie A est en avance de $90^\circ$ sur la voie B. De plus, le capteur dont le gain global est noté $K_c$ possède 10 pistes.\\
+\textbf{- Déterminer la résolution angulaire $\Delta \theta$ en $\textrm{rad/pt}$. En déduire la valeur de $K_c$}
+Le codeur possède 10 pistes, donc il y a $2^{10}=1024$ positions distinctes.\\
+Donc: $\Delta \theta=\frac{2\pi}{1024}=0.0061 \textrm{ rad/pt}$\\
+Posons $K_c=\dfrac{\textrm{Mot binaire}}{\theta}$\\
+Pour un tour complet on a $1024$ valeurs et un angle de $2\pi$. Ainsi:
+$$K_c=\dfrac{1024}{2\pi}\approx 162.97 \textrm{ mots/rad}$$
+\begin{multicols}{2}
+\textbf{- On remplace le capteur par un codeur incrémental. Voici un chronogramme relevé lors de la rotation. Déterminer dans quel sens tourne le moteur.}\\\\
+Lorsque A vaut 1, lors du front montant B vaut 0.\\
+Donc, A est en avance par rapport à B de $90^\circ$.\\
+Donc, \underline{le moteur tourne dans le sens horaire}.\columnbreak
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Exemple_codeur_sens.pdf} 
+\end{center}
+\end{multicols}
+\textbf{- On s'intéresse à un système utilisant un codeur absolu à 4 pistes. La carte d'acquisition lit le mot en code Gray $g_1=0010$ à l'instant $t=0$, puis le mot $g_2=0110$ à l'instant $t=100ms$. Trouver la vitesse de rotation moyenne $\omega$ sur cet intervalle en \textrm{rad/s}.}\\
+Posons $p_1=3$ et $p_2=4$, correspondant respectivement à $g_1$ et $g_2$.\\
+On a donc une variation $\Delta p=1$ incrément.\\
+Or, pour un codeur à 4 pistes ($2^4$ positions), la résolution angulaire $\Delta\theta=\frac{2\pi}{16}=\frac{\pi}{8}\textrm{ rad}$ et l'intervalle de temps vaut $\Delta t=0.1\textrm{ s}$\\
+Donc:
+$$\omega=\dfrac{\Delta\theta}{\Delta t}=\dfrac{\pi/8}{0.1}=\dfrac{10\pi}{8}=1.25\pi \textrm{ rad/s}\approx 3.9 \textrm{ rad/s}$$
+\end{exemple}
+\end{document}
