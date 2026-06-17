@@ -18,7 +18,7 @@ Vous utilisez **MikTeX**
 
 Ensuite:
 - Sur TeXMaker ou autre, utilisez la commande suivante:
-> Sauf Overleaf, vous devez mettre le fichier `.sty` dans la racine
+> Sauf Overleaf, vous devez mettre le fichier `.sty` dans la racine avant de compiler
 ```latex
 \documentclass{article}
 \usepackage{lcpackage}
