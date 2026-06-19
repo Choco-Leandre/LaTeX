@@ -13,7 +13,7 @@
 \begin{center}
 \Huge{Électronique}
 \end{center}
-Ce document comporte actuellement "tout le programme de TSI1". Le programme de TSI2 (redresseur, onduleur) sera introduit plus tard.\\
+Ce document comporte actuellement tout le programme d'élec en TSI.\\
 Je me suis permis quelques libertés dans l'électronique de puissance pour bien comprendre le concept, le contenu de celle-ci n'est pas forcément au programme.\\\\
 \textbf{IMPORTANT}: Les questions de concours en élec sont souvent reliées à l'asservissement et demandent de grosses connaissances calculatoires. De même, le cours peut être sollicité bien que celui-ci ne soit pas souvent demandé (d'où la présence faible de méthodes •$\_$•).
 \tableofcontents
@@ -62,7 +62,7 @@ La tension \textbf{s'oppose} au courant
 \end{center}
 \columnbreak
 \begin{center}
-\textbf{Convention génératrice}\\
+\textbf{Convention générateur}\\
 \includegraphics[scale=0.6]{schematics/Convention_Générateur.pdf}\\
 La tension \textbf{suit} le courant
 \end{center}
@@ -126,14 +126,14 @@ En complexe:\\
 \columnbreak
 \hspace*{-36pt}\includegraphics[scale=0.44]{schematics/Réponse_Bobine.pdf} 
 \end{multicols}
-\noindent NB: Une bobine est vue comme un composant qui \textbf{dérive}:\\
+\noindent NB: Une bobine est vu comme un composant qui \textbf{dérive}:\\
 $j\omega = p$ et $p$ est un dérivateur (cf: \textbf{\pg{Asservissement.pdf}})
 \end{definition}
 \begin{definition}{Condensateur}
 \begin{multicols}{2}
 C'est un composant passif capable de \textbf{stocker des charges électriques} (énergie élec).\\
 Il \textbf{lisse la tension} et son unité est le farad ($F$).\\
-Sa caractéristique est la suivante:
+Sa caractéristique is la suivante:
 \formulev{$i(t)=C\cdot\dfrac{du_c(t)}{dt}$}
 En complexe:\\
 \includegraphics[scale=0.62]{schematics/Condensateur_impédance.pdf} \\
@@ -187,7 +187,7 @@ On s'intéresse au dipôle suivant.
 \includegraphics[scale=0.48]{schematics/Exemple_1-b.pdf}
 \end{center}
 \noindent On donne $E=20V$ et $R_1=R_2=100\Omega$.\\\\
-\textbf{Q1. Faire apparaître sur le schéma les caractéristiques $U_1$, $U_2$, $I_1$ et $I_2$ associées aux résistances $R_1$ et $R_2$:}\\
+\textbf{Q1. Faire apparaître sur le schéma les caractéristiques $U_1$, $U_2$, $I_1$ et $I_2$ associés aux résistances $R_1$ et $R_2$:}\\
 \textit{cf: ce qu'il y a d'inscrit en violet}\\\\
 \textbf{Q2. Exprimer $I_1$ en fonction de $I$ et $I_2$:}\\
 D'après la loi des nœuds:
@@ -286,7 +286,7 @@ On exprime la \textbf{puissance active} ou \textbf{puissance moyenne} comme:
 \begin{definition}{Puissance Réactive $Q$}
 On exprime la \textbf{puissance réactive} comme:
 \formulev{$Q=VI\sin(\varphi)$}
-$Q$ s'exprime en $VAr$ pour volt-ampère-réactif.
+$Q$ s'exprime en $V-Ar$ pour volt-ampère-réactif.
 \end{definition}
 \begin{definition}{Puissance Apparente $S$}
 On exprime la \textbf{puissance apparente} comme:
@@ -347,7 +347,7 @@ Donc: $I_{enr}=10A$
 \phantomsection
 \addcontentsline{toc}{subsection}{Introduction}
 \begin{definition}{Modulateur statique}
-Un \textbf{modulateur statique} est un dispositif traitant l'énergie électrique c'est-à-dire en \textbf{modulant} (rendre compatibles les fonctions de tension, courant et fréquence) et en \textbf{convertissant} (passer d'un type d'énergie à une autre).
+Un \textbf{modulateur statique} is un dispositif traitant l'énergie électrique c'est-à-dire en \textbf{modulant} (rendre compatibles les fonctions de tension, courant et fréquence) et en \textbf{convertissant} (passer d'un type d'énergie à une autre).
 \end{definition}
 \begin{vocabulaire}{Différentes formes de modulateurs statiques et réversibilité}
 \begin{center}
@@ -386,10 +386,10 @@ Son \underline{potentiel à l'anode est} \underline{supérieur à celui de la ca
 \hspace{15pt}\includegraphics[scale=0.45]{schematics/Diode_symbole_image.pdf} 
 \end{multicols}
 \end{definition}
-\begin{méthode}{Étudier un état de diode par l'absurde}
+\begin{méthode}{Etudier un état de diode par l'absurde}
 - On suppose un état (passant ou bloqué)\\
 - On déduit la valeur de $i(t)$ ou $u_D(t)$ selon l'état.\\
-- Vérifier la coherence avec les contraintes de la diode.\\
+- Vérifier la cohérence avec les contraintes de la diode.\\
 \hspace*{7pt}$\hookrightarrow$ Si contradiction: l'état opposé est le bon\\
 - Conclure et exprimer $u_D(t)$ et $i(t)$.
 \end{méthode}\pagebreak
@@ -410,7 +410,7 @@ Ainsi, $i(t)=0$ donc: $u_R(t)=R\cdot i(t)=0$\\
 Or, $i(t)<0$ mais $u_D(t)<0$\\
 Mais, $e(t)=u_D(t)>0$ ce qui est absurde...\\
 Donc la \underline{diode est passante} !\\
-Donc: $u_r(t)=e(t)$ et $i(t)=\frac{u_r(t)}{R}=e(t)v$
+Donc: $u_r(t)=e(t)$ et $i(t)=\frac{u_r(t)}{R}=e(t)$
 \columnbreak\\
 \underline{Pour $e(t)<0$}:\\
 Supposons que la diode est \underline{passante}.\\
@@ -469,11 +469,11 @@ Un \textbf{hacheur} est un convertisseur statique permettant de transformer une 
 \end{multicols}
 \end{definition}
 \begin{definition}{Hacheur série}
-On appelle \textbf{hacheur série}, un montage électrique permettant d'obtenir une tension moyenne de sortie inférieure à la tension d'entrée en commutant un interrupteur commandé à haute frequency.
+On appelle \textbf{hacheur série}, un montage électrique permettant d'obtenir une tension moyenne de sortie inférieure à la tension d'entrée en commutant un interrupteur commandé à haute fréquence.
 \begin{center}
 \includegraphics[scale=0.8]{schematics/Hacheur_série.pdf} 
 \end{center}
-Il is souvent utilisé pour créer des variations de vitesse simples.
+Il est souvent utilisé pour créer des variations de vitesse simples.
 \end{definition}
 \begin{multicols}{2}
 \begin{definition}{Rapport cyclique}
@@ -597,12 +597,12 @@ Un \textbf{hacheur parallèle} ou hacheur boost est un montage électronique per
 \end{center}
 Il est souvent utilisé dans les dispositifs de freinage.
 \end{definition}
-\begin{exemple}[label=exemple_hacheur_boost]{Étude d'un hacheur Boost}
+\begin{exemple}[label=exemple_hacheur_boost]{Etude d'un hacheur Boost}
 Soit le hacheur suivant alimenté par une source de tension continue $U=12V$. Sa fréquence de commutation est $f=25kHz$. La charge modélisée est $R=10\Omega$ en parallèle avec un condensateur $C$, maintenant la tension de sortie $U_s$ constante à $48V$. L'inductance vaut $L=1mH$.
 \begin{center}
 \includegraphics[scale=0.5]{schematics/Exemple_hacheur_Boost_1.pdf} 
 \end{center}
-\textbf{- Établir les expressions de la tension $u_L(t)$ pour les deux phases de fonctionnement}\\
+\textbf{- Etablir les expressions de la tension $u_L(t)$ pour les deux phases de fonctionnement}\\
 On a 2 phases de fonctionnement.\\
 L'une de $[0,\alpha T]$ et la seconde de $[\alpha T,T]$.\\
 \But{Analysons par phase notre circuit}\pagebreak
@@ -684,7 +684,7 @@ En faisant de même à chaque fois on obtient:\vspace*{-10pt}
 \end{center}
 \end{exemple}
 \begin{definition}{Commande par MLI/PWM}
-On appelle \textbf{MLI} (Modulation de Largeur d'Impulsion) ou PWM, un type de commande où l'on compare un signal de référence sinusoïdal lent (consigne de vitesse) à un signal triangulaire haute fréquence (la \textbf{porteuse}).\\
+On appelle \textbf{MLI} (Modulation de Largeur d'Impulsion) ou PWM, un type de commande où l'on compare un signal de référence sinusoïdal lent (consigne de vitesse) à un signal triangulaire haute frequency (la \textbf{porteuse}).\\
 Pour un pont en H, le principe est le suivant:\\
 Si la référence$>$porteuse, alors on pose $K_1$ et $K_4$ fermés sinon $K_2$ et $K_3$ sont fermés.
 \begin{center}
@@ -717,7 +717,7 @@ Un \textbf{redresseur} est un convertisseur statique permettant de convertir une
 \includegraphics[scale=0.8]{schematics/Min-Max.pdf} 
 \end{center}
 \end{propriété}
-\begin{méthode}{Étudier la valeur moyenne de la tension d'un PD3}
+\begin{méthode}{Etudier la valeur moyenne de la tension d'un PD3}
 On se place sur $\frac{T}{6}$ par symétrie.\\
 Comme un signal est $2\pi$-périodique, on se place entre $-\pi/6$ et $\pi/6$.\\
 Or, $\displaystyle \langle u \rangle = \dfrac{1}{\pi/3}\int_{-\pi/6}^{\pi/6}\sqrt{2}\cdot U \cos(\theta) d\theta=\dfrac{3\sqrt{2}}{\pi}\cdot U$
@@ -726,7 +726,7 @@ Or, $\displaystyle \langle u \rangle = \dfrac{1}{\pi/3}\int_{-\pi/6}^{\pi/6}\sqr
 \addcontentsline{toc}{subsection}{Onduleur}
 \begin{definition}{Onduleur}\vspace*{-10pt}
 \begin{multicols}{2}
-\vspace*{2pt}Un \textbf{onduleur} est un convertisseur statique permettant de convertir une tension \textbf{continue} en tension \textbf{alternative} de fréquence réglable.\\
+Un \textbf{onduleur} est un convertisseur statique permettant de convertir une tension \textbf{continue} en tension \textbf{alternative} de fréquence réglable.\\
 C'est lui qu'on utilise pour commander des \hyperref[def_MS]{MS} ou des \hyperref[def_MAS]{MAS}.\columnbreak
 \begin{center}
 \includegraphics[scale=0.4]{schematics/Onduleur_symbole.pdf} 
@@ -745,7 +745,8 @@ C'est lui qu'on utilise pour commander des \hyperref[def_MS]{MS} ou des \hyperre
 \end{center}
 \end{multicols}
 \end{propriété}
-\noindent L'étude reste la même que pour les hacheurs. Veuillez vous référer à l'\hyperref[exemple_hacheur_série]{\textbf{\textcolor{mygray}{Exemple \ref*{exemple_hacheur_série}}}} et l'\hyperref[exemple_hacheur_boost]{\textbf{\textcolor{mygray}{Exemple \ref*{exemple_hacheur_boost}}}} pour réussir un exercice dessus.\\\\
+\noindent L'étude reste la même que les hacheurs. Veuillez vous référer à l'\hyperref[exemple_hacheur_série]{\textbf{\textcolor{mygray}{Exemple \ref*{exemple_hacheur_série}}}} et l'\hyperref[exemple_hacheur_boost]{\textbf{\textcolor{mygray}{Exemple \ref*{exemple_hacheur_boost}}}} pour réussir un exercice dessus.
+\pagebreak
 \phantomsection
 \addcontentsline{toc}{section}{Electrocinétique}
 \noindent{\Large\textbf{Électrocinétique}}\vspace*{4pt}\\
@@ -753,7 +754,7 @@ Pour information, il manque le programme de TSI2 incluant les moteurs synchrones
 \phantomsection
 \addcontentsline{toc}{subsection}{Machine à Courant Continu}
 \begin{definition}{Machine à Courant Continu (MCC) et symboles}
-C'est une \textbf{machine tournante} et un \textbf{convertisseur électromécanique}, permettant la conversion bidirectionnelle d'énergie.
+C'est une \textbf{machine tournante} et un \textbf{convertisseur électromécanique}, permettant la conversion duelle d'énergie.
 \begin{center}
 \includegraphics[scale=0.3]{schematics/Symboles_MCC.pdf} 
 \end{center}
@@ -916,7 +917,7 @@ Pour convertir des $tr\cdot min^{-1}$ en $rad\cdot s^{-1}$, on a la relation:
 \formuler{$1 tr\cdot min^{-1}=\dfrac{2\pi}{60}rad\cdot s^{-1}=\dfrac{\pi}{30}rad\cdot s^{-1}$}
 \end{propriété}
 \begin{propriété}{Fonctionnement d'une MS}
-Une machine synchrone est constituée d'un \textbf{stator} (l'induit) et d'un \textbf{rotor} (l'inducteur) qui interagissent ensemble par l'interaction de leurs champs magnétiques.
+Une machine synchrone est constituée d'un \textbf{stator} (l'induit) et d'un \textbf{rotor} (inducteur) qui interagissent ensemble par l'interaction de leurs champs magnétiques.
 \begin{flushleft}
 \textbf{Le stator:}\\
 Il est \textbf{fixe} et contient trois enroulements distincts décalés de $2\pi/3$. Dans ceux-ci on y injecte 3 courants alternatifs déphasés de $2\pi/3$ créant alors un champ magnétique tournant global. Ce champ $\overrightarrow{B_{stator}}$ tourne à la vitesse de synchronisme $\Omega_s$.
@@ -958,7 +959,7 @@ $$N_s=\dfrac{60f}{p}=\dfrac{60\cdot 50}{2}=1500 tr\cdot min^{-1}\equiv \boxed{15
 Le \textbf{diagramme de Fresnel} est une représentation complexe ($Im$ et $Re$) de différentes composantes électriques permettant la compréhension de certains phénomènes physiques par son champ tournant.
 \end{definition}
 \begin{méthode}{Création d'un diagramme de Fresnel}
-Avant tout, on essaiera de faire un diagramme de Fresnel à l'échelle pour une potentielle exploitation des données de celui-ci.\\
+Avant tout, on essayera de faire un diagramme de Fresnel à l'échelle pour une potentielle exploitation des données de celui-ci.\\
 - On \textbf{trace} notre axe $Re/Im$.\\
 - On écrit à côté toutes nos \textbf{lois des mailles/nœuds/d'Ohm} en rapport avec le circuit électrique.\\
 - On pose un \textbf{vecteur comme référence}. \textit{(généralement un dont on connaît sa valeur)}\\
@@ -974,8 +975,8 @@ Avant tout, on essaiera de faire un diagramme de Fresnel à l'échelle pour une 
     width=0.33\linewidth
   ]{1}{pellicules/frame-}{0}{6}
 \end{center}\vspace*{-10pt}
-(Il y a une animation pour l'exemple suivant juste au-dessus, pour la voir veuillez utiliser Adobe Acrobat ou un autre lecteur)
-\begin{exemple}{Methode pour construire un diagramme de Fresnel sur un circuit}
+(Il y a une animation pour l'exemple suivant juste au dessus, pour la voir veuillez utiliser Adobe Acrobat ou un autre lecteur)
+\begin{exemple}{Méthode pour construire un diagramme de Fresnel sur un circuit}
 \vspace*{-10pt}\begin{multicols}{2}
 Partons de cet exemple
 \begin{center}
@@ -1047,7 +1048,7 @@ $$\underline{E} = \underline{V_s} + R_s \cdot \underline{I_s} + Z_L \cdot \under
 \begin{center}
 \includegraphics[scale=0.55]{schematics/Fresnel_MS_Générateur.pdf} 
 \end{center}
-Avec: - $\varphi$ le déphasage de la tension simple par rapport au courant. $\bm{\cos(\varphi)}$ représente \textbf{the facteur de puissance}.\\
+Avec: - $\varphi$ le déphasage de la tension simple par rapport au courant. $\bm{\cos(\varphi)}$ représente \textbf{le facteur de puissance}.\\
 \hspace*{23pt} - $\psi$ le déphasage de la f.e.m par rapport au courant. On essayera d'avoir $\psi=0$ en mode récepteur afin de maximiser le couple.
 \end{propriété}
 \begin{definition}{Couple électromagnétique d'une MS}
@@ -1072,7 +1073,7 @@ En fonctionnement \underline{\textbf{génératrice}}:
 \end{center}
 \end{propriété}
 \begin{exemple}{Exercice sur les MS}
-Étudions la tension d'alimentation d'un moteur synchrone dans son cas le plus défavorable. C'est-à-dire pour une valeur angulaire mécanique $\omega_m=200 rad.s^{-1}$ et un couple mécanique $C_{em}=11N.m$.\\
+Etudions la tension d'alimentation d'un moteur synchrone dans son cas le plus défavorable. C'est-à-dire pour une valeur angulaire mécanique $\omega_m=200 rad.s^{-1}$ et un couple mécanique $C_{em}=11N.m$.\\
 On donne les caractéristiques suivantes du moteur synchrone:
 \begin{center}
 \includegraphics[scale=0.63]{schematics/Tableau_exemple_MS.pdf} 
@@ -1230,7 +1231,7 @@ Or, d'après le bilan de puissance au stator \fbox{$P_{tr} = P_a - p_{js}$}.\qqu
 Or, le modèle électrique équivalent impose \fbox{$p_{jr} = g \cdot P_{tr}$}.\qquad Donc: $p_{jr} = 0{,}05 \cdot 5750=287,5W$.\vspace*{7pt}\\
 \textbf{- Calculer la puissance utile $P_u$ et le rendement $\eta$.}\\
 D'après le bilan de puissance, la puissance mécanique totale est $P_{meca} = P_{tr} - p_{jr}$. Donc: $P_{meca} = 5750 - 287,5 = 5462,5W$.\\
-\But{On note parfois $P_{meca}=P_{em}$ comme dans cet exo}\\
+\But{On note des fois $P_{meca}=P_{em}$ comme dans cet exo}\\
 Or, le bilan final donne $P_u = P_{meca} - p_m$.\\
 Donc $P_u = 5462,5 - 120=5342,5W$.\\
 Or, \fbox{$\eta = \dfrac{P_u}{P_a}$}.\qquad Donc $\eta = \dfrac{5342{,}5}{6000}=0,89$.\vspace*{7pt}\\
@@ -1246,7 +1247,7 @@ Donc $K = \dfrac{C_{em}}{7{,}85} = \dfrac{36{,}61}{7{,}85}=4.66N.m.s.rad^{-1}$.
 \noindent{\Large\textbf{Trucs en plus}}\vspace*{4pt}\\
 \phantomsection
 \addcontentsline{toc}{subsection}{Codeurs}
-Parlons des codeurs qui font partie intégrante des sujets et qui font partie de l'étude des moteurs, sont présents dans les exos d'asservissements...
+Parlons des codeurs qui font partie intégrante des sujets et qui font partie de l'étude de moteurs, sont présents dans les exos d'asservissements...
 \begin{definition}{Codeurs optiques}\vspace*{-10pt}
 \begin{multicols}{2}
 On appelle \textbf{codeur optique}, des capteurs permettant de \underline{mesurer} directement ou indirectement \underline{une position angulaire}.\\
@@ -1302,7 +1303,7 @@ Soit le schéma bloc suivant:
 \begin{center}
 \includegraphics[scale=0.7]{schematics/Asserv_codeur.pdf} 
 \end{center}
-On considérera le sens direct (horaire) lorsque la voie A est en avance de $90^\circ$ sur la voie B. De plus, le capteur dont le gain global est noté $K_c$ possède 10 pistes.\\
+On considérera le sens direct (horaire) lorsque la voie A est en avance de $90^\circ$ sur la voie B. De plus, le capteur de gain $K_c$ possède 10 pistes.\\
 \textbf{- Déterminer la résolution angulaire $\Delta \theta$ en $\textrm{rad/pt}$. En déduire la valeur de $K_c$}
 Le codeur possède 10 pistes, donc il y a $2^{10}=1024$ positions distinctes.\\
 Donc: $\Delta \theta=\frac{2\pi}{1024}=0.0061 \textrm{ rad/pt}$\\
