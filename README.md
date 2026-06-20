@@ -1,5 +1,5 @@
 ## Bienvenue sur mes fichiers LaTeX
-Ici je partage des exemples de documents LaTeX que j'ai pu faire et mon package pour réaliser mes documents.
+Ici je partage des exemples de documents LaTeX que j'ai pu faire et mon package pour réaliser mes compositions.
 ### - Utiliser `lcpackage`
 - Téléchargez le fichier `lcpackage.sty`
 
