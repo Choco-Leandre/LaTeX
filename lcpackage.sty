@@ -35,6 +35,13 @@
 \RequirePackage{animate}
 \RequirePackage{microtype}
 \RequirePackage{paracol}
+\RequirePackage{enumitem}
+
+\setlist[itemize,1]{label={-}, leftmargin=7pt, itemsep=-2pt}
+\newcommand{\iitem}{\par\vspace*{-2pt}\hangindent=8pt \hspace*{7pt}$\hookrightarrow$\hspace*{5pt}\ignorespaces}
+\newcommand{\iiitem}{\par\vspace*{-2pt}\hangindent=15pt \hspace*{14pt}$\circ$\hspace*{5pt}\ignorespaces}
+\newcommand{\iiiitem}{\par\vspace*{-2pt}\hangindent=22pt \hspace*{21pt}\textbullet\hspace*{5pt}\ignorespaces}
+
 
 \tcbuselibrary{skins, listings, breakable}
 
@@ -361,13 +368,11 @@
   \setlength{\columnsep}{-5pt}
   \columnratio{0.72} 
   \begin{paracol}{2}
-    % Démo
     \begin{démonstration}[nobeforeafter]{#1}
-      \setlength{\columnsep}{15pt} 
-}{%
+      \setlength{\columnsep}{15pt}
+}{
     \end{démonstration}
     \switchcolumn 
-    %Méthodo
     \begin{tcolorbox}[
         enhanced,
         breakable,
@@ -377,10 +382,20 @@
         arc=4pt,
         boxsep=7pt,
         left=0pt, right=0pt, top=2pt, bottom=0pt,
-        nobeforeafter
+        nobeforeafter,
+        title={Méthodo},
+        fonttitle=\bfseries\sffamily,
+        coltitle=myorange,
+        attach boxed title to top center={yshift=-7pt},
+        boxed title style={
+            colback=white,
+            colframe=white,
+            boxrule=0pt,
+            left=5pt, right=5pt, top=0pt, bottom=0pt 
+        }
       ]
-      {\centering\textcolor{myorange}{\bfseries\sffamily Méthodo}\par}\vspace{4pt}
-      {\small\rmfamily\textls[40]{\currentmethodotext}}
+      \setlength{\parindent}{0pt}
+      {\small\rmfamily\ignorespaces\currentmethodotext}
     \end{tcolorbox}
   \end{paracol}
   \par\vspace{\baselineskip}
@@ -392,14 +407,12 @@
   \setlength{\columnsep}{-5pt}
   \columnratio{0.72} 
   \begin{paracol}{2}
-    %Exemple
     \begin{exemple}[nobeforeafter]{#1}
       \setlength{\columnsep}{15pt}
 }{
     \end{exemple}
     \switchcolumn
-    %Méthodo
-    \begin{tcolorbox}[
+     \begin{tcolorbox}[
         enhanced,
         breakable,
         colframe=myorange!70,
@@ -408,10 +421,20 @@
         arc=4pt,
         boxsep=7pt,
         left=0pt, right=0pt, top=2pt, bottom=0pt,
-        nobeforeafter
+        nobeforeafter,
+        title={Méthodo},
+        fonttitle=\bfseries\sffamily,
+        coltitle=myorange,
+        attach boxed title to top center={yshift=-7pt},
+        boxed title style={
+            colback=white,
+            colframe=white,
+            boxrule=0pt,
+            left=5pt, right=5pt, top=0pt, bottom=0pt
+        }
       ]
-      {\centering\textcolor{myorange}{\bfseries\sffamily Méthodo}\par}\vspace{4pt}
-      {\small\rmfamily\textls[40]{\currentmethodotext}}
+      \setlength{\parindent}{0pt}
+      {\small\rmfamily\ignorespaces\currentmethodotext}
     \end{tcolorbox}
   \end{paracol}
   \par\vspace{\baselineskip}
