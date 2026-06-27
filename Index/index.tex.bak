@@ -1,7 +1,7 @@
 \documentclass{article}
 
-% Appel de ton préambule personnalisé
-\usepackage{ChocoLeandrepackage}
+%A mettre tout le temps
+\usepackage{lcpackage}
 
 \begin{document}
 \pagestyle{fancy}
@@ -50,19 +50,44 @@ Une méthode s'écrit toujours avec des étapes complètes. Il faut tout détail
 On peut aussi mettre des \hyperref[methode1]{\textcolor{myorange}{\textbf{liens}}} vers des définitions ou autres trucs:
 \end{méthode}
 \begin{méthode}[label=methode1]{Exemple d'une méthode}
-1- Pour un $M$ qlq, on pose le syst donné et on trouve une équation du plan\\
-2- On montre que $M_0 \in \mathscr C$\\
-3- Méthode gradient: \\
-\hspace*{7pt} a) Calcul du $\nabla f(x,y)$\\
-\hspace*{7pt} b) On remplace par les cos de $M_0$\\
-\hspace*{7pt} c) On a le vecteur normal d'où la tangente\\
-4- Méthode DL:\\
-\hspace*{7pt} a) On pose le paramètre $t=3$ ($t$ qui permet de retrouver le point via le système)\\
+\begin{itemize}
+\item Pour un $M$ qlq, on pose le syst donné et on trouve une équation du plan
+\item On montre que $M_0 \in \mathscr C$
+\item Méthode gradient:
+\iitem Calcul du $\nabla f(x,y)$\\
+\iitem On remplace par les cos de $M_0$\\
+\iitem On a le vecteur normal d'où la tangente\\
+\item Méthode DL:\\
+\iitem On pose le paramètre $t=3$ ($t$ qui permet de retrouver le point via le système)\\
 \hspace*{7pt} b) On pose $t=3+h$ + changement dans le système\\
 \hspace*{7pt} c) DL associé à chaque équation\\
 \hspace*{15pt} $\circ$ Pour la première on simplifie et on rajoute un $o(h)$\\
 \hspace*{15pt} $\circ$ Pour la seconde, Id remarquable et on enlève le terme en $h^2$ et on rajoute un $o(h)$\\
 \hspace*{7pt} d) On obtient alors les coordonnées d'un vecteur directeur pour notre tangente !
+\end{itemize}
 \end{méthode}
 \end{multicols}
+\begin{demomethode}{Titre de la démo}{
+- Méthode pas à pas de la démo.\\
+- Puis
+}
+Contenu démo (possibilité de couper des pages)
+
+\begin{multicols}{2}
+    On peut aussi mettre des colonnes internes.\columnbreak\\
+    Colonne 2 :)
+\end{multicols}
+
+\begin{progSQL}{Implémenter des démo-méthodes}
+\begin{demomethode}{Titre de la démo}{
+Contenu méthode
+}
+Contenu démo
+\end{demomethode}
+\end{progSQL}
+\end{demomethode}
+\begin{exemplemethode}{Titre de l'exemple}{
+}
+Il existe pareil mais avec des \pg{exemplemethode}.
+\end{exemplemethode}
 \end{document}
