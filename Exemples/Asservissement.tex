@@ -119,12 +119,10 @@ Ici, notre fonction de transfert est $H_m(p)=\dfrac{\Omega (p)}{U_m(p)}$
 - \textbf{Factoriser} le numérateur et le dénominateur par le \textbf{terme constant}.
 \end{méthode}
 \begin{exemple}{Forme canonique d'une fonction de transfert}
-Soit: $X(p)(k+\lambda p + m\cdot p^2)=F(p)$. On prendra $X(p)$ l'entrée et $F(p)$ la sortie.\\
-Donc: $H(p)=\dfrac{X(p)}{F(p)}=\dfrac{1}{k+\lambda\cdot p+mp^2}$\\
-$\rightarrow$ Tout est ordonné, on n'a pas besoin de factoriser par $p$. Alors, on factorise par le terme constant.\vspace*{-2pt}
-\begin{center}
-\formulen{$H(p)=\dfrac{1}{k}\cdot\dfrac{1}{1+\dfrac{\lambda p}{k}+\dfrac{mp^2}{k}}$}
-\end{center}
+Soit la fonction de transfert: $H(p) = \frac{\frac{3}{p} + 6}{2p + \frac{8}{p}}$, mettons là sous forme canonique.
+\begin{align*} H(p) = \frac{\frac{3}{p} + 6}{2p + \frac{8}{p}} = \frac{\left(\frac{3}{p} + 6\right) \cdot p}{\left(2p + \frac{8}{p}\right) \cdot p} = \frac{3 + 6p}{8 + 2p^2} \xeq{\text{Factorisation par 3 et 8}} \frac{3(1 + 2p)}{8\left(1 + \frac{1}{4}p^2\right)} = \frac{3}{8} \cdot \frac{1 + 2p}{1 + \frac{1}{4}p^2}
+\end{align*}
+Avec cette version, on pourra en déduire facilement plusieurs valeurs.
 \end{exemple}
 \phantomsection
 \addcontentsline{toc}{section}{Domaine temporel}
@@ -284,7 +282,7 @@ S(p)\left(1+A(p)\cdot B(p)\right) &= A(p)\cdot E(p)\\
 \end{align*}
 \end{démonstration}
 \begin{propriété}{Théorème de superposition}
-Lorsqu'on a 2 comparateurs (souvent en cas de perturbations), on \textbf{divise notre schéma bloc en deux parties}.\\
+Lorsqu'on a 2 entrées (souvent en cas de perturbations), on \textbf{divise notre schéma bloc en deux parties}.\\
 Ainsi:
 \begin{center}
 \tcbox[colframe=myred, colback=white, boxrule=2pt]{$S(p)=S_E(p)+S_P(p)=H_E(p)\cdot E(p) +H_P(p)\cdot P(p)$}
@@ -432,7 +430,7 @@ $$H(p)=\textrm{Gain pur}\times \textrm{Intégrateur} \times \textrm{Premier ordr
 \addcontentsline{toc}{section}{Performances d'un système asservi}
 \noindent{\Large\textbf{Performances d'un système asservi}}
 \begin{definition}{Pôle}
-On appelle \textbf{pôle} d'un système, une valeur de la variable de Laplace $p$ pour laquelle la fonction de transfert $H(p)$ tend vers l'infini.
+On appelle \textbf{pôle} d'un système, une valeur de la variable de Laplace $p$ pour laquelle la fonction de transfert $H(p)$ tend vers l'infini. Plus simplement, ce sont \textbf{les racines du dénominateur} d'une fonction de transfert.
 \end{definition}
 \begin{méthode}{Chercher les pôles d'une fonction de transfert}
 Comme une fonction de transfert contient principalement un numérateur et un dénominateur tel que $H(p)=\frac{N(p)}{D(p)}$. Il convient alors de chercher les racines du dénominateur afin que $D(p)=0$.\\
@@ -444,12 +442,12 @@ Comme une fonction de transfert contient principalement un numérateur et un dé
 \hspace*{10pt} $\hookrightarrow$ Degré 2: Discriminant $\to$ Solutions associées\\
 - On a les pôles.\\
 \textbf{Remarques:}\\
-Si \textbf{les} pôles sont négatifs, le système sera dit \textbf{stable}. Au contraire, si \textbf{un} pôle est positif, le système sera dit \textbf{instable}.
+Si \textbf{tous les} pôles de la $FTBF$ sont à partie réelle strictement négative, alors le système sera dit \textbf{stable}. Au contraire, si au moins \textbf{un} pôle a une partie réelle positive ou nulle, le système sera dit \textbf{instable}.
 \end{méthode}
 \begin{definition}{Classe $\alpha$}
-On appelle \textbf{classe} d'un système ce qui correspond au nombre de pôle de celui-ci.\\
-En pratique, on définit la classe comme \underline{le nombre d'intégrateur dans notre fonction de transfert}.
-\end{definition}
+La \textbf{classe} d'un système est le nombre d'intégrateurs à l'origine ($\frac{1}{p}$) présents dans sa $FTBO$.\vspace*{-10pt}
+$$FTBO(p) = \frac{K \cdot (\dots)}{p^\alpha \cdot (\dots)}$$
+\end{definition}\vspace*{-10pt}
 \phantomsection
 \addcontentsline{toc}{subsection}{Stabilité}
 \begin{center}
@@ -488,7 +486,7 @@ Un système sera dit \textbf{instable} lorsque sa réponse temporelle comporte \
 {\Large Précision}
 \end{center}
 \begin{definition}{Précision temporelle}
-On définit la \textbf{précision} sur une réponse temporelle comme l'écart entre la consigne et la sortie
+On définit la \textbf{précision} sur une réponse temporelle comme l'écart entre la consigne et la sortie en régime établi
 \formulev{$\varepsilon=e-s$}
 \end{definition}
 \begin{propriété}{Tableau d'écarts selon la consigne en boucle ouverte}
@@ -498,7 +496,7 @@ Soit une fonction de transfert $H(t)$ en boucle ouverte,
 \end{center}
 \end{propriété}
 \begin{propriété}{Précision dans le domaine fréquentiel}
-Afin d'augmenter la précision, en pratique on \textbf{augmente le gain}. Cependant, cela a pour effet de réduire nos marges de phase et \textbf{crée de l'instabilité}.
+Afin d'augmenter la précision, en pratique on \textbf{augmente le gain}. Cependant, cela a pour effet de réduire nos marges de phase et \textbf{crée de l'instabilité}. On peut aussi \textbf{augmenter la classe de la FTBO}.
 \end{propriété}
 \phantomsection
 \addcontentsline{toc}{subsection}{Rapidité}

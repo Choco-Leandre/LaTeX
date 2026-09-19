@@ -13,12 +13,13 @@
 \end{center}
 Dans ce document vous trouverez tout le programme de mécanique en SI de TSI.
 \tableofcontents
-\begin{center}\vspace*{50pt}
-\includegraphics[scale=0.55]{Bras_robotique.png}
+\begin{center}\vspace*{25pt}
+\includegraphics[scale=0.57]{Bras_robotique.png}
 \end{center}
 \vfill
 \begin{center}
 {\footnotesize Ce document s'inspire des cours d'Amaury Dalla Monta et de Nicolas Milhaud, professeurs agrégés en sciences industrielles de l'ingénieur.}\\
+{\footnotesize Une IA a été utilisée pour corriger l'orthographe.}\\
 {\footnotesize Latest version as of \today}
 \end{center}\pagebreak
 \begin{méthode}{Résoudre des questions de concours}
@@ -29,7 +30,9 @@ Dans ce document j'ai mis des méthodes, à vous de les utiliser dans les questi
 \end{méthode}
 \phantomsection
 \addcontentsline{toc}{section}{Cinématique}
-\noindent{\Large\textbf{Cinématique}}\vspace*{4pt}
+\noindent{\Large\textbf{Cinématique}}
+\phantomsection
+\addcontentsline{toc}{subsection}{Généralités}\vspace*{4pt}
 \begin{definition}{Cinématique}
 La \textbf{cinématique} est l'étude des mouvements des pièces, indépendamment des causes leur ayant donné naissance.\vspace{4pt}\\
 \underline{\textbf{Remarque}}: Des hypothèses seront prises en compte, telles qu'une \textbf{géométrie parfaite}, un \textbf{solide indéformable}, une \textbf{liaison sans jeu} et un \textbf{maintien du contact}.
@@ -130,7 +133,8 @@ Si une translation a lieu, on y inscrit une \underline{double flèche} $\longlef
 \begin{multicols}{2}
 \noindent \begin{definition}{Figure de changement de base}
 Une \textbf{figure de changement de base} est un schéma permettant de passer d'une représentation des vecteurs dans une base à une autre, facilitant ainsi les calculs et la compréhension des propriétés géométriques et algébriques des espaces vectoriels.\vspace{-5pt}\\\\
-Si possible, essayer de les espacer et mettre des petits angles (moins de $\frac{\pi}{4}$)
+Si possible, essayer de les espacer et mettre des petits angles (moins de $\frac{\pi}{4}$)\\\\
+L'axe de rotation doit être vers nous.
 \end{definition}
 \columnbreak
 \begin{exemple}{Figure de changement de base suspension BMW}
@@ -139,6 +143,8 @@ Si possible, essayer de les espacer et mettre des petits angles (moins de $\frac
 \end{center}
 \end{exemple}
 \end{multicols}
+\phantomsection
+\addcontentsline{toc}{subsection}{Loi d'entrée-sortie}
 \begin{definition}{Loi d'entrée-sortie}
 On appelle \textbf{loi d'entrée-sortie} 
 une relation liant le/les paramètre(s) géométrique(s) d'entrée à celui/ceux de sortie.
@@ -311,6 +317,8 @@ Ensuite, on fait $\frac{(3)}{(4)}$
 Donc on a : $\boxed{1=-\dfrac{L\cos(\alpha)}{\tan(\beta)\cdot(L\sin(\alpha)-H)}}$
 \end{exemple}
 \pagebreak
+\phantomsection
+\addcontentsline{toc}{subsection}{Torseur cinématique}
 \begin{definition}{Vecteur vitesse}
 On appelle \textbf{vecteur vitesse}, d'un point $M$ d'un solide $1$ par rapport à un référentiel $0$ le vecteur dérivé de sa position.
 \formulev{$\overrightarrow{v_{M\in 1/0}}=\left(\frac{d\overrightarrow{OM}}{dt}\right)_0$}
@@ -320,8 +328,26 @@ On appelle \textbf{vecteur rotation} du solide 1 par rapport à une base 0, le v
 De plus, si le solide 1 tourne autour de $\overrightarrow{z_0}$ :
 \formulev{$\overrightarrow{\Omega_{1/0}}=\dfrac{d\theta}{dt}\cdot \overrightarrow{z_0}=\dot{\theta}\cdot\overrightarrow{z_0}$}
 \end{definition}
+\begin{definition}{Torseur cinématique}
+Pour résumer les informations de nos différents vecteurs, on écrit un torseur cinématique.
+On pourra traduire les torseurs de la \hyperref[def4]{\textcolor{mygreen}{\textbf{Définition \ref*{def4}}}} comme ceci :
+$$\{\mathcal{V}_{1/0}\}=\begin{Bmatrix}
+\omega_x & v_x \\
+\omega_y & v_y \\
+\omega_z & v_z \\
+\end{Bmatrix}_{O,(\vec{x},\vec{y},\vec{z})}
+= \begin{Bmatrix}
+ \omega_x \cdot \vec{x} &+& \omega_y \cdot \vec{y} &+& \omega_z \cdot \vec{z} \\
+ v_x \cdot \vec{x} &+& v_y \cdot \vec{y} &+& v_z \cdot \vec{z}  \\
+\end{Bmatrix}_O = \begin{Bmatrix}
+\overrightarrow{\Omega_{1/0}}\\
+\overrightarrow{v_{I\in1/0}}\end{Bmatrix}_O \begin{matrix}
+\textbf{{\small Résultante cinématique}}\vspace*{4pt} \\
+\textbf{{\small Moment cinématique}}
+\end{matrix}$$
+\end{definition}
 \begin{multicols}{2}
-\noindent \begin{propriété}{Formule de Bour}
+\noindent \begin{propriété}[label=formuledebour]{Formule de Bour}
 Lorsqu'on cherche la \textbf{dérivée d'un vecteur} dans une base non fixe \textit{(mobile)}, on utilise cette loi :\vspace*{-5pt}
 \formuler{$\left(\frac{d\vec{u}}{dt}\right)_0=\left(\frac{d\vec{u}}{dt}\right)_1+\overrightarrow{\Omega_{1/0}}\wedge \overrightarrow{u}$}
 \end{propriété}\columnbreak
@@ -332,30 +358,28 @@ Pour \underline{la dérivée par rapport à la base de référence} :\vspace{9pt
 - On le \textbf{multiplie par la vitesse angulaire}.
 \end{méthode}
 \end{multicols}
+\begin{exemple}{Dérivée d'un vecteur}
+On donne la vitesse au point $A$ du solide 1 par rapport à 0 tel que: $\overrightarrow{v_{A\in 1/0}}= r\dot{\theta}\vec{y_1}$ (avec $r$ constante, et $\left(\frac{\mathrm{d}\vec{y_1}}{\mathrm{d}t}\right)_{\mathcal{R}_0} = -\dot{\theta}\vec{x_1}$).
+
+\noindent \textbf{- Déterminer l'accélération au point A du solide 1 par rapport à 0}
+\begin{align*}
+\overrightarrow{\gamma_{A\in 1/0}} &= \left(\frac{\mathrm{d}\overrightarrow{v_{A\in 1/0}}}{\mathrm{d}t}\right)_{\mathcal{R}_0} = \frac{\mathrm{d}}{\mathrm{d}t}\left[ r\dot{\theta}\vec{y_1} \right]_{\mathcal{R}_0} = r\ddot{\theta}\vec{y_1} + r\dot{\theta}\left(\frac{\mathrm{d}\vec{y_1}}{\mathrm{d}t}\right)_{\mathcal{R}_0} = r\ddot{\theta}\vec{y_1} + r\dot{\theta}(-\dot{\theta}\vec{x_1}) = \boxed{-r\dot{\theta}^2\vec{x_1} + r\ddot{\theta}\vec{y_1}}
+\end{align*}
+\end{exemple}
 \begin{propriété}{Formule de Varignon}
 Pour changer un \textbf{vecteur vitesse} en un point $A$ en un point $B$.
 On utilise cette formule, elle sera très utile en mécanique.\vspace{-3pt}
 \formuler{$\overrightarrow{v_{B\in1/0}}=\overrightarrow{v_{A\in1/0}}+\overrightarrow{BA}\wedge \overrightarrow{\Omega_{1/0}}$}
 Un moyen mnémotechnique pour se souvenir des indices est de se dire $BABAR$.
 \end{propriété}
-\begin{definition}{Torseur cinématique}
-Pour résumer les informations de nos différents vecteurs, on écrit un torseur cinématique.
-On pourra traduire les torseurs de la \hyperref[def4]{\textcolor{mygreen}{\textbf{Définition \ref*{def4}}}} comme ceci :
+\begin{definition}{Roulement sans glissement}
+Un \textbf{roulement sans glissement} est caractérisé lorsqu'il n'y a \underline{pas de vecteur vitesse relative }.
+\textbf{ie :} $\overrightarrow{v_{I\in1/0}}=\overrightarrow{0}$
 $$\{\mathcal{V}_{1/0}\}=\begin{Bmatrix}
-T_{\vec{x}} & R_{\vec{x}}  \\
-T_{\vec{y}} & R_{\vec{y}} \\
-T_{\vec{z}} & R_{\vec{z}} \\
-\end{Bmatrix}_{O,(\vec{x},\vec{y},\vec{z})}
-= \begin{Bmatrix}
- R_{\vec{x}} \cdot \vec{x} &+& R_{\vec{y}} \cdot \vec{y} &+& R_{\vec{z}} \cdot \vec{z} \\
- T_{\vec{x}} \cdot \vec{x} &+& T_{\vec{y}} \cdot \vec{y} &+& T_{\vec{z}} \cdot \vec{z}  \\
-\end{Bmatrix}_O = \begin{Bmatrix}
 \overrightarrow{\Omega_{1/0}}\\
-\overrightarrow{v_{I\in1/0}}\end{Bmatrix}_O \begin{matrix}
-\textbf{{\small Résultante cinématique}}\vspace*{4pt} \\
-\textbf{{\small Moment cinématique}}
-\end{matrix}$$
-\end{definition}
+\overrightarrow{0}
+\end{Bmatrix}$$
+\end{definition}\pagebreak
 \begin{méthode}{Problème plan}
 \begin{multicols}{2}
 Pour simplifier nos torseurs, on \textbf{se place dans le plan}.
@@ -369,14 +393,6 @@ Cette simplification nous permettra de simplifier tous nos calculs !\columnbreak
 \end{center}
 \end{multicols}
 \end{méthode}
-\begin{definition}{Roulement sans glissement}
-Un \textbf{roulement sans glissement} est caractérisé lorsqu'il n'y a \underline{pas de vecteur vitesse relative }.
-\textbf{ie :} $\overrightarrow{v_{I\in1/0}}=\overrightarrow{0}$
-$$\{\mathcal{V}_{1/0}\}=\begin{Bmatrix}
-\overrightarrow{\Omega_{1/0}}\\
-\overrightarrow{0}
-\end{Bmatrix}$$
-\end{definition}\pagebreak
 \begin{méthode}{Trouver rapidement un produit vectoriel graphiquement}
 Un \textbf{vecteur multiplié par lui-même fera le vecteur nul} : $\overrightarrow{x}\wedge\overrightarrow{x}=\overrightarrow{0}$\\
 Et la formule initiale du produit vectoriel est : $\boxed{\overrightarrow{x}\wedge\overrightarrow{y}=||\overrightarrow{x}||\cdot||\overrightarrow{y}||\cdot\sin({\overrightarrow{x}\overrightarrow{y}})}$
@@ -416,12 +432,8 @@ En voici le paramétrage :
 \begin{center}
 \includegraphics[scale=0.6]{schematics/Exemple5a.pdf}
 \end{center}
-Déterminons :\\
-- La loi d'entrée-sortie géométrique \\
-- La loi d'entrée-sortie en vitesse\\
-- La vitesse de glissement entre la came 1 et la soupape 2\\
-\begin{multicols}{2}
-\underline{1- Loi d'entrée-sortie géométrique.}
+\textbf{- Déterminer la loi d'entrée-sortie géométrique:}
+\begin{multicols}{2}\vspace*{-20pt}
 \begin{align*}
 \overrightarrow{0}=&\overrightarrow{OC}+\overrightarrow{CI}+\overrightarrow{IA}+\overrightarrow{AO}\\
 =&e\overrightarrow{x_1}-R\overrightarrow{y_0}+\mu\overrightarrow{x_0}+\lambda\overrightarrow{y_0}
@@ -430,22 +442,26 @@ On projette sur $y_0$ : \textcolor{gray}{\textit{Pas besoin sur $x$, on ne veut 
 $$0=e\sin(\theta)(t)-R+\lambda(t)$$
 donc : \fbox{$\lambda(t)=R-e\cdot \sin(\theta)(t)$}
 \columnbreak
-\begin{center}
+\begin{center}\vspace*{-50pt}
 \includegraphics[scale=0.5]{schematics/Exemple5b.pdf}\vspace*{-20pt}
 \end{center}
 \end{multicols}
-\underline{2- Loi d'entrée-sortie en vitesse :}\\
-$\rightarrow$ Ce qu'on peut faire :\\
-\hspace*{20pt} • Faire une fermeture cinématique \hspace*{6pt} \textit{ou} \hspace*{6pt} • Dériver notre fermeture géométrique \textit{ce qui est plus simple}\\
-Donc : $$\dot{\lambda}=-e\dot{\theta}\cos(\theta)(t)$$
-\underline{3- Vitesse de glissement entre came 1 et la soupape 2 :}\vspace{-10pt}
+\textbf{- Déterminer la loi d'entrée-sortie (E/S) en vitesse:}\\
+\underline{Ce qu'on peut faire:}
+\begin{itemize}
+\item Faire une fermeture cinématique
+\item Dériver notre fermeture géométrique \quad (Ce qui est + simple)
+\end{itemize}
+Donc: $$\dot{\lambda}(t) = \frac{\mathrm{d}}{\mathrm{d}t} \left[ R - e \sin(\theta(t)) \right] = - e \cdot \frac{\mathrm{d}}{\mathrm{d}t}\left[ \sin(\theta(t)) \right] \xeq{(f\circ g)'} \boxed{- e \cdot \dot{\theta}(t) \cos(\theta(t))=\dot{\lambda}}$$
+
+\textbf{- Déterminer la condition de roulement sans glissement (RSG) entre la came 1 et la soupape 2:}\vspace{-10pt}\\
 \begin{multicols}{2}
 \begin{align*}
 \overrightarrow{v_{I\in1/2}} &= \overrightarrow{v_{I\in1/0}} + \overrightarrow{v_{I\in0/2}} \\
 &= \overrightarrow{v_{I\in1/0}} - \overrightarrow{v_{I\in2/0}}
 \end{align*}
 \begin{align*}
-\text{\underline{Or:}} \quad \overrightarrow{v_{I\in1/0}} &= \cancel{\overrightarrow{v_{O\in1/0}}} + \overrightarrow{IO} \wedge \overrightarrow{\Omega_{1/0}} \\
+\text{{Or,}} \quad \overrightarrow{v_{I\in1/0}} &\xeq{\textrm{Varignon}} \cancel{\overrightarrow{v_{O\in1/0}}} + \overrightarrow{IO} \wedge \overrightarrow{\Omega_{1/0}} \\
 &= (R\overrightarrow{y_0} - e\overrightarrow{x_1}) \wedge \dot{\theta}\overrightarrow{z_0} \\
 &= R\dot{\theta}\overrightarrow{x_0} + e\dot{\theta}\overrightarrow{y_1}
 \end{align*}
@@ -458,14 +474,13 @@ Donc : $$\dot{\lambda}=-e\dot{\theta}\cos(\theta)(t)$$
 &= \left( \frac{d-\lambda\overrightarrow{y_0}}{dt} \right)_O \\
 &= -\dot{\lambda}\overrightarrow{y_0} - \lambda\cancel{\left( \frac{d\overrightarrow{y_0}}{dt} \right)_O}
 \end{align*}
-\noindent \underline{Donc:}
+\noindent D'où la vitesse de glissement:
 \begin{align*}
-\overrightarrow{v_{I\in1/2}} &= R\dot{\theta}\overrightarrow{x_0} + e\dot{\theta}\overrightarrow{y_1} + \dot{\lambda}\overrightarrow{y_0}
+\overrightarrow{v_{I\in1/2}} &= R\dot{\theta}\overrightarrow{x_0} + e\dot{\theta}\overrightarrow{y_1} + \dot{\lambda}\overrightarrow{y_0} \\
+&= (R\dot{\theta} - e\dot{\theta}\sin\theta)\overrightarrow{x_0} + \underbrace{(\dot{\lambda} + e\dot{\theta}\cos\theta)}_{=0\phantom{k}(\textrm{loi d'E/S en }v)}\overrightarrow{y_0}
 \end{align*}
-\begin{align*}
-\text{\underline{Or:}} \quad \overrightarrow{v_{I\in1/2}} &= (\overrightarrow{v_{I\in1/2}} \cdot \overrightarrow{x_0})\overrightarrow{x_0} + \cancel{(\overrightarrow{v_{I\in1/2}} \cdot \overrightarrow{y_0})} \cdot \overrightarrow{y_0} + 0 \\
-&= \boxed{R\dot{\theta} - e\dot{\theta}\sin(\theta)}
-\end{align*}
+\noindent Or, il y a RSG en $I$ tel que: $\overrightarrow{v_{I\in1/2}} = \overrightarrow{0}$, d'où:
+$$\overrightarrow{v_{I\in1/2}} \cdot \overrightarrow{x_0} = 0 \iff \boxed{(R - e\sin\theta)\dot{\theta} = 0}$$
 \end{multicols}
 \end{exemple}\pagebreak
 \phantomsection
@@ -760,7 +775,7 @@ $$\overrightarrow{m_{A \in 1 \to 2}} = \pm \|
 \end{propriété}
 \end{multicols}
 \begin{multicols}{2}
-\begin{exemple}{Quelques exemples de torseurs \textit{(de distance)}}
+\begin{exemple}{Quelques exemples de torseurs \textit{(d'actions mécaniques extérieur)}}
 \textbf{Action de la pesanteur en $G$ :}\\
 $$\{\mathcal{T}_{\text{Pes} \to S_1}\} =
 \begin{Bmatrix}
@@ -792,7 +807,7 @@ C_m\cdot\vec{z}
 \end{méthode}
 \end{multicols}
 \pagebreak
-\begin{definition}{Tableau des liaisons normalisées en statique}
+\begin{definition}{Tableau des liaisons normalisées pour des efforts statiques}
 \includegraphics[scale=0.673]{schematics/Tableau_efforts_statique.pdf} 
 \end{definition}\pagebreak
 \begin{definition}{Schéma d'architecture}
@@ -986,8 +1001,9 @@ $$\{\mathcal{T}_{1\to 2}\} = \begin{Bmatrix} \overrightarrow{N_{1\to 2}} \\ \ove
 \end{definition}
 \begin{definition}{Coefficient de frottement et cône de frottement}
 \begin{multicols}{2}
-Le \textbf{coefficient de frottement}, noté $f$, est lié à l'angle $\varphi$ (l'angle entre la normale et la résultante des forces) par la relation :
+Le \textbf{coefficient de frottement}, noté $f$, est lié à l'angle $\varphi$ (l'angle entre la normale et la résultante des forces) par la relation:
 \formulev{$f=\tan(\varphi)$}
+On dit qu'il y a \textbf{mouvement relatif} entre 1 et 0.\\\\\\
 On peut alors en définir le \textbf{cône de frottement} :\columnbreak\\\vspace*{-30pt}
 \begin{center}
 \includegraphics[scale=0.7]{schematics/Coefficient_de_frottement.pdf} 
@@ -1246,37 +1262,6 @@ D'où,
 $$ \{\mathcal{T}_{0\to 1}\} = \begin{Bmatrix} F \cdot \vec{z} \\ \\ - f \cdot p \cdot \frac{2\pi}{3} (R_2^3 - R_1^3) \cdot \vec{z} \end{Bmatrix}_{O}$$
 \end{exemple}\pagebreak
 \phantomsection
-\addcontentsline{toc}{section}{Guidage en rotation}
-\noindent{\Large\textbf{Guidage en rotation}}\vspace*{4pt}
-\begin{definition}{Guidage en rotation}
-Le fait de \textbf{guider en rotation} consiste à réaliser une liaison pivot entre 2 pièces. Généralement, on vient la faire soit par 2 liaisons (Rotule + Rotule, Linéaire annulaire + Rotule, ...). (cf \hyperref[def45]{\textcolor{mygreen}{\textbf{Def \ref*{def45}}}})
-\end{definition}
-\begin{definition}{Durée de vie (formule donnée I think)}
-En notant $L_{10}$ la\textbf{ durée de vie} en millions de tours, $L_h$ la durée de vie en heures, avec un axe de rotation selon $\vec{z}$\vspace*{-7pt}
-\begin{multicols}{2}
-\noindent$$L_{10}=\left(\dfrac{C}{P}\right)^n \columnbreak$$
-$$L_h=L_{10}\cdot \dfrac{10^6}{60\cdot N}$$
-\end{multicols}
-avec $n$, un coefficient donné par le constructeur, $C$ la capacité dynamique de charge (en $N$), toujours par le constructeur, et $P$ qui dépend du cas (donné dans l'énoncé).\\
-$P$ dépend d'une \hyperref[defaxialeetradiale]{force axiale et radiale}.
-\end{definition}
-\begin{definition}[label=defaxialeetradiale]{Forces axiale et radiale}
-Soit la résultante d'une liaison $\overrightarrow{R} = X \vec{x} + Y \vec{y} + Z \vec{z}$. On suppose qu'une rotation a lieu suivant l'axe $\vec{z}$.\vspace*{-8pt}
-\begin{multicols}{2}
-On appelle \textbf{force axiale}, la projection du vecteur $\overrightarrow{R}$ sur l'axe de rotation.Ainsi, on aurait dans ce cas,
-\formulev{$F_a=\overrightarrow{R} \cdot \vec{z}$}\columnbreak
-On appelle \textbf{force radiale}, la projection du vecteur $\overrightarrow{R}$ sur le plan normale à l'axe de rotation (ici $\vec{x},\vec{y}$). Ainsi on aurait dans ce cas,
-\formulev{$F_r = \sqrt{X^2 + Y^2}$}
-\end{multicols}\vspace*{-10pt}
-\underline{\textbf{Remarque}}: En dimensionnement de roulement on prendra la valeur absolue des forces.
-\end{definition}
-\begin{vocabulaire}{Bague montée serrée ou glissante dans un roulement}
-Afin de tourner et de permettre le montage du système, un roulement à \textbf{besoin de jeu}. Or cela créé du \textbf{laminage} (appui sur un élément qui vient détériorer la pièce). On vient donc \textbf{monter serrée} la bague qui tourne par rapport à la charge. L'autre bague sera donc \textbf{monter glissante}.\hfill{\small Conseil: Regarder cette \href{https://www.youtube.com/watch?v=H7_wUTYJsHc}{\underline{vidéo}}}
-\begin{center}
-\includegraphics[scale=0.6]{schematics/Montage_serrée_glissante.pdf} 
-\end{center}
-\end{vocabulaire}\pagebreak
-\phantomsection
 \addcontentsline{toc}{section}{Hyperstatisme}
 \noindent{\Large\textbf{Hyperstatisme}}\vspace*{4pt}
 \begin{definition}{Isostatisme et hyperstatisme}
@@ -1367,6 +1352,37 @@ $$h=m-I_c+E_c=9-54+48=\bm{3}>0$$
 Le système est donc hyperstatique de degré 3. Il est donc compliqué d'assembler ce système. De ce fait, on peut venir jouer sur l'élasticité des matériaux pour l'assemblage (ici c'est comme des "GEOMAG", donc l'assemblage est simple, mais il faut être précis).
 \end{exemple}\pagebreak
 \phantomsection
+\addcontentsline{toc}{section}{Guidage en rotation}
+\noindent{\Large\textbf{Guidage en rotation}}\vspace*{4pt}
+\begin{definition}{Guidage en rotation}
+Le fait de \textbf{guider en rotation} consiste à réaliser une liaison pivot entre 2 pièces. Généralement, on vient la faire soit par 2 liaisons (Rotule + Rotule, Linéaire annulaire + Rotule, ...). (cf \hyperref[def45]{\textcolor{mygreen}{\textbf{Def \ref*{def45}}}})
+\end{definition}
+\begin{definition}{Durée de vie (formules donnée I think)}
+En notant $L_{10}$ la\textbf{ durée de vie} en millions de tours, $L_h$ la durée de vie en heures, avec un axe de rotation selon $\vec{z}$\vspace*{-7pt}
+\begin{multicols}{2}
+\noindent$$L_{10}=\left(\dfrac{C}{P}\right)^n \columnbreak$$
+$$L_h=L_{10}\cdot \dfrac{10^6}{60\cdot N}$$
+\end{multicols}
+avec $n$, un coefficient donné par le constructeur, $C$ la capacité dynamique de charge (en $N$), toujours par le constructeur, et $P$ qui dépend du cas (donné dans l'énoncé).\\
+$P$ dépend d'une \hyperref[defaxialeetradiale]{force axiale et radiale}.
+\end{definition}
+\begin{definition}[label=defaxialeetradiale]{Forces axiale et radiale}
+Soit la résultante d'une liaison $\overrightarrow{R} = X \vec{x} + Y \vec{y} + Z \vec{z}$. On suppose qu'une rotation a lieu suivant l'axe $\vec{z}$.\vspace*{-8pt}
+\begin{multicols}{2}
+On appelle \textbf{force axiale}, la projection du vecteur $\overrightarrow{R}$ sur l'axe de rotation.Ainsi, on aurait dans ce cas,
+\formulev{$F_a=\overrightarrow{R} \cdot \vec{z}$}\columnbreak
+On appelle \textbf{force radiale}, la projection du vecteur $\overrightarrow{R}$ sur le plan normale à l'axe de rotation (ici $\vec{x},\vec{y}$). Ainsi on aurait dans ce cas,
+\formulev{$F_r = \sqrt{X^2 + Y^2}$}
+\end{multicols}\vspace*{-10pt}
+\underline{\textbf{Remarque}}: En dimensionnement de roulement on prendra la valeur absolue des forces.
+\end{definition}
+\begin{vocabulaire}{Bague montée serrée ou glissante dans un roulement (Hors Prog.)}
+Afin de tourner et de permettre le montage du système, un roulement à \textbf{besoin de jeu}. Or cela créé du \textbf{laminage} (appui sur un élément qui vient détériorer la pièce). On vient donc \textbf{monter serrée} la bague qui tourne par rapport à la charge. L'autre bague sera donc \textbf{monter glissante}.\hfill{\small Conseil: Regarder cette \href{https://www.youtube.com/watch?v=H7_wUTYJsHc}{\underline{vidéo}}}
+\begin{center}
+\includegraphics[scale=0.6]{schematics/Montage_serrée_glissante.pdf} 
+\end{center}
+\end{vocabulaire}\pagebreak
+\phantomsection
 \addcontentsline{toc}{section}{Inertie}
 \noindent{\Large\textbf{Inertie}}\vspace*{4pt}\\
 Ceci marque le début du programme de TSI2.
@@ -1417,9 +1433,9 @@ C'est le point $G$ pour lequel le torseur de l'effort est un glisseur:
 \formulev{$\{\mathcal{T}_{S_1\to S_2}\}_G=\begin{Bmatrix}\overrightarrow{F_{S_1\to S_2}}\\ \overrightarrow{0}\end{Bmatrix}_G$}
 \end{definition}
 \begin{propriété}{Additivité des matrices d'inertie}
-Pour former un solide, il est possible de le \textbf{décomposer en plusieurs sous-solide} pour en définir plus facilement sa matrice d'inertie.
+Pour former un solide, il est possible de le \textbf{décomposer en plusieurs sous-solide} afin d'en définir plus facilement sa matrice d'inertie. Ainsi, les moments et produits d'inertie vont s'ajouter/se soustraire entre eux à condition d'être au même point.\vspace*{-15pt}
 \begin{center}
-\includegraphics[scale=0.5]{schematics/Additivité_matrice_d_inertie.pdf} 
+\includegraphics[scale=0.47]{schematics/Additivité_matrice_d_inertie.pdf} 
 \end{center}
 \end{propriété}
 \begin{definition}{Matrices pour différentes formes}
@@ -1428,11 +1444,12 @@ Pour former un solide, il est possible de le \textbf{décomposer en plusieurs so
 \begin{propriété}{Symétrie}
 Si une pièce admet \textbf{un plan de symétrie}, les \textbf{produits d'inertie de l'axe n'appartenant pas au plan s'annule}.\\\\
 Si une pièce admet \textbf{deux plans}, on ne garde \textbf{que les moments} d'inertie.\\\\
-Si une pièce possède \textbf{un axe de révolution}, les \textbf{deux moments d'inertie ne suivant pas l'axe} sont \textbf{égaux}.
+Si une pièce possède \textbf{un axe de révolution}, les \textbf{2 moments d'inertie ne suivant pas l'axe} sont \textbf{égaux} et les produits d'inertie sont nuls.
 \end{propriété}
 \begin{exemple}{Symétries pour différents cas (Jules a été volontaire)}
+On suppose que Jules ne possède qu'un plan de symétrie selon $(O,\vec{x},\vec{y})$.\vspace*{-5pt}
 \begin{center}
-\includegraphics[scale=0.63]{schematics/Exemples_symétries.pdf} 
+\includegraphics[scale=0.63]{schematics/Exemples_symétries.pdf} \vspace*{-5pt}
 \end{center}
 \end{exemple}
 \begin{propriété}{Théorème de Huygens}
@@ -1440,7 +1457,7 @@ Si une pièce possède \textbf{un axe de révolution}, les \textbf{deux moments 
 Pour trouver une matrice ou un moment d'inertie en un autre point, on utilise le théorème de Huygens:\\
 \textbf{Pour un moment:}
 \formuler{$I_{(A,\vec{u})}=I_{(G,\vec{u})}+md^2$}
-\textbf{ATTENTION} $d$ est la distance entre les axes.\columnbreak
+\textbf{ATTENTION} $d$ est la distance entre les axes et on sera tjr au point $G$.\columnbreak
 \begin{center}
 \includegraphics[scale=0.5]{schematics/Huygens.pdf} 
 \end{center}
@@ -1459,12 +1476,16 @@ b^2+c^2 & -ab & -ac \\
 La dynamique permet de résoudre deux types de problèmes:\\
 \hspace*{10pt}- On connait les efforts, on souhaite alors déterminer les mouvements.\\
 \hspace*{10pt}- On connait les mouvements, on souhaite déterminer les efforts nécessaires ou engendrés.
+\begin{definition}{Dynamique}
+La \textbf{dynamique} est l'étude des \textbf{efforts} et des \textbf{mouvements} d'un système matériel en tenant compte de sa masse et de son inertie.
+\end{definition}
 \begin{definition}{Torseur cinétique}
 On définit le torseur cinétique comme (pour $A$ un point fixe ou le centre de masse $G$)
 \formulev{$\{\mathcal{C}_{1/0}\}=\begin{Bmatrix}
 m_1 \overrightarrow{v_{G\in 1/0}} \\
 \overrightarrow{\sigma_{A\in 1/0}}= \overline{\overline{I_{(A,1)}}}\cdot\overrightarrow{\Omega_{1/0}}
 \end{Bmatrix}_A$}
+\textbf{N.B.:} Pour, $\overrightarrow{\Omega_{1/0}}=\omega\cdot \vec{z}$ et pour une inertie $J$ autour de $(A,\vec{z})$ on aura: $\overrightarrow{\sigma_{A\in 1/0}}\cdot \vec{z}=J\omega$
 \end{definition}
 \begin{definition}{Torseur dynamique}
 C'est la dérivée du torseur cinétique. On se place toujours en un point $A$ fixe ou au centre de masse.
@@ -1472,7 +1493,7 @@ C'est la dérivée du torseur cinétique. On se place toujours en un point $A$ f
 m_1 \overrightarrow{\Gamma_{G\in 1/0}} \\
 \overrightarrow{\delta_{A\in 1/0}}=\dfrac{d\overrightarrow{\sigma_{A\in 1/0}}}{dt}
 \end{Bmatrix}_A$}
-On pensera à se référer à la formule de Bour.
+On pensera à se référer à la \hyperref[formuledebour]{formule de Bour}.
 \end{definition}
 \begin{definition}{Principe Fondamental de la Dynamique (PFD)}
 Pour un ensemble de $n$ solides.
@@ -1480,9 +1501,9 @@ Pour un ensemble de $n$ solides.
 \end{definition}
 \begin{exemple}{Cas pour un système quelconque}\vspace*{-10pt}
 \begin{center}
-\includegraphics[scale=0.45]{schematics/PFD.pdf} 
+\includegraphics[scale=0.45]{schematics/PFD.pdf} \vspace*{-3pt}
 \end{center}
-\noindent Ainsi, le PFD s'exprimera
+\noindent Ainsi, le PFD s'exprimera: \vspace*{-12pt}
 $$\begin{Bmatrix}\mathcal{T}_{1 \to 2}\end{Bmatrix}+\begin{Bmatrix}\mathcal{T}_{4 \to 3}\end{Bmatrix}+\begin{Bmatrix}\mathcal{T}_{pes \to 3}\end{Bmatrix}=\begin{Bmatrix}\mathcal{D}_{2/0}\end{Bmatrix}+\begin{Bmatrix}\mathcal{D}_{1/0}\end{Bmatrix}$$
 \end{exemple}
 \begin{multicols}{2}
@@ -1525,7 +1546,7 @@ A_2 & -F_2 & -E_2 \\
 \end{bmatrix}_\mathcal{B}$\\
 On donne:
 \begin{center}
-\includegraphics[scale=0.5]{schematics/Graphe_d'analyse_Mandrin.pdf} 
+\includegraphics[scale=0.5]{schematics/Graphe_d'analyse_Mandrin.pdf}\vspace*{5pt}
 \end{center}
 \textbf{- Quel est le moment sur l'axe $(G_1,\vec{z})$ que doit exercer la main sur la visseuse?}\\
 \underline{Isolons $\{1+2\}$:}

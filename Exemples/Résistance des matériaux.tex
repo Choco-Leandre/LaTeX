@@ -18,6 +18,7 @@ Avant tout, pour la bonne compréhension de ce domaine, il convient d'être à l
 \vfill
 \begin{center}
 {\footnotesize Ce document s'inspire des cours d'Amaury Dalla Monta et de Nicolas Milhaud, professeurs agrégés en sciences industrielles de l'ingénieur.}\\
+{\footnotesize Une IA a été utilisée pour corriger l'orthographe et réaliser certains graphes Python}\\
 {\footnotesize Latest version as of \today}
 \end{center}\pagebreak
 \phantomsection
@@ -369,7 +370,7 @@ Et donc: $Y_A=F-\dfrac{b\cdot F}{a}=F\left(1-\dfrac{b}{a}\right)$\\
 • Notre poutre contient 2 tronçons:\vspace*{0pt}
 \begin{multicols}{2}
 \noindent $\hookrightarrow \forall x \in [0,a], G(x)\in [AB]$,\\
-Le torseur de cohésion à gauche (moins de torseurs) est:
+Le torseur de cohésion à gauche (moins d'AM) est:
 $$\{\mathcal{T}^1_{coh}\}_G=-\begin{Bmatrix}
  F\left(1-\frac{b}{a}\right) \cdot \vec{y}\\
 F(\frac{b}{a}-1)x \cdot \vec{z}
@@ -378,7 +379,7 @@ F(\frac{b}{a}-1)x \cdot \vec{z}
 F(1-\frac{b}{a})x \cdot \vec{z}
 \end{Bmatrix}$$
 \noindent $\hookrightarrow \forall x \in [a,b], G(x)\in [BC]$,\\
-Le torseur de cohésion à droite (moins de torseurs) est:
+Le torseur de cohésion à droite (moins d'AM) est:
 $$\{\mathcal{T}^2_{coh}\}_G=\begin{Bmatrix}
  -F \cdot \vec{y}\\
 -F(b-x) \cdot \vec{z} \textit{{\quad \scriptsize (Bras de levier)}}
