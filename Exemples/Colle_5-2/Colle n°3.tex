@@ -1,0 +1,166 @@
+\documentclass{article}
+
+%A mettre tout le temps
+\usepackage{lcpackage}
+
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{{\fontfamily{phv}\selectfont Maths}}
+\fancyhead[C]{{\fontfamily{phv}\selectfont $\cdots$ Colle n°3 - Léandre Courtoy $\cdots$}}
+\fancyhead[R]{{\fontfamily{phv}\selectfont Page \thepage /\pageref{LastPage}}}
+{\fontfamily{phv}\selectfont
+\begin{center}
+\Huge{Colle n°3} %Titre à changer
+\end{center}
+%Alors c'est techniquement la première, mais c'est celle de semaine 3
+\section{Automatismes}
+\noindent \textit{cf}: \href{https://1drv.ms/b/c/7e66df76a526ba79/IQBagJNN3ihvT7w402za7VA-AcGb2SWqQ4ZRgtFisU0i2aU?e=mMaqkx}{\pg{Nombres complexes.pdf}}
+\section{Questions de cours}
+\Question{Déterminer le domaine de définition et la limite en $+\infty$ de $\left(\left(1+\frac{2}{t}\right)^t,-t\sin \left(\frac1{t-1}\right)\right)$.}{Chap 1. Ex A2/A4}\\
+\But{On détermine le domaine de définition de chaque composante, puis on étudie les limites en $+\infty$ à l'aide d'équivalents et de développements limités.}\\
+Notons : $f_1:t\mapsto\left(1+\dfrac{2}{t}\right)^t$ et $f_2:t\mapsto-t\sin \left(\dfrac1{t-1}\right)$.\\
+
+\begin{multicols}{2}
+\noindent \textbf{Domaine de définition :}\\
+Commençons par déterminer $\mathcal{D}_{f_2}$ :\\
+Soit $t\in\mathbb{R}$,
+\begin{align*}
+f_2 \text{ est définie en } t &\Leftrightarrow \frac{1}{t-1} \text{ existe}\\
+&\Leftrightarrow t-1\neq 0\\
+&\Leftrightarrow t\neq 1
+\end{align*}
+Donc $\mathcal{D}_{f_2}=\mathbb{R}\setminus\{1\}$.
+
+\columnbreak
+
+Déterminons $\mathcal{D}_{f_1}$ :\\
+Soit $t\in\mathbb{R}$,\\
+$f_1(t)=\left(1+\dfrac{2}{t}\right)^t=\exp\left(t\ln\left(1+\frac{2}{t}\right)\right)$
+\begin{align*}
+f_1 \text{ est définie en } t &\Leftrightarrow \left\{\begin{matrix}
+1+\frac{2}{t} \text{ existe} \\
+\ln\left(1+\frac{2}{t}\right) \text{ existe}
+\end{matrix}\right.\\
+&\Leftrightarrow \left\{\begin{matrix}
+t\neq 0\\
+1+\frac{2}{t}>0
+\end{matrix}\right.\\
+&\Leftrightarrow\left\{\begin{matrix}
+t\neq 0\\
+\frac{t+2}{t}>0
+\end{matrix}\right.
+\end{align*}
+D'après le tableau de signe de $\frac{t+2}{t}$ :
+\begin{center}
+\includegraphics[scale=0.5]{Tableau de signe.pdf} 
+\end{center}
+$\mathcal{D}_{f_1}=]-\infty,-2[\,\cup\,]0,+\infty[$.
+\end{multicols}
+
+\noindent Ainsi, $\mathcal{D}_f = \mathcal{D}_{f_1} \cap \mathcal{D}_{f_2} = ]-\infty,-2[\,\cup\,]0,1[\,\cup\,]1,+\infty[$.
+
+\vspace{0.5cm}
+
+\begin{multicols}{2}
+\noindent\textbf{Limites en $+\infty$ :}\\
+• Limite de $f_2$ :\\
+\textcolor{myBlue}{Forme indéterminée "$\infty \times 0$"}\\
+Comme $\displaystyle\lim_{t\to+\infty} \frac{1}{t-1} = 0$, on a :
+$$\sin\left(\frac{1}{t-1}\right) \underset{t\to +\infty}{\sim} \frac{1}{t-1} \underset{t\to +\infty}{\sim} \frac{1}{t}$$
+D'où :
+$$f_2(t) = -t\sin\left(\frac{1}{t-1}\right) \underset{t\to +\infty}{\sim} -t \times \frac{1}{t} = -1$$
+Donc : $\displaystyle\lim_{t\to +\infty} f_2(t) = -1$.
+
+\columnbreak
+
+\noindent • Limite de $f_1$ :\\
+Posons $x = \frac{2}{t} \xrightarrow[t\to+\infty]{} 0$.\\
+Pour $t > 0$, on peut effectuer un DL à l'ordre 2:
+\begin{align*}
+\ln\left(1+\frac{2}{t}\right) \underset{t\to+\infty}{=}& \frac{2}{t} - \frac{2}{t^2} + o\left(\frac{1}{t^2}\right)\\
+ \underset{t\to+\infty}{=}& 2 - \frac{2}{t} + o\left(\frac{1}{t}\right)
+\end{align*}
+Comme $\displaystyle\lim_{t\to+\infty} \left(2 - \frac{2}{t} + o\left(\frac{1}{t}\right)\right) = 2$, par continuité de la fonction exponentielle en $2$ :
+$$\lim_{t\to +\infty} f_1(t) = e^2$$
+\end{multicols}
+
+\noindent $f_1$ et $f_2$ admettent des limites finies en $+\infty$, donc :
+$$\boxed{\lim_{t\to +\infty} f(t) = (e^2, -1)}\pagebreak$$
+\Question{Si $f,g\in\mathcal{C}^1(I,\R^2)$, montrer que $\psi:t\mapsto\det(f(t),g(t))$ est $\mathcal{C}^1$ sur $I$ et déterminer l'expression de sa dérivée.\phantom{blablablabldsfdfsdfsdfabal} \phantom{ablablablab blabla}}{Chap 1. Prop B8}\\
+\But{En gros on dérive le produit d'une fonction qui est la composante de 4 sous fonctions (venant de 2 couples) pour en retrouver l'expression de 2 déterminants qu'on sort par magie.. merci les maths !!}
+\begin{demomethode}{}{\begin{itemize}
+\item On prend un $t$ dans $\R$
+\item On pose $f(t)$ et $g(t)$ tout deux des couples de 2 sous fonctions
+\iitem Ces 2 fonct$^\circ$ sont $\mathcal{C}^1(\R,\R)$
+\textit{Sinon on va pas pouvoir utiliser leurs dérivées et ce serait idiot c'est ce qu'on cherche..}
+\item On pose $\psi$ le $\det$ de $f$ et $g$
+\item On exprime le $\det$ (règle $\gamma$)
+\item On a des produits de fonctions $\mathcal{C}^1$, donc $\psi$ est continue et dérivable sur $\R$
+\item Dériver $\psi$
+\item Exprimer les $\det$ de $f',g$ et $g',f$
+\item Reconnaitre de l'expression $\psi'$ nos $\det$
+\item D'où $\psi'=\det(f',g)+\det(f,g')$
+\end{itemize}}
+\xBox{Soit $t\in\R$}{
+	\xBox{Posons $f(t)=(f_1(t),f_2(t)),g(t)=(g_1(t),g_2(t))$}{
+	On note $f_1,f_2,g_1,g_2$ des fonctions $\mathcal{C}^1$ sur $\R$
+		\xBox{Posons $\psi:t\mapsto \det(f(t),g(t))$}{
+		$$\psi(t)=\begin{vmatrix}f_1(t) & g_1(t) \\f_2(t) & g_2(t)\end{vmatrix}=f_1(t)g_2(t)-f_2(t)g_1(t)$$
+		$\psi$ est de classe $\mathcal{C}^1$ sur $\R$ par \textbf{produit} et:
+		$$\psi'(t)=f_1'(t)g_2(t)+f_1g_2'(t)-\left[f_2'\left(t\right)g_1(t)+f_2(t)g_1'(t)\right]$$
+		Or, $$\det(f'(t),g(t))=\begin{vmatrix}
+		f_1'(t) & g_1(t)\\ f_2'(t) & g_2(t)\end{vmatrix}=f_1'(t)g_2(t)-f_2'(t)g_1(t)$$
+		$$\det(f(t),g'(t))=\begin{vmatrix}
+		f_1(t) & g_1'(t)\\ f_2(t) & g_2'(t)\end{vmatrix}=f_1(t)g_2'(t)-f_2(t)g_1'(t)$$
+		On reconnait alors:
+		\begin{align*}
+		\psi'(t)=&f_1'(t)g_2(t)+f_1g_2'(t)-\left[f_2'\left(t\right)g_1(t)+f_2(t)g_1'(t)\right]\\
+		=& f_1'(t)g_2(t)+f_1g_2'(t)-f_2'\left(t\right)g_1(t)-f_2(t)g_1'(t)\\
+		=& \underbrace{f_1'(t)g_2(t)-f_2'\left(t\right)g_1(t)}_{\det(f'(t),g(t))}+\underbrace{f_1g_2'(t)-f_2(t)g_1'(t)}_{\det(f(t),g'(t)}
+		\end{align*}
+Ainsi,
+$$\boxed{\psi'(t)=\det(f'(t),g(t))+\det(f(t),g'(t))}$$		
+		}{et ce en posant $\psi:t\mapsto \det(f(t),g(t))$}	
+	}{tout en posant $f(t)=(f_1(t),f_2(t)),g(t)=(g_1(t),g_2(t))$}
+}{et ce pour tout $t\in\R$}
+\end{demomethode}\pagebreak
+\Question{On pose $\Gamma$ la courbe paramétrée par
+$x(t)=\ln(2+t)+\dfrac{1}{t}\quad\textrm{et}\quad y(t)=t+\dfrac1t$.\\
+Tracer l'allure de $\Gamma$ au voisinage de $M(1)$ ou $M(-1)$ \emph{(au choix de l'interrogateur)}.}{Chap 1. Ex C11}\\
+\But{On fait des DL tout en pensant à bien factoriser afin d'observer l'allure locale}. \hfill Rappel: \href{https://1drv.ms/b/c/7e66df76a526ba79/IQDGI4ukOeMMRblxG_1sm0oSAflf_rlHMEyRKOFjhgNI8VM?e=RlXmOA}{\pg{Développements limités.pdf}}
+\begin{demomethode}{Cas de $M(1)$}{
+\begin{itemize}
+\item On se place en $t=1+h$
+\iitem ça nous permet de satisfaire le $\dfrac{1}{t}$
+\item On fait nos DL
+\iitem On pensera à factoriser ce qu'il y a dans notre $\ln$
+\item On a $p=1$ et $q=2$, on reconnait donc un point ordinaire
+\item On trace l'allure locale (parabole)\\\\
+{\footnotesize Faire de même avec $M(-1)$ juste ce sera plus $t=1+h$ mais $t=-1+h$ et on aura un point de rebroussement de 1ère espèce}
+\end{itemize}
+}
+Effectuons un DL à l'ordre 3 en $1$ de $x$ et $y$.\\
+Soit $h$ au voisinage de $0$.
+\begin{align*}
+x(1+h)&\xeq{h\to 0} \ln(3+h)+\dfrac{1}{1+h}\\
+&= \ln\left(3\left(1+\dfrac{h}{3}\right)\right)+\dfrac{1}{1+h}\\
+&=\ln(3)+\dfrac{h}{3}-\dfrac{h^2}{3^2\cdot 2}+\dfrac{h^3}{3^3\cdot 3}+o(\dfrac{h^3}{3})+1-h+h^2-h^3+o\left(h^3\right)\\
+x(1+h) &= \ln(3) + 1 - \frac{2}{3}h + \frac{17}{18}h^2 - \frac{80}{81}h^3 + o(h^3)
+\end{align*}
+\begin{align*}
+y(1+h)&\xeq{h\to0} 1+h+\dfrac{1}{1+h}\\
+&= 1+h+1-h+h^2-h^3+o\left(h^3\right)\\
+&=2+h^2-h^3+o\left(h^3\right)
+\end{align*}
+Alors,\\
+$M(1)$ a pour coordonnées $(1+\ln(3),2)$\\
+On est dans le cas $p=1$ et $q=2$ et:
+$$f^{(p)}(1)=\left(-\dfrac{2}{3},0\right) \quad \text{et} \quad f^{(q)}(1)=\left(\dfrac{17}{9},2\right)$$
+Ainsi $M(1)$ est un \textbf{point ordinaire} et on a l'allure local de $\Gamma$ (la courbe)
+\end{demomethode}
+\begin{center}\vspace*{-30pt}
+\includegraphics[scale=0.8]{Allure_locale_de_Gamma.pdf}\vspace*{-10pt}
+\includegraphics[scale=0.5]{Allures_locales.pdf} 
+\end{center}
+\end{document}
