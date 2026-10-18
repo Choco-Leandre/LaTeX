@@ -36,6 +36,8 @@
 \RequirePackage{microtype}
 \RequirePackage{paracol}
 \RequirePackage{enumitem}
+\RequirePackage{circuitikz}
+\RequirePackage{soul}
 
 \setlist[itemize,1]{label={-}, leftmargin=7pt, itemsep=-2pt}
 \newcommand{\iitem}{\par\vspace*{-2pt}\hangindent=8pt \hspace*{7pt}$\hookrightarrow$\hspace*{5pt}\ignorespaces}
@@ -438,4 +440,86 @@
     \end{tcolorbox}
   \end{paracol}
   \par\vspace{\baselineskip}
+}
+
+\newcommand{\mybox}[2]{
+    \definecolor{myboxcolor}{HTML}{#1}
+    \tcbox[
+        colframe=myboxcolor,
+        colback=white,
+        boxrule=1.7pt,
+        arc=2pt,
+        auto outer arc,
+        boxsep=0pt,
+        left=4pt, right=4pt, top=4pt, bottom=4pt, 
+        nobeforeafter, 
+        tcbox raise base
+    ]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
+}
+
+\renewcommand{\u}[3][1pt]{% Bien laisser les % sinon un espace apparait
+  \ifcsname \string\color@#2\endcsname
+    \setulcolor{#2}%
+  \else
+    \definecolor{myulcolor}{HTML}{#2}%
+    \setulcolor{myulcolor}%
+  \fi
+  \setul{0.5ex}{#1}%
+  \ul{#3}%
+}
+
+\newcommand{\defi}[2]{
+  \begin{tcolorbox}[
+    enhanced, colback=white, colframe=mygreen!80, boxrule=1.2pt, arc=3pt,
+    width=\ifdim\linewidth<\textwidth 0.90\linewidth\else 0.80\linewidth\fi,
+    center,
+    attach boxed title to top left={xshift=10pt, yshift=-8pt},
+    boxed title style={colback=white, colframe=white, boxrule=0pt, left=3pt, right=3pt, top=0pt, bottom=0pt},
+    title={\small\sffamily\bfseries\color{mygreen!30!black}Définition~: #1},
+    top=4pt, bottom=4pt, left=6pt, right=6pt
+  ]
+    \footnotesize #2
+  \end{tcolorbox}
+}
+
+\newcommand{\thm}[2]{
+  \begin{tcolorbox}[
+    enhanced, colback=white, colframe=myhardred!80, boxrule=1.2pt, arc=3pt,
+    width=\ifdim\linewidth<\textwidth 0.90\linewidth\else 0.80\linewidth\fi,
+    center,
+    attach boxed title to top left={xshift=10pt, yshift=-8pt},
+    boxed title style={colback=white, colframe=white, boxrule=0pt, left=3pt, right=3pt, top=0pt, bottom=0pt},
+    title={\small\sffamily\bfseries\color{myhardred!30!black}Théorème~: #1},
+    top=4pt, bottom=4pt, left=6pt, right=6pt
+  ]
+    \footnotesize #2
+  \end{tcolorbox}
+}
+
+\newcommand{\prop}[2]{
+  \begin{tcolorbox}[
+    enhanced, colback=white, colframe=myred!80, boxrule=1.2pt, arc=3pt,
+    width=\ifdim\linewidth<\textwidth 0.90\linewidth\else 0.80\linewidth\fi,
+    center,
+    attach boxed title to top left={xshift=10pt, yshift=-8pt},
+    boxed title style={colback=white, colframe=white, boxrule=0pt, left=3pt, right=3pt, top=0pt, bottom=0pt},
+    title={\small\sffamily\bfseries\color{myred!30!black}Propriété~: #1},
+    top=4pt, bottom=4pt, left=6pt, right=6pt
+  ]
+    \footnotesize #2
+  \end{tcolorbox}
+}
+
+\newcommand{\voc}[2]{
+  \begin{tcolorbox}[
+    enhanced, colback=white, colframe=mypurple!80, boxrule=1.2pt, arc=3pt,
+    width=\ifdim\linewidth<\textwidth 0.90\linewidth\else 0.80\linewidth\fi,
+    center,
+    attach boxed title to top left={xshift=10pt, yshift=-8pt},
+    boxed title style={colback=white, colframe=white, boxrule=0pt, left=3pt, right=3pt, top=0pt, bottom=0pt},
+    title={\small\sffamily\bfseries\color{mypurple!30!black}Vocabulaire~: #1},
+    top=4pt, bottom=4pt, left=6pt, right=6pt
+  ]
+    \footnotesize #2
+  \end{tcolorbox}
 }
