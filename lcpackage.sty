@@ -76,6 +76,11 @@
 \definecolor{pyFrameColor}{HTML}{7A7A7A} 
 \definecolor{myBlue}{RGB}{50,148,255}
 \definecolor{mygrayblue}{RGB}{120,120,140}
+\definecolor{bluegraph}{HTML}{5B9BD5}
+\definecolor{orangegraph}{HTML}{ED7D31}
+\definecolor{purplegraph}{HTML}{9F5FCF}
+\definecolor{yellowgraph}{HTML}{FFCC29}
+\definecolor{redgraph}{HTML}{FF4747}
 
 %Commandes
 \newcommand{\dashfill}{\leaders\hbox to 0.2em{\hss-\hss}\hfill}
@@ -443,18 +448,22 @@
 }
 
 \newcommand{\mybox}[2]{
+  \ifcsname \string\color@#1\endcsname
+    \colorlet{myboxcolor}{#1}
+  \else
     \definecolor{myboxcolor}{HTML}{#1}
-    \tcbox[
-        colframe=myboxcolor,
-        colback=white,
-        boxrule=1.7pt,
-        arc=2pt,
-        auto outer arc,
-        boxsep=0pt,
-        left=4pt, right=4pt, top=4pt, bottom=4pt, 
-        nobeforeafter, 
-        tcbox raise base
-    ]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
+  \fi
+  \tcbox[
+    colframe=myboxcolor,
+    colback=white,
+    boxrule=1.7pt,
+    arc=2pt,
+    auto outer arc,
+    boxsep=0pt,
+    left=4pt, right=4pt, top=4pt, bottom=4pt, 
+    nobeforeafter, 
+    tcbox raise base
+  ]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
 }
 
 \renewcommand{\u}[3][1pt]{% Bien laisser les % sinon un espace apparait
