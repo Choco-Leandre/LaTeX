@@ -447,23 +447,23 @@
   \par\vspace{\baselineskip}
 }
 
-\newcommand{\mybox}[2]{
-  \ifcsname \string\color@#1\endcsname
-    \colorlet{myboxcolor}{#1}
+\newcommand{\mybox}[3][1.7pt]{
+  \ifcsname \string\color@#2\endcsname
+    \colorlet{myboxcolor}{#2}
   \else
-    \definecolor{myboxcolor}{HTML}{#1}
+    \definecolor{myboxcolor}{HTML}{#2}
   \fi
   \tcbox[
     colframe=myboxcolor,
     colback=white,
-    boxrule=1.7pt,
+    boxrule=#1,
     arc=2pt,
     auto outer arc,
     boxsep=0pt,
     left=4pt, right=4pt, top=4pt, bottom=4pt, 
     nobeforeafter, 
     tcbox raise base
-  ]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
+  ]{\begin{tabular}{@{}c@{}}#3\end{tabular}}
 }
 
 \renewcommand{\u}[3][1pt]{% Bien laisser les % sinon un espace apparait
